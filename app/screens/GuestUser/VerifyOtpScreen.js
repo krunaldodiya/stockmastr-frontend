@@ -1,30 +1,38 @@
-import React from "react";
-import { Alert, Platform, StyleSheet } from "react-native";
+import React from 'react';
+import { Alert, Platform, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import {
-  View,
-  Text,
-  Input,
-  Button,
-  Container,
-  Form,
-  Item,
-  Left,
-  Right
-} from "native-base";
+  View, Text, Input, Button, Container, Form, Item, Left, Right,
+} from 'native-base';
 
 // components
-import Logo from "../../components/Logo";
+import { compose, graphql } from 'react-apollo';
+import Logo from '../../components/Logo';
 
-import { compose, graphql } from "react-apollo";
-import {
-  CHECK_USER_EXISTS_QUERY,
-  SIGNUP_MUTATION,
-  LOGIN_MUTATION
-} from "../../graphql";
-import { setAuthToken, setAuthUserId } from "../../libs/auth";
-import theme from "../../libs/theme";
+import { CHECK_USER_EXISTS_QUERY, SIGNUP_MUTATION, LOGIN_MUTATION } from '../../graphql';
+import { setAuthToken, setAuthUserId } from '../../libs/auth';
+import theme from '../../libs/theme';
+
+const styles = StyleSheet.create({
+  submitButton: {
+    borderRadius: 20,
+    shadowColor: '#3f2201',
+    shadowOffset: { width: 3, height: 3 },
+    elevation: 3,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: theme.background.primary,
+  },
+});
 
 class VerifyOtpScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
 
@@ -35,46 +43,108 @@ class VerifyOtpScreen extends React.Component {
       exists: false,
       authUser: {
         mobile: props.navigation.state.params.mobile,
-        type: "trader",
-        name: "",
-        gender: "male",
-        city: "",
-        state: ""
+        type: 'trader',
+        name: '',
+        gender: 'male',
+        city: '',
+        state: '',
       },
-      loading: false
+      loading: false,
     };
   }
 
-  static navigationOptions = {
-    header: null
-  };
-
   async componentWillMount() {
+    const { time } = this.state;
+
     this.timer = setInterval(() => {
-      if (this.state.time < 1) {
+      if (time < 1) {
         return clearInterval(this.timer);
       }
 
-      this.setState({
-        time: this.state.time - 1
+      return this.setState({
+        time: time - 1,
       });
     }, 1000);
   }
 
   async componentWillReceiveProps(props) {
-    if (props.checkUserExists.user) {
+    const { checkUserExists } = props;
+
+    if (checkUserExists.user) {
       this.setState({
-        authUser: props.checkUserExists.user,
-        exists: true
+        authUser: checkUserExists.user,
+        exists: true,
       });
     }
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     clearInterval(this.timer);
   }
 
+  async resetOtp() {
+    const { navigation } = this.props;
+    navigation.replace('RequestOtpScreen');
+  }
+
+  async updateOtp(otp) {
+    this.setState({ otp });
+  }
+
+  async verifyOtp() {
+    this.setState({ loading: true });
+
+    const { verifyOtp, otp, exists } = this.state;
+
+    if (verifyOtp !== otp) {
+      return Alert.alert(
+        'Error',
+        'Wrong OTP',
+        [{ text: 'OK', onPress: () => this.setState({ loading: false }) }],
+        { cancelable: false },
+      );
+    }
+
+    return exists ? this.login() : this.signup();
+  }
+
+  async login() {
+    const { loginMutation, navigation } = this.props;
+    const { authUser } = this.state;
+
+    return loginMutation({
+      variables: { mobile: authUser.mobile },
+    })
+      .then(async (response) => {
+        await setAuthToken(response.data.login.token);
+        await setAuthUserId(response.data.login.user.id);
+
+        return navigation.replace('UserTypeScreen', {
+          type: authUser.type,
+        });
+      })
+      .catch(error => console.log(error));
+  }
+
+  async signup() {
+    const { signupMutation, navigation } = this.props;
+    const { authUser } = this.state;
+
+    return signupMutation({ variables: authUser })
+      .then(async (response) => {
+        await setAuthToken(response.data.signup.token);
+        await setAuthUserId(response.data.signup.user.id);
+
+        return navigation.replace('UserTypeScreen', {
+          type: authUser.type,
+        });
+      })
+      .catch(error => console.log(error));
+  }
+
   render() {
+    const { time, otp, loading } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -86,7 +156,7 @@ class VerifyOtpScreen extends React.Component {
             flex: 1,
             paddingHorizontal: 10,
             backgroundColor: theme.background.secondary,
-            alignItems: "center"
+            alignItems: 'center',
           }}
         >
           <Form>
@@ -96,25 +166,28 @@ class VerifyOtpScreen extends React.Component {
                   borderBottomWidth: 0,
                   paddingTop: 20,
                   marginLeft: 10,
-                  marginRight: 10
+                  marginRight: 10,
                 }}
               >
                 <Left>
-                  <Text style={{ textAlign: "left" }}>
-                    00:0{this.state.time}
+                  <Text style={{ textAlign: 'left' }}>
+                    00:0
+                    {time}
                   </Text>
                 </Left>
                 <Right>
-                  {this.state.time == 0 && (
+                  {time === 0 && (
                     <Text
-                      style={{ textAlign: "right", color: "black" }}
+                      style={{ textAlign: 'right', color: 'black' }}
                       onPress={() => this.resetOtp()}
                     >
                       Resend OTP
                     </Text>
                   )}
-                  {this.state.time > 0 && (
-                    <Text style={{ textAlign: "right" }}>Sending OTP</Text>
+                  {time > 0 && (
+                  <Text style={{ textAlign: 'right' }}>
+Sending OTP
+                  </Text>
                   )}
                 </Right>
               </Item>
@@ -123,48 +196,46 @@ class VerifyOtpScreen extends React.Component {
                 style={{
                   borderRadius: 50,
                   borderWidth: 1,
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginTop: 20,
                   marginLeft: 10,
-                  marginRight: 10
+                  marginRight: 10,
                 }}
               >
                 <Input
                   style={{
                     paddingLeft: 20,
-                    borderColor: theme.background.primary
+                    borderColor: theme.background.primary,
                   }}
                   onSubmitEditing={() => this.verifyOtp()}
-                  onChangeText={otp => this.updateOtp(otp)}
+                  onChangeText={number => this.updateOtp(number)}
                   underlineColorAndroid="transparent"
-                  value={this.state.otp}
+                  value={otp}
                   placeholder="XXXX"
-                  autoFocus={true}
-                  keyboardType={
-                    Platform.OS === "ios" ? "number-pad" : "phone-pad"
-                  }
+                  autoFocus
+                  keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'phone-pad'}
                   maxLength={4}
                   returnKeyType="next"
                 />
               </Item>
             </View>
 
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
               <Item
                 style={{
                   marginBottom: 20,
                   marginTop: 20,
                   marginLeft: 10,
-                  marginRight: 10
+                  marginRight: 10,
                 }}
               >
                 <Button
                   style={styles.submitButton}
-                  disabled={this.state.loading}
+                  disabled={loading}
                   onPress={() => this.verifyOtp()}
                 >
-                  <Text style={{ width: "100%", textAlign: "center" }}>
-                    {this.state.loading ? "Please, Wait..." : "VERIFY OTP"}
+                  <Text style={{ width: '100%', textAlign: 'center' }}>
+                    {loading ? 'Please, Wait...' : 'VERIFY OTP'}
                   </Text>
                 </Button>
               </Item>
@@ -174,87 +245,21 @@ class VerifyOtpScreen extends React.Component {
       </View>
     );
   }
-
-  resetOtp() {
-    this.props.navigation.replace("RequestOtpScreen");
-  }
-
-  updateOtp(otp) {
-    this.setState({ otp });
-  }
-
-  async verifyOtp() {
-    this.setState({ loading: true });
-
-    if (this.state.verifyOtp != this.state.otp) {
-      return Alert.alert(
-        "Error",
-        "Wrong OTP",
-        [{ text: "OK", onPress: () => this.setState({ loading: false }) }],
-        { cancelable: false }
-      );
-    }
-
-    return this.state.exists ? this.login() : this.signup();
-  }
-
-  async login() {
-    return this.props
-      .loginMutation({
-        variables: { mobile: this.state.authUser.mobile }
-      })
-      .then(async response => {
-        const authToken = await setAuthToken(response.data.login.token);
-        const authUserId = await setAuthUserId(response.data.login.user.id);
-
-        return this.props.navigation.replace("UserTypeScreen", {
-          type: this.state.authUser.type
-        });
-      })
-      .catch(error => console.log(error));
-  }
-
-  async signup() {
-    return this.props
-      .signupMutation({ variables: this.state.authUser })
-      .then(async response => {
-        const authToken = await setAuthToken(response.data.signup.token);
-        const authUserId = await setAuthUserId(response.data.signup.user.id);
-
-        return this.props.navigation.replace("UserTypeScreen", {
-          type: this.state.authUser.type
-        });
-      })
-      .catch(error => console.log(error));
-  }
 }
 
-const styles = StyleSheet.create({
-  submitButton: {
-    borderRadius: 20,
-    shadowColor: "#3f2201",
-    shadowOffset: { width: 3, height: 3 },
-    elevation: 3,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: theme.background.primary
-  }
-});
+VerifyOtpScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
 
 export default compose(
-  graphql(SIGNUP_MUTATION, { name: "signupMutation" }),
-  graphql(LOGIN_MUTATION, { name: "loginMutation" }),
+  graphql(SIGNUP_MUTATION, { name: 'signupMutation' }),
+  graphql(LOGIN_MUTATION, { name: 'loginMutation' }),
   graphql(CHECK_USER_EXISTS_QUERY, {
-    name: "checkUserExists",
-    options: props => {
-      return {
-        variables: {
-          mobile: props.navigation.state.params.mobile
-        }
-      };
-    }
-  })
+    name: 'checkUserExists',
+    options: ({ navigation }) => ({
+      variables: {
+        mobile: navigation.state.params.mobile,
+      },
+    }),
+  }),
 )(VerifyOtpScreen);

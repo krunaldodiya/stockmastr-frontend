@@ -1,28 +1,75 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Text, Button, Item, Icon } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
+import {
+  View, Text, Button, Item, Icon,
+} from 'native-base';
 
 // components
-import Logo from "../../components/Logo";
+import { compose, withApollo, graphql } from 'react-apollo';
+import Logo from '../../components/Logo';
 
-import { compose, withApollo, graphql } from "react-apollo";
-import { UPDATE_USER_MUTATION, GET_AUTH_USERS_QUERY } from "../../graphql";
-import theme from "../../libs/theme";
+import { UPDATE_USER_MUTATION, GET_AUTH_USERS_QUERY } from '../../graphql';
+import theme from '../../libs/theme';
+
+const styles = StyleSheet.create({
+  submitButton: {
+    borderRadius: 20,
+    shadowColor: '#3f2201',
+    shadowOffset: { width: 3, height: 3 },
+    elevation: 3,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: theme.background.primary,
+  },
+});
 
 class UserTypeScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
-      type: props.navigation.state.params.type
+      type: props.navigation.state.params.type,
     };
   }
 
-  static navigationOptions = {
-    header: null
-  };
+  async updateData(key, value) {
+    this.setState({ [key]: value });
+  }
+
+  async updateUserType() {
+    this.setState({ loading: true });
+
+    const { type } = this.state;
+    const { updateUserMutation, getAuthUser, navigation } = this.props;
+
+    const variables = {
+      id: getAuthUser.user.id,
+      type,
+    };
+
+    updateUserMutation({ variables })
+      .then(() => {
+        navigation.replace('ManageProfileScreen', {
+          type: 'replace',
+        });
+      })
+      .catch(() => {
+        this.setState({ loading: false });
+      });
+  }
 
   render() {
+    const { type, loading } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -34,8 +81,8 @@ class UserTypeScreen extends React.Component {
             flex: 1,
             paddingHorizontal: 10,
             backgroundColor: theme.background.secondary,
-            alignItems: "center",
-            justifyContent: "flex-end"
+            alignItems: 'center',
+            justifyContent: 'flex-end',
           }}
         >
           <View>
@@ -44,7 +91,7 @@ class UserTypeScreen extends React.Component {
                 borderBottomWidth: 0,
                 paddingTop: 20,
                 marginLeft: 10,
-                marginRight: 10
+                marginRight: 10,
               }}
             >
               <Button
@@ -55,26 +102,24 @@ class UserTypeScreen extends React.Component {
                     borderBottomLeftRadius: 20,
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
-                    backgroundColor: "white"
+                    backgroundColor: 'white',
                   },
-                  this.state.type == "trader" && {
-                    backgroundColor: theme.background.primary
-                  }
+                  type === 'trader' && {
+                    backgroundColor: theme.background.primary,
+                  },
                 ]}
-                onPress={() => this.updateData("type", "trader")}
+                onPress={() => this.updateData('type', 'trader')}
               >
                 <Text
                   style={[
-                    { fontSize: 14, color: "black" },
-                    this.state.type == "trader" && { color: "white" }
+                    { fontSize: 14, color: 'black' },
+                    type === 'trader' && { color: 'white' },
                   ]}
                 >
                   Trader
                 </Text>
 
-                {this.state.type == "trader" && (
-                  <Icon type="Ionicons" name="ios-checkmark" />
-                )}
+                {type === 'trader' && <Icon type="Ionicons" name="ios-checkmark" />}
               </Button>
               <Button
                 style={[
@@ -84,28 +129,26 @@ class UserTypeScreen extends React.Component {
                     borderBottomLeftRadius: 0,
                     borderTopRightRadius: 20,
                     borderBottomRightRadius: 20,
-                    backgroundColor: "white"
+                    backgroundColor: 'white',
                   },
-                  this.state.type == "provider" && {
-                    backgroundColor: theme.background.primary
-                  }
+                  type === 'provider' && {
+                    backgroundColor: theme.background.primary,
+                  },
                 ]}
-                onPress={() => this.updateData("type", "provider")}
+                onPress={() => this.updateData('type', 'provider')}
               >
                 <Text
                   style={[
-                    { fontSize: 14, color: "black" },
-                    this.state.type == "provider" && {
-                      color: "white"
-                    }
+                    { fontSize: 14, color: 'black' },
+                    type === 'provider' && {
+                      color: 'white',
+                    },
                   ]}
                 >
                   Provider
                 </Text>
 
-                {this.state.type == "provider" && (
-                  <Icon type="Ionicons" name="ios-checkmark" />
-                )}
+                {type === 'provider' && <Icon type="Ionicons" name="ios-checkmark" />}
               </Button>
             </Item>
 
@@ -114,16 +157,16 @@ class UserTypeScreen extends React.Component {
                 marginBottom: 20,
                 marginTop: 20,
                 marginLeft: 10,
-                marginRight: 10
+                marginRight: 10,
               }}
             >
               <Button
                 style={styles.submitButton}
-                disabled={this.state.loading}
+                disabled={loading}
                 onPress={() => this.updateUserType()}
               >
-                <Text style={{ width: "100%", textAlign: "center" }}>
-                  {this.state.loading ? "Please, Wait..." : "Next"}
+                <Text style={{ width: '100%', textAlign: 'center' }}>
+                  {loading ? 'Please, Wait...' : 'Next'}
                 </Text>
               </Button>
             </Item>
@@ -132,50 +175,14 @@ class UserTypeScreen extends React.Component {
       </View>
     );
   }
-
-  updateData(key, value) {
-    this.setState({ [key]: value });
-  }
-
-  async updateUserType() {
-    this.setState({ loading: true });
-
-    this.props
-      .updateUserMutation({
-        variables: {
-          id: this.props.getAuthUser.user.id,
-          type: this.state.type
-        }
-      })
-      .then(({ data }) => {
-        this.props.navigation.replace("ManageProfileScreen", {
-          type: "replace"
-        });
-      })
-      .catch(error => {
-        console.log(error);
-        this.setState({ loading: false });
-      });
-  }
 }
 
-const styles = StyleSheet.create({
-  submitButton: {
-    borderRadius: 20,
-    shadowColor: "#3f2201",
-    shadowOffset: { width: 3, height: 3 },
-    elevation: 3,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: theme.background.primary
-  }
-});
+UserTypeScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
 
 export default compose(
   withApollo,
-  graphql(UPDATE_USER_MUTATION, { name: "updateUserMutation" }),
-  graphql(GET_AUTH_USERS_QUERY, { name: "getAuthUser" })
+  graphql(UPDATE_USER_MUTATION, { name: 'updateUserMutation' }),
+  graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
 )(UserTypeScreen);

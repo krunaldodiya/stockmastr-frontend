@@ -123,9 +123,7 @@ class GetStartedScreen extends React.Component {
 }
 
 GetStartedScreen.propTypes = {
-  navigation: PropTypes.shape({
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
+  navigation: PropTypes.shape.isRequired,
 };
 
 export default GetStartedScreen;
