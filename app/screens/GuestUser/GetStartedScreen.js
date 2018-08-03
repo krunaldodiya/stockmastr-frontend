@@ -1,5 +1,5 @@
 import React from 'react';
-import { NetInfo, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   View, Text, Button, Container, Form, Item, Content, Label,
@@ -7,7 +7,6 @@ import {
 
 // components
 import theme from '../../libs/theme';
-import NoNetwork from '../../components/NoNetwork';
 
 const styles = StyleSheet.create({
   submitButton: {
@@ -35,88 +34,68 @@ class GetStartedScreen extends React.Component {
     this.state = {
       buttonText: 'Agree & Continue',
       termsText: 'lorem ipsum',
-      connectionInfo: null,
     };
   }
 
-  async componentWillMount() {
-    NetInfo.addEventListener('connectionChange', connectionInfo => this.handleConnectionChanged(connectionInfo));
-    const connectionInfo = await NetInfo.getConnectionInfo();
-
-    this.handleConnectionChanged(connectionInfo);
-  }
-
-  handleConnectionChanged(connectionInfo) {
-    this.setState({ connectionInfo });
-  }
-
   render() {
-    const { connectionInfo, buttonText, termsText } = this.state;
+    const { buttonText, termsText } = this.state;
     const { navigation } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
-        {connectionInfo && (
-          <View style={{ flex: 1 }}>
-            {connectionInfo.type === 'none' && <NoNetwork />}
-
-            {connectionInfo.type !== 'none' && (
-              <Container
+        <Container
+          style={{
+            flex: 1,
+            paddingHorizontal: 10,
+            backgroundColor: theme.background.secondary,
+            alignItems: 'center',
+          }}
+        >
+          <Form>
+            <View style={{ flex: 1 }}>
+              <Label
                 style={{
-                  flex: 1,
-                  paddingHorizontal: 10,
-                  backgroundColor: theme.background.secondary,
-                  alignItems: 'center',
+                  fontWeight: 'bold',
+                  color: 'black',
+                  fontSize: 28,
+                  marginVertical: 20,
                 }}
               >
-                <Form>
-                  <View style={{ flex: 1 }}>
-                    <Label
-                      style={{
-                        fontWeight: 'bold',
-                        color: 'black',
-                        fontSize: 28,
-                        marginVertical: 20,
-                      }}
-                    >
-                      Terms of service
-                    </Label>
+                Terms of service
+              </Label>
 
-                    <Content bounces={false}>
-                      <Text>
-                        {termsText}
-                      </Text>
-                    </Content>
-                  </View>
+              <Content bounces={false}>
+                <Text>
+                  {termsText}
+                </Text>
+              </Content>
+            </View>
 
-                  <View
-                    style={{
-                      justifyContent: 'flex-end',
-                    }}
-                  >
-                    <Item
-                      style={{
-                        marginBottom: 20,
-                        marginTop: 20,
-                        marginLeft: 10,
-                        marginRight: 10,
-                      }}
-                    >
-                      <Button
-                        style={styles.submitButton}
-                        onPress={() => navigation.replace('OauthScreen')}
-                      >
-                        <Text style={{ width: '100%', textAlign: 'center' }}>
-                          {buttonText}
-                        </Text>
-                      </Button>
-                    </Item>
-                  </View>
-                </Form>
-              </Container>
-            )}
-          </View>
-        )}
+            <View
+              style={{
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Item
+                style={{
+                  marginBottom: 20,
+                  marginTop: 20,
+                  marginLeft: 10,
+                  marginRight: 10,
+                }}
+              >
+                <Button
+                  style={styles.submitButton}
+                  onPress={() => navigation.replace('OauthScreen')}
+                >
+                  <Text style={{ width: '100%', textAlign: 'center' }}>
+                    {buttonText}
+                  </Text>
+                </Button>
+              </Item>
+            </View>
+          </Form>
+        </Container>
       </View>
     );
   }

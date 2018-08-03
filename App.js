@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { NetInfo, StatusBar } from 'react-native';
 import { View, Spinner } from 'native-base';
 import { createStackNavigator } from 'react-navigation';
 import { MenuProvider } from 'react-native-popup-menu';
@@ -53,6 +53,7 @@ import { httpUrl, wsUrl } from './app/libs/vars';
 import { getAuthToken } from './app/libs/auth';
 
 import theme from './app/libs/theme';
+import NoNetwork from './app/components/NoNetwork';
 
 const authLink = setContext(async (_, { headers }) => {
   const token = await getAuthToken();
@@ -127,12 +128,18 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      connectionInfo: null,
       screen: null,
       loading: true,
     };
   }
 
   async componentWillMount() {
+    NetInfo.addEventListener('connectionChange', connectionInfo => this.handleConnectionChanged(connectionInfo));
+    const connectionInfo = await NetInfo.getConnectionInfo();
+
+    this.handleConnectionChanged(connectionInfo);
+
     const authToken = await getAuthToken();
 
     this.setState({
@@ -141,28 +148,35 @@ class App extends React.Component {
     });
   }
 
+  async handleConnectionChanged(connectionInfo) {
+    this.setState({ connectionInfo });
+  }
+
   render() {
-    const { loading, screen } = this.state;
+    const { connectionInfo, loading, screen } = this.state;
 
     return (
       <ApolloProvider client={client}>
         <MenuProvider>
-          <View style={{ flex: 1 }}>
-            <StatusBar backgroundColor={theme.background.primary} barStyle="light-content" />
+          {connectionInfo && (
+            <View style={{ flex: 1 }}>
+              {connectionInfo.type === 'none' && <NoNetwork />}
 
-            {loading ? (
-              <Spinner
-                color="#000"
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              />
-            ) : (
-              createAppStackNavigator(screen)
-            )}
-          </View>
+              {connectionInfo.type !== 'none'
+                && loading && (
+                  <Spinner
+                    color="#000"
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  />
+              )}
+
+              {connectionInfo.type !== 'none' && !loading && createAppStackNavigator(screen)}
+            </View>
+          )}
         </MenuProvider>
       </ApolloProvider>
     );
