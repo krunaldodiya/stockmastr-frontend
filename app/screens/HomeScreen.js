@@ -1,5 +1,7 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
 import {
   Container,
   Header,
@@ -11,37 +13,68 @@ import {
   Tab,
   Tabs,
   Spinner,
-} from "native-base";
+} from 'native-base';
+
+import { compose, graphql } from 'react-apollo';
 
 // components
-import Home from "../components/Menus/Home";
-import Feeds from "../components/Tabs/Feeds";
-import Chat from "../components/Tabs/Chat";
-import Channels from "../components/Tabs/Channels";
+import Home from '../components/Menus/Home';
+import Feeds from '../components/Tabs/Feeds';
+import Chat from '../components/Tabs/Chat';
+import Channels from '../components/Tabs/Channels';
 
 // components
-import { compose, graphql } from "react-apollo";
 import {
   GET_AUTH_USERS_QUERY,
   GET_AUTH_USER_SUBSCRIPTIONS_QUERY,
-  GET_AUTH_USERS_POST_QUERY
-} from "../graphql";
-import theme from "../libs/theme";
+  GET_AUTH_USERS_POST_QUERY,
+} from '../graphql';
+import theme from '../libs/theme';
+
+const styles = StyleSheet.create({
+  icon: {
+    color: 'white',
+    padding: 5,
+  },
+
+  notification: {
+    color: 'cyan',
+    padding: 5,
+  },
+
+  tabs: {
+    backgroundColor: theme.background.primary,
+  },
+
+  activeTabs: {
+    backgroundColor: theme.background.primary,
+  },
+
+  text: {
+    color: 'white',
+    fontWeight: 'normal',
+  },
+
+  activeText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
 
 class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       currentTab: 0,
       authUser: null,
-      loading: true
+      loading: true,
     };
   }
-
-  static navigationOptions = {
-    header: null
-  };
 
   async componentWillMount() {
     this.init(this.props);
@@ -52,58 +85,50 @@ class HomeScreen extends React.Component {
   }
 
   async init(props) {
-    const {
-      getAuthUser,
-      getChannelSubscriptionsQuery,
-      getAuthUsersPostQuery
-    } = props;
-
-    const loading =
-      getAuthUser.loading ||
-      getChannelSubscriptionsQuery.loading ||
-      getAuthUsersPostQuery.loading;
+    const { getAuthUser, getChannelSubscriptionsQuery, getAuthUsersPostQuery } = props;
+    const loading = getAuthUser.loading || getChannelSubscriptionsQuery.loading || getAuthUsersPostQuery.loading;
 
     this.setState({
       authUser: getAuthUser.user,
-      loading
+      loading,
     });
   }
 
   render() {
+    const { navigation } = this.props;
+    const { currentTab, loading, authUser } = this.state;
+
     return (
       <Container>
         <Header hasTabs style={{ backgroundColor: theme.background.primary }}>
           <Body>
-            <Title style={styles.text}>SocialStock</Title>
+            <Title style={styles.text}>
+SocialStock
+            </Title>
           </Body>
           <Right>
             <Button transparent>
               <Icon
                 name="search"
                 style={styles.icon}
-                onPress={() => this.props.navigation.navigate("SearchScreen")}
+                onPress={() => navigation.navigate('SearchScreen')}
               />
             </Button>
             <Button transparent>
               <Icon
-                name="notifications-active" //notifications-none
+                name="notifications-active" // notifications-none
                 type="MaterialIcons"
                 style={styles.notification}
-                onPress={() =>
-                  this.props.navigation.navigate("NotificationScreen")
-                }
+                onPress={() => navigation.navigate('NotificationScreen')}
               />
             </Button>
             <Button transparent>
-              <Home {...this.props} currentTab={this.state.currentTab} />
+              <Home {...this.props} currentTab={currentTab} />
             </Button>
           </Right>
         </Header>
 
-        <Tabs
-          initialPage={0}
-          onChangeTab={tab => this.setState({ currentTab: tab.i })}
-        >
+        <Tabs initialPage={0} onChangeTab={tab => this.setState({ currentTab: tab.i })}>
           <Tab
             textStyle={styles.text}
             activeTextStyle={styles.activeText}
@@ -111,19 +136,17 @@ class HomeScreen extends React.Component {
             activeTabStyle={styles.activeTabs}
             heading="Calls"
           >
-            {this.state.loading && (
+            {loading && (
               <Spinner
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
-            {!this.state.loading && (
-              <Feeds {...this.props} subscriber_id={this.state.authUser.id} />
-            )}
+            {!loading && <Feeds {...this.props} subscriber_id={authUser.id} />}
           </Tab>
           <Tab
             textStyle={styles.text}
@@ -132,23 +155,18 @@ class HomeScreen extends React.Component {
             activeTabStyle={styles.activeTabs}
             heading="Channels"
           >
-            {this.state.loading && (
+            {loading && (
               <Spinner
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
-            {!this.state.loading && (
-              <Channels
-                {...this.props}
-                screen="HomeScreen"
-                subscriber_id={this.state.authUser.id}
-                showFab={true}
-              />
+            {!loading && (
+              <Channels {...this.props} screen="HomeScreen" subscriber_id={authUser.id} showFab />
             )}
           </Tab>
           <Tab
@@ -158,17 +176,17 @@ class HomeScreen extends React.Component {
             activeTabStyle={styles.activeTabs}
             heading="Chat"
           >
-            {this.state.loading && (
+            {loading && (
               <Spinner
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
-            {!this.state.loading && <Chat {...this.props} />}
+            {!loading && <Chat {...this.props} />}
           </Tab>
         </Tabs>
       </Container>
@@ -176,42 +194,16 @@ class HomeScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  icon: {
-    color: "white",
-    padding: 5
-  },
-
-  notification: {
-    color: "cyan",
-    padding: 5
-  },
-
-  tabs: {
-    backgroundColor: theme.background.primary
-  },
-
-  activeTabs: {
-    backgroundColor: theme.background.primary
-  },
-
-  text: {
-    color: "white",
-    fontWeight: "normal"
-  },
-
-  activeText: {
-    color: "white",
-    fontWeight: "bold"
-  }
-});
+HomeScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
 
 export default compose(
-  graphql(GET_AUTH_USERS_QUERY, { name: "getAuthUser" }),
+  graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
   graphql(GET_AUTH_USER_SUBSCRIPTIONS_QUERY, {
-    name: "getChannelSubscriptionsQuery"
+    name: 'getChannelSubscriptionsQuery',
   }),
   graphql(GET_AUTH_USERS_POST_QUERY, {
-    name: "getAuthUsersPostQuery"
-  })
+    name: 'getAuthUsersPostQuery',
+  }),
 )(HomeScreen);
