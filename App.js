@@ -52,7 +52,6 @@ import NotificationScreen from './app/screens/NotificationScreen';
 import { httpUrl, wsUrl } from './app/libs/vars';
 import { getAuthToken } from './app/libs/auth';
 
-import theme from './app/libs/theme';
 import NoNetwork from './app/components/NoNetwork';
 
 const authLink = setContext(async (_, { headers }) => {
