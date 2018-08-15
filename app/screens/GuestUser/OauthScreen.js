@@ -10,7 +10,7 @@ import { compose, graphql, withApollo } from 'react-apollo';
 import Logo from '../../components/Logo';
 import theme from '../../libs/theme';
 
-import { SIGNUP_MUTATION, LOGIN_MUTATION, CHECK_USER_EXISTS_QUERY } from '../../graphql';
+import { SIGNUP_MUTATION, LOGIN_MUTATION, SOCIAL_AUTH_MUTATION } from '../../graphql';
 import { setAuthToken, setAuthUserId } from '../../libs/auth';
 
 const styles = StyleSheet.create({
@@ -32,19 +32,6 @@ class OauthScreen extends React.Component {
     header: null,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      authUser: {
-        type: 'trader',
-        gender: 'male',
-        city: '',
-        state: '',
-      },
-    };
-  }
-
   async loginWithGoogle() {
     google({
       appId: '994327051971-86prhenegaqbk3e3ehmsecpqmsufsejq.apps.googleusercontent.com',
@@ -55,9 +42,6 @@ class OauthScreen extends React.Component {
       })
       .catch((error) => {
         console.log('error', error);
-
-        // error.code
-        // error.description
       });
   }
 
@@ -78,49 +62,16 @@ class OauthScreen extends React.Component {
   }
 
   async checkAuth(info) {
-    const { client } = this.props;
+    const { navigation, socialAuthMutation } = this.props;
+    const variables = { email: info.user.email, name: info.user.name };
 
-    client
-      .query({
-        query: CHECK_USER_EXISTS_QUERY,
-        variables: { email: info.user.email },
-      })
-      .then(({ data }) => (data.user ? this.login(info.user) : this.signup(info.user)))
-      .catch(error => console.log(error));
-  }
-
-  async login(user) {
-    const { loginMutation, navigation } = this.props;
-    const variables = { email: user.email };
-
-    return loginMutation({ variables })
+    socialAuthMutation({ variables })
       .then(async (response) => {
-        await setAuthToken(response.data.login.token);
-        await setAuthUserId(response.data.login.user.id);
+        await setAuthToken(response.data.socialAuth.token);
+        await setAuthUserId(response.data.socialAuth.user.id);
 
         return navigation.replace('UserTypeScreen', {
-          type: response.data.login.user.type,
-        });
-      })
-      .catch(error => console.log(error));
-  }
-
-  async signup(user) {
-    const { authUser } = this.state;
-    const { signupMutation, navigation } = this.props;
-    const variables = {
-      ...authUser,
-      email: user.email,
-      name: user.name,
-    };
-
-    return signupMutation({ variables })
-      .then(async (response) => {
-        await setAuthToken(response.data.signup.token);
-        await setAuthUserId(response.data.signup.user.id);
-
-        return navigation.replace('UserTypeScreen', {
-          type: response.data.signup.user.type,
+          type: response.data.socialAuth.user.type,
         });
       })
       .catch(error => console.log(error));
@@ -169,6 +120,7 @@ Login with Facebook
 
 export default compose(
   withApollo,
+  graphql(SOCIAL_AUTH_MUTATION, { name: 'socialAuthMutation' }),
   graphql(SIGNUP_MUTATION, { name: 'signupMutation' }),
   graphql(LOGIN_MUTATION, { name: 'loginMutation' }),
 )(OauthScreen);

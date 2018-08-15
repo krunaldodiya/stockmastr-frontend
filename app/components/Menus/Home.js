@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import { Icon, Text } from 'native-base';
 
 import {
@@ -50,7 +49,7 @@ Edit Profile
         </MenuOption>
 
         {getAuthUser.user
-          && getAuthUser.user.type == 'provider' && (
+          && getAuthUser.user.type === 'Provider' && (
             <MenuOption onSelect={() => navigation.navigate('CreateChannelScreen')}>
               <Text style={styles.text}>
 Create a Channel
@@ -60,11 +59,6 @@ Create a Channel
       </MenuOptions>
     </Menu>
   );
-};
-
-Home.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-  getAuthUser: PropTypes.shape.isRequired,
 };
 
 export default Home;

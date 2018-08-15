@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   View, Text, Button, Item, Icon,
@@ -104,22 +103,22 @@ class UserTypeScreen extends React.Component {
                     borderBottomRightRadius: 0,
                     backgroundColor: 'white',
                   },
-                  type === 'trader' && {
+                  type === 'Trader' && {
                     backgroundColor: theme.background.primary,
                   },
                 ]}
-                onPress={() => this.updateData('type', 'trader')}
+                onPress={() => this.updateData('type', 'Trader')}
               >
                 <Text
                   style={[
                     { fontSize: 14, color: 'black' },
-                    type === 'trader' && { color: 'white' },
+                    type === 'Trader' && { color: 'white' },
                   ]}
                 >
                   Trader
                 </Text>
 
-                {type === 'trader' && <Icon type="Ionicons" name="ios-checkmark" />}
+                {type === 'Trader' && <Icon type="Ionicons" name="ios-checkmark" />}
               </Button>
               <Button
                 style={[
@@ -131,16 +130,16 @@ class UserTypeScreen extends React.Component {
                     borderBottomRightRadius: 20,
                     backgroundColor: 'white',
                   },
-                  type === 'provider' && {
+                  type === 'Provider' && {
                     backgroundColor: theme.background.primary,
                   },
                 ]}
-                onPress={() => this.updateData('type', 'provider')}
+                onPress={() => this.updateData('type', 'Provider')}
               >
                 <Text
                   style={[
                     { fontSize: 14, color: 'black' },
-                    type === 'provider' && {
+                    type === 'Provider' && {
                       color: 'white',
                     },
                   ]}
@@ -148,7 +147,7 @@ class UserTypeScreen extends React.Component {
                   Provider
                 </Text>
 
-                {type === 'provider' && <Icon type="Ionicons" name="ios-checkmark" />}
+                {type === 'Provider' && <Icon type="Ionicons" name="ios-checkmark" />}
               </Button>
             </Item>
 
@@ -176,10 +175,6 @@ class UserTypeScreen extends React.Component {
     );
   }
 }
-
-UserTypeScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   withApollo,

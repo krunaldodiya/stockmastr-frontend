@@ -1,6 +1,5 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   Text, ListItem, View, Thumbnail,
 } from 'native-base';
@@ -82,12 +81,6 @@ const Post = (props) => {
       </View>
     </ListItem>
   );
-};
-
-Post.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-  post: PropTypes.shape.isRequired,
-  channel: PropTypes.shape.isRequired,
 };
 
 export default Post;

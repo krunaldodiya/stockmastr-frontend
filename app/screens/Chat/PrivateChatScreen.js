@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-
 import { View } from 'native-base';
 
 // component
@@ -42,7 +40,3 @@ export default class PrivateChatScreen extends React.Component {
     );
   }
 }
-
-PrivateChatScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};

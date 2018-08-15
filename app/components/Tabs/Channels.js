@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   View, Text, Spinner, ListItem, Left, Thumbnail, Body, Right,
 } from 'native-base';
@@ -38,9 +37,9 @@ class Channels extends React.Component {
     });
   }
 
-  showChannelList() {
+  showChannelList(data) {
     const { navigation } = this.props;
-    const { channel } = this.data.item;
+    const { channel } = data.item;
 
     return (
       <ListItem
@@ -90,7 +89,7 @@ class Channels extends React.Component {
         {!loading && (
           <FlatList
             data={subscriptions}
-            renderItem={this.showChannelList}
+            renderItem={data => this.showChannelList(data)}
             keyExtractor={(item, index) => index.toString()}
           />
         )}
@@ -98,9 +97,5 @@ class Channels extends React.Component {
     );
   }
 }
-
-Channels.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default Channels;

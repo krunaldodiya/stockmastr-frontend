@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   View,
@@ -184,22 +183,22 @@ CREATE PROFILE
                       borderBottomRightRadius: 0,
                       backgroundColor: 'white',
                     },
-                    authUser.gender === 'male' && {
+                    authUser.gender === 'Male' && {
                       backgroundColor: theme.background.primary,
                     },
                   ]}
-                  onPress={() => this.updateData('gender', 'male')}
+                  onPress={() => this.updateData('gender', 'Male')}
                 >
                   <Text
                     style={[
                       { fontSize: 14, color: 'black' },
-                      authUser.gender === 'male' && { color: 'white' },
+                      authUser.gender === 'Male' && { color: 'white' },
                     ]}
                   >
                     Male
                   </Text>
 
-                  {authUser.gender === 'male' && <Icon type="Ionicons" name="ios-checkmark" />}
+                  {authUser.gender === 'Male' && <Icon type="Ionicons" name="ios-checkmark" />}
                 </Button>
                 <Button
                   style={[
@@ -211,16 +210,16 @@ CREATE PROFILE
                       borderBottomRightRadius: 20,
                       backgroundColor: 'white',
                     },
-                    authUser.gender === 'female' && {
+                    authUser.gender === 'Female' && {
                       backgroundColor: theme.background.primary,
                     },
                   ]}
-                  onPress={() => this.updateData('gender', 'female')}
+                  onPress={() => this.updateData('gender', 'Female')}
                 >
                   <Text
                     style={[
                       { fontSize: 14, color: 'black' },
-                      authUser.gender === 'female' && {
+                      authUser.gender === 'Female' && {
                         color: 'white',
                       },
                     ]}
@@ -228,7 +227,7 @@ CREATE PROFILE
                     Female
                   </Text>
 
-                  {authUser.gender === 'female' && <Icon type="Ionicons" name="ios-checkmark" />}
+                  {authUser.gender === 'Female' && <Icon type="Ionicons" name="ios-checkmark" />}
                 </Button>
               </Item>
 
@@ -288,10 +287,6 @@ CREATE PROFILE
     );
   }
 }
-
-ManageProfileScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   graphql(UPDATE_USER_MUTATION, { name: 'updateUserMutation' }),

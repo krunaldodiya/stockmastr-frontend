@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   View, Fab, Icon, Spinner,
 } from 'native-base';
@@ -62,7 +61,7 @@ class Feeds extends React.Component {
         )}
 
         {!loading
-          && authUser.type === 'provider' && (
+          && authUser.type === 'Provider' && (
             <Fab
               style={{ backgroundColor: theme.background.primary }}
               onPress={() => navigation.push('CreatePostScreen')}
@@ -75,9 +74,5 @@ class Feeds extends React.Component {
     );
   }
 }
-
-Feeds.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default Feeds;

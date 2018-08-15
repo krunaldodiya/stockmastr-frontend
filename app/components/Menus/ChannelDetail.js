@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import { Icon, Text } from 'native-base';
 
 import {
@@ -40,7 +39,7 @@ Edit Channel
         </MenuOption>
 
         {getAuthUser.user
-          && getAuthUser.user.type == 'provider' && (
+          && getAuthUser.user.type === 'Provider' && (
             <MenuOption
               onSelect={() => navigation.navigate('SubmitReviewScreen', {
                 channel_id: getChannelById.channel.id,
@@ -54,7 +53,7 @@ Submit Review
         )}
 
         {getAuthUser.user
-          && getAuthUser.user.type == 'provider' && (
+          && getAuthUser.user.type === 'Provider' && (
             <MenuOption
               onSelect={() => navigation.navigate('ChannelSubscriberScreen', {
                 channel_id: getChannelById.channel.id,
@@ -69,12 +68,6 @@ Channel Subscribers
       </MenuOptions>
     </Menu>
   );
-};
-
-ChannelDetail.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-  getAuthUser: PropTypes.shape.isRequired,
-  getChannelById: PropTypes.shape.isRequired,
 };
 
 export default ChannelDetail;

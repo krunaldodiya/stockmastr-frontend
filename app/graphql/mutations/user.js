@@ -1,14 +1,8 @@
 import gql from 'graphql-tag';
 
 const SOCIAL_AUTH_MUTATION = gql`
-  mutation(
-    $email: String!
-    $name: String!
-  ) {
-    signup(
-      email: $email
-      name: $name
-    ) {
+  mutation($email: String!, $name: String!) {
+    socialAuth(email: $email, name: $name) {
       user {
         id
         mobile
@@ -36,14 +30,7 @@ const SIGNUP_MUTATION = gql`
     $city: String!
     $state: String!
   ) {
-    signup(
-      type: $type
-      email: $email
-      name: $name
-      gender: $gender
-      city: $city
-      state: $state
-    ) {
+    signup(type: $type, email: $email, name: $name, gender: $gender, city: $city, state: $state) {
       user {
         id
         mobile
@@ -84,23 +71,10 @@ const LOGIN_MUTATION = gql`
 `;
 
 const UPDATE_USER_MUTATION = gql`
-  mutation(
-    $id: ID!
-    $type: String
-    $name: String
-    $gender: String
-    $city: String
-    $state: String
-  ) {
+  mutation($id: ID!, $type: String, $name: String, $gender: String, $city: String, $state: String) {
     user: updateUser(
       where: { id: $id }
-      data: {
-        type: $type
-        name: $name
-        gender: $gender
-        city: $city
-        state: $state
-      }
+      data: { type: $type, name: $name, gender: $gender, city: $city, state: $state }
     ) {
       id
       mobile

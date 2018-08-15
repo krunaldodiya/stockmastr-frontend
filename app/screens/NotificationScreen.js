@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-
 import {
   View, Text, Container, Header, Left, Icon, Body,
 } from 'native-base';
@@ -65,9 +63,5 @@ hi
     );
   }
 }
-
-NotificationScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default NotificationScreen;

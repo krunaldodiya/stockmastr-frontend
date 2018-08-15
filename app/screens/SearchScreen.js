@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet, View, Text, FlatList, ActivityIndicator, TextInput,
 } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   Icon,
@@ -209,10 +208,6 @@ class SearchScreen extends React.Component {
     );
   }
 }
-
-SearchScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   withApollo,

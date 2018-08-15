@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   View,
@@ -145,7 +144,3 @@ CREATE A CHANNEL
     );
   }
 }
-
-EditPostScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};

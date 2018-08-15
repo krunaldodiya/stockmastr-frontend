@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   View, Text, Container, Header, Left, Button, Icon, Right, Body,
 } from 'native-base';
@@ -111,7 +110,3 @@ hello
     );
   }
 }
-
-Comment.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};

@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   View, Text, Button, Container, Form, Item, Content, Label,
 } from 'native-base';
 
 // components
 import theme from '../../libs/theme';
+import { compose, withApollo } from '../../../node_modules/react-apollo';
 
 const styles = StyleSheet.create({
   submitButton: {
@@ -100,9 +100,5 @@ class GetStartedScreen extends React.Component {
     );
   }
 }
-
-GetStartedScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default GetStartedScreen;

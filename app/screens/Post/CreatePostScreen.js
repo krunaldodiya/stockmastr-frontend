@@ -2,7 +2,6 @@ import React from 'react';
 import {
   StyleSheet, Alert, TouchableOpacity, Platform,
 } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   Text,
@@ -527,11 +526,6 @@ PLACE CALL
     );
   }
 }
-
-CreatePostScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-  createPostMutation: PropTypes.func.isRequired,
-};
 
 export default compose(
   withApollo,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   View,
@@ -317,10 +316,6 @@ Location
     );
   }
 }
-
-UserDetailScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),

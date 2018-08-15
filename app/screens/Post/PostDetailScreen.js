@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
   View, Text, Container, Header, Left, Icon, Body, Right, Spinner,
@@ -158,10 +157,6 @@ class PostDetailScreen extends React.Component {
     );
   }
 }
-
-PostDetailScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),

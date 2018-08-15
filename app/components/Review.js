@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -201,10 +200,6 @@ Be first to review.
     );
   }
 }
-
-Review.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   graphql(GET_REVIEWS_QUERY, {

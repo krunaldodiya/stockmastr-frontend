@@ -1,7 +1,5 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-
 import { View, Text, Spinner } from 'native-base';
 
 // component
@@ -97,7 +95,3 @@ Please, Subscribe to start chat.
     );
   }
 }
-
-GroupChatScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};

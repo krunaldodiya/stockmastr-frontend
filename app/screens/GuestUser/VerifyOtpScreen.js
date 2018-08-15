@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, Platform, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
 import {
   View, Text, Input, Button, Container, Form, Item, Left, Right,
 } from 'native-base';
@@ -246,10 +245,6 @@ Sending OTP
     );
   }
 }
-
-VerifyOtpScreen.propTypes = {
-  navigation: PropTypes.shape.isRequired,
-};
 
 export default compose(
   graphql(SIGNUP_MUTATION, { name: 'signupMutation' }),
