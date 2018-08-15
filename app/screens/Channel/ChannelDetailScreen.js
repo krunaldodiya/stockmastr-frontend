@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import React from 'react';
+import { StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import {
   View,
   Text,
@@ -16,14 +16,15 @@ import {
   Thumbnail,
   Content,
   Spinner,
-  Button
-} from "native-base";
-import { Rating } from "react-native-ratings";
+  Button,
+} from 'native-base';
+import { Rating } from 'react-native-ratings';
 
-import theme from "../../libs/theme";
+import { compose, withApollo, graphql } from 'react-apollo';
+import { ReactNativeFile } from 'apollo-upload-client/lib/main';
+import theme from '../../libs/theme';
 
 // apollo
-import { compose, withApollo, graphql } from "react-apollo";
 import {
   GET_CHANNEL_BY_ID,
   SUBSCRIBE_TO_CHANNEL_MUTATION,
@@ -31,16 +32,15 @@ import {
   GET_AUTH_USERS_QUERY,
   GET_CHANNEL_SUBSCRIPTIONS_QUERY,
   GET_AUTH_USER_SUBSCRIPTIONS_QUERY,
-  UPLOAD_CHANNEL_PICTURE_MUTATION
-} from "../../graphql";
+  UPLOAD_CHANNEL_PICTURE_MUTATION,
+} from '../../graphql';
 
-import { ReactNativeFile } from "apollo-upload-client/lib/main";
-import Post from "../../components/Post";
-import ChannelDetail from "../../components/Menus/ChannelDetail";
-import {httpUrl} from "../../libs/vars";
+import Post from '../../components/Post';
+import ChannelDetail from '../../components/Menus/ChannelDetail';
+import { httpUrl } from '../../libs/vars';
 
-const moment = require("moment");
-const ImagePicker = require("react-native-image-picker");
+const moment = require('moment');
+const ImagePicker = require('react-native-image-picker');
 
 class ChannelDetailScreen extends React.Component {
   constructor(props) {
@@ -52,8 +52,8 @@ class ChannelDetailScreen extends React.Component {
       channel: null,
       channel_subscriptions: [],
       subscription_status: {
-        processing: false
-      }
+        processing: false,
+      },
     };
   }
 
@@ -66,17 +66,15 @@ class ChannelDetailScreen extends React.Component {
   }
 
   async init(props) {
-    const loading =
-      props.getAuthUser.loading ||
-      props.getChannelById.loading ||
-      props.getChannelSubscriptionsQuery.loading;
+    const loading = props.getAuthUser.loading
+      || props.getChannelById.loading
+      || props.getChannelSubscriptionsQuery.loading;
 
     this.setState({
       authUser: props.getAuthUser.user,
       channel: props.getChannelById.channel,
-      channel_subscriptions:
-        props.getChannelSubscriptionsQuery.getChannelSubscriptions,
-      loading
+      channel_subscriptions: props.getChannelSubscriptionsQuery.getChannelSubscriptions,
+      loading,
     });
   }
 
@@ -94,9 +92,9 @@ class ChannelDetailScreen extends React.Component {
           </Left>
 
           <Body>
-            <Text style={{ color: "white" }} numberOfLines={1}>
+            <Text style={{ color: 'white' }} numberOfLines={1}>
               {this.state.channel && (
-                <Text style={{ color: "white" }} numberOfLines={1}>
+                <Text style={{ color: 'white' }} numberOfLines={1}>
                   {this.state.channel.title}
                 </Text>
               )}
@@ -109,12 +107,11 @@ class ChannelDetailScreen extends React.Component {
                 type="Ionicons"
                 name="md-chatbubbles"
                 style={styles.chatIcon}
-                onPress={() =>
-                  this.props.navigation.navigate("GroupChatScreen", {
-                    authUser: this.state.authUser,
-                    channel: this.state.channel,
-                    channel_subscriptions: this.state.channel_subscriptions
-                  })
+                onPress={() => this.props.navigation.navigate('GroupChatScreen', {
+                  authUser: this.state.authUser,
+                  channel: this.state.channel,
+                  channel_subscriptions: this.state.channel_subscriptions,
+                })
                 }
               />
             </Button>
@@ -125,10 +122,7 @@ class ChannelDetailScreen extends React.Component {
           </Right>
         </Header>
 
-        <Tabs
-          initialPage={0}
-          onChangeTab={tab => this.setState({ currentTab: tab.i })}
-        >
+        <Tabs initialPage={0} onChangeTab={tab => this.setState({ currentTab: tab.i })}>
           <Tab
             textStyle={styles.text}
             activeTextStyle={styles.activeText}
@@ -141,8 +135,8 @@ class ChannelDetailScreen extends React.Component {
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
@@ -152,16 +146,13 @@ class ChannelDetailScreen extends React.Component {
                 <List>
                   <ListItem avatar style={{ paddingVertical: 10 }}>
                     <Left>
-                      <TouchableOpacity
-                        onPress={() => this.selectChannelImage()}
-                      >
-                        {this.state.channel.owner.id ==
-                          this.state.authUser.id && (
+                      <TouchableOpacity onPress={() => this.selectChannelImage()}>
+                        {this.state.channel.owner.id == this.state.authUser.id && (
                           <Icon
                             type="MaterialIcons"
                             name="camera-alt"
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               right: 0,
                               bottom: 0,
                               borderWidth: 1,
@@ -170,37 +161,28 @@ class ChannelDetailScreen extends React.Component {
                               padding: 3,
                               zIndex: 1,
                               borderRadius: 20,
-                              borderColor: "#000",
-                              color: "#000"
+                              borderColor: '#000',
+                              color: '#000',
                             }}
                           />
                         )}
                         <Thumbnail
                           large
                           source={{
-                            uri: `${httpUrl}/images/${
-                              this.state.channel.image
-                            }`
+                            uri: `${httpUrl}/images/${this.state.channel.image}`,
                           }}
                         />
                       </TouchableOpacity>
                     </Left>
                     <Body style={{ borderBottomWidth: 0 }}>
-                      <Text
-                        numberOfLines={1}
-                        style={{ fontSize: 18, marginBottom: 2 }}
-                      >
+                      <Text numberOfLines={1} style={{ fontSize: 18, marginBottom: 2 }}>
                         {this.state.channel.title.toUpperCase()}
                       </Text>
-                      <Text
-                        note
-                        numberOfLines={1}
-                        style={{ fontSize: 12, marginBottom: 5 }}
-                      >
+                      <Text note numberOfLines={1} style={{ fontSize: 12, marginBottom: 5 }}>
                         {this.state.channel.description.toUpperCase()}
                       </Text>
 
-                      <View style={{ flexDirection: "row" }}>
+                      <View style={{ flexDirection: 'row' }}>
                         <Rating
                           type="star"
                           ratingCount={5}
@@ -213,12 +195,14 @@ class ChannelDetailScreen extends React.Component {
                           style={{ paddingVertical: 5 }}
                         />
 
-                        <Text
-                          style={{ fontSize: 14, marginTop: 6, marginLeft: 10 }}
-                        >
-                          <Text note>3.5/5</Text>
+                        <Text style={{ fontSize: 14, marginTop: 6, marginLeft: 10 }}>
+                          <Text note>
+3.5/5
+                          </Text>
                           &nbsp;
-                          <Text note>(25)</Text>
+                          <Text note>
+(25)
+                          </Text>
                         </Text>
                       </View>
                     </Body>
@@ -227,20 +211,22 @@ class ChannelDetailScreen extends React.Component {
                   <ListItem>
                     <View style={{ flex: 1, marginTop: 5 }}>
                       <View style={{ marginBottom: 20 }}>
-                        <Text>Rank: #5</Text>
+                        <Text>
+Rank: #5
+                        </Text>
                         <Text note>
-                          Rank is given based on accuracy & ratings.
+Rank is given based on accuracy & ratings.
                         </Text>
                       </View>
 
                       <View
                         style={{
-                          flexDirection: "row",
-                          justifyContent: "space-between"
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
                         }}
                       >
-                        <Text style={{ fontSize: 17, color: "#333" }}>
-                          Subscribers
+                        <Text style={{ fontSize: 17, color: '#333' }}>
+Subscribers
                         </Text>
                         {this.getSubscriptionButton()}
                       </View>
@@ -271,40 +257,38 @@ class ChannelDetailScreen extends React.Component {
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
 
-            {!this.state.loading &&
-              this.checkSubscription() && (
+            {!this.state.loading
+              && this.checkSubscription() && (
                 <FlatList
                   extraData={this.state}
                   data={this.state.channel.posts}
                   renderItem={data => (
-                    <Post
-                      {...this.props}
-                      post={data.item}
-                      channel={this.state.channel}
-                    />
+                    <Post {...this.props} post={data.item} channel={this.state.channel} />
                   )}
                   keyExtractor={(item, index) => index.toString()}
                 />
-              )}
+            )}
 
-            {!this.state.loading &&
-              !this.checkSubscription() && (
+            {!this.state.loading
+              && !this.checkSubscription() && (
                 <View
                   style={{
                     flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center"
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                 >
-                  <Text>Please, Subscribe to access</Text>
+                  <Text>
+Please, Subscribe to access
+                  </Text>
                 </View>
-              )}
+            )}
           </Tab>
         </Tabs>
       </Container>
@@ -317,26 +301,26 @@ class ChannelDetailScreen extends React.Component {
     return (
       <ListItem
         avatar
-        onPress={() =>
-          this.props.navigation.navigate("UserDetailScreen", {
-            user_id: channel_subscription.subscriber.id
-          })
+        onPress={() => this.props.navigation.navigate('UserDetailScreen', {
+          user_id: channel_subscription.subscriber.id,
+        })
         }
       >
         <Left>
           <Thumbnail
             small
             source={{
-              uri: `${httpUrl}/images/${
-                channel_subscription.subscriber.avatar
-              }`
+              uri: `${httpUrl}/images/${channel_subscription.subscriber.avatar}`,
             }}
           />
         </Left>
         <Body style={{ borderBottomWidth: 0 }}>
-          <Text>{channel_subscription.subscriber.name}</Text>
+          <Text>
+            {channel_subscription.subscriber.name}
+          </Text>
           <Text note>
-            {channel_subscription.subscriber.city},{" "}
+            {channel_subscription.subscriber.city}
+,
             {channel_subscription.subscriber.state}
           </Text>
         </Body>
@@ -344,12 +328,12 @@ class ChannelDetailScreen extends React.Component {
           <View>
             <View>
               <Text note>
-                {moment(channel_subscription.createdAt).format("d MMMM, YYYY")}
+                {moment(channel_subscription.createdAt).format('d MMMM, YYYY')}
               </Text>
             </View>
             <View>
               <Text note>
-                {moment(channel_subscription.createdAt).format("hh:mm A")}
+                {moment(channel_subscription.createdAt).format('hh:mm A')}
               </Text>
             </View>
           </View>
@@ -360,8 +344,7 @@ class ChannelDetailScreen extends React.Component {
 
   checkSubscription() {
     return this.state.channel_subscriptions.filter(
-      channel_subscription =>
-        channel_subscription.subscriber.id == this.state.authUser.id
+      channel_subscription => channel_subscription.subscriber.id == this.state.authUser.id,
     )[0];
   }
 
@@ -374,96 +357,104 @@ class ChannelDetailScreen extends React.Component {
       <Button
         iconLeft
         small
-        style={{ backgroundColor: subscription ? "green" : "gray" }}
+        style={{ backgroundColor: subscription ? 'green' : 'gray' }}
         disabled={isOwner || isProcessing}
-        onPress={() =>
-          subscription
-            ? this.unsubscribeChannel(this.state.channel, subscription)
-            : this.subscribeChannel(this.state.channel, subscription)
+        onPress={() => (subscription
+          ? this.unsubscribeChannel(this.state.channel, subscription)
+          : this.subscribeChannel(this.state.channel, subscription))
         }
       >
-        <Icon type="MaterialIcons" name={subscription ? "check" : "add"} />
+        <Icon type="MaterialIcons" name={subscription ? 'check' : 'add'} />
         {isOwner ? (
-          <Text>owner</Text>
+          <Text>
+owner
+          </Text>
         ) : (
-          <Text>{subscription ? "subscribed" : "subscribe"}</Text>
+          <Text>
+            {subscription ? 'subscribed' : 'subscribe'}
+          </Text>
         )}
       </Button>
     );
   }
 
   async selectChannelImage() {
-    if (this.state.channel.owner.id != this.state.authUser.id) return;
+    const { channel, authUser } = this.state;
+    const { uploadChannelPictureMutation } = this.props;
 
-    var options = {
-      title: "Select Avatar",
+    if (channel.owner.id !== authUser.id) return;
+
+    const options = {
+      title: 'Select Avatar',
       storageOptions: {
         skipBackup: true,
-        path: "images"
-      }
+        path: 'images',
+      },
     };
 
-    ImagePicker.showImagePicker(options, response => {
+    console.log('', ImagePicker);
+
+    ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) return;
 
       const file = new ReactNativeFile({
         uri: response.uri,
-        type:
-          response.fileName.split(".").pop() == "jpg"
-            ? "image/jpeg"
-            : "image/png",
-        name: response.fileName
+        type: response.fileName.split('.').pop() === 'jpg' ? 'image/jpeg' : 'image/png',
+        name: response.fileName,
       });
 
-      this.props.uploadChannelPictureMutation({
+      uploadChannelPictureMutation({
         variables: {
           image: file,
-          channel_id: this.state.channel.id
+          channel_id: channel.id,
         },
         refetchQueries: [
           {
             query: GET_CHANNEL_BY_ID,
             variables: {
-              channel_id: this.state.channel.id
-            }
-          }
-        ]
+              channel_id: channel.id,
+            },
+          },
+        ],
       });
-    });
+    })
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
   }
 
   async unsubscribeChannel(channel, subscription) {
+    const { unsubscribeFromChannelMutation } = this.props;
+
     this.setState({
       subscription_status: {
         processing: true,
-        type: "unsubscribe",
-        subscription_id: subscription.id
-      }
+        type: 'unsubscribe',
+        subscription_id: subscription.id,
+      },
     });
 
-    this.props
-      .unsubscribeFromChannelMutation({
-        variables: { subscription_id: subscription.id },
-        refetchQueries: [
-          {
-            query: GET_CHANNEL_SUBSCRIPTIONS_QUERY,
-            variables: {
-              channel_id: channel.id
-            }
+    unsubscribeFromChannelMutation({
+      variables: { subscription_id: subscription.id },
+      refetchQueries: [
+        {
+          query: GET_CHANNEL_SUBSCRIPTIONS_QUERY,
+          variables: {
+            channel_id: channel.id,
           },
-          {
-            query: GET_AUTH_USER_SUBSCRIPTIONS_QUERY
-          }
-        ]
-      })
-      .then(data => {
+        },
+        {
+          query: GET_AUTH_USER_SUBSCRIPTIONS_QUERY,
+        },
+      ],
+    })
+      .then(() => {
         this.setState({
           subscription_status: {
-            processing: false
-          }
+            processing: false,
+          },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -472,9 +463,9 @@ class ChannelDetailScreen extends React.Component {
     this.setState({
       subscription_status: {
         processing: true,
-        type: "subscribe",
-        channel_id: channel.id
-      }
+        type: 'subscribe',
+        channel_id: channel.id,
+      },
     });
 
     this.props
@@ -482,28 +473,28 @@ class ChannelDetailScreen extends React.Component {
         variables: {
           channel_id: channel.id,
           subscriber_id: this.state.authUser.id,
-          status: "active"
+          status: 'active',
         },
         refetchQueries: [
           {
             query: GET_CHANNEL_SUBSCRIPTIONS_QUERY,
             variables: {
-              channel_id: channel.id
-            }
+              channel_id: channel.id,
+            },
           },
           {
-            query: GET_AUTH_USER_SUBSCRIPTIONS_QUERY
-          }
-        ]
+            query: GET_AUTH_USER_SUBSCRIPTIONS_QUERY,
+          },
+        ],
       })
-      .then(data => {
+      .then((data) => {
         this.setState({
           subscription_status: {
-            processing: false
-          }
+            processing: false,
+          },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -512,78 +503,74 @@ class ChannelDetailScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.background.secondary
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.background.secondary,
   },
 
   cancelIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 26
+    color: 'white',
+    fontSize: 26,
   },
 
   editIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 22
+    color: 'white',
+    fontSize: 22,
   },
 
   chatIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 22
+    color: 'white',
+    fontSize: 22,
   },
 
   tabs: {
-    backgroundColor: theme.background.primary
+    backgroundColor: theme.background.primary,
   },
 
   activeTabs: {
-    backgroundColor: theme.background.primary
+    backgroundColor: theme.background.primary,
   },
 
   text: {
-    color: "white",
-    fontWeight: "normal"
+    color: 'white',
+    fontWeight: 'normal',
   },
 
   activeText: {
-    color: "white",
-    fontWeight: "bold"
-  }
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
 
 export default compose(
   withApollo,
-  graphql(GET_AUTH_USERS_QUERY, { name: "getAuthUser" }),
+  graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
   graphql(GET_CHANNEL_BY_ID, {
-    name: "getChannelById",
-    options: props => {
-      return {
-        variables: {
-          channel_id: props.navigation.state.params.channel_id
-        }
-      };
-    }
+    name: 'getChannelById',
+    options: props => ({
+      variables: {
+        channel_id: props.navigation.state.params.channel_id,
+      },
+    }),
   }),
   graphql(GET_CHANNEL_SUBSCRIPTIONS_QUERY, {
-    name: "getChannelSubscriptionsQuery",
-    options: props => {
-      return {
-        variables: {
-          channel_id: props.navigation.state.params.channel_id
-        }
-      };
-    }
+    name: 'getChannelSubscriptionsQuery',
+    options: props => ({
+      variables: {
+        channel_id: props.navigation.state.params.channel_id,
+      },
+    }),
   }),
   graphql(SUBSCRIBE_TO_CHANNEL_MUTATION, {
-    name: "subscribeToChannelMutation"
+    name: 'subscribeToChannelMutation',
   }),
   graphql(UNSUBSCRIBE_FROM_CHANNEL_MUTATION, {
-    name: "unsubscribeFromChannelMutation"
+    name: 'unsubscribeFromChannelMutation',
   }),
   graphql(UPLOAD_CHANNEL_PICTURE_MUTATION, {
-    name: "uploadChannelPictureMutation"
-  })
+    name: 'uploadChannelPictureMutation',
+  }),
 )(ChannelDetailScreen);
