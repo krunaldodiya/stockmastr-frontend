@@ -1,21 +1,13 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import {
-  View,
-  Text,
-  Container,
-  Header,
-  Left,
-  Icon,
-  Body,
-  Right,
-  Spinner
-} from "native-base";
+  View, Text, Container, Header, Left, Icon, Body, Right, Spinner,
+} from 'native-base';
 
-import theme from "../../libs/theme";
+import { compose, graphql } from 'react-apollo';
+import theme from '../../libs/theme';
 
-import { compose, graphql } from "react-apollo";
-import { GET_POST_BY_ID, GET_AUTH_USERS_QUERY } from "../../graphql";
+import { GET_POST_BY_ID, GET_AUTH_USERS_QUERY } from '../../graphql';
 
 class PostDetailScreen extends React.Component {
   constructor(props) {
@@ -24,7 +16,7 @@ class PostDetailScreen extends React.Component {
     this.state = {
       authUser: null,
       post: null,
-      loading: true
+      loading: true,
     };
   }
 
@@ -38,11 +30,11 @@ class PostDetailScreen extends React.Component {
 
   async init(props) {
     const loading = props.getAuthUser.loading || props.getPostById.loading;
-    
+
     this.setState({
       authUser: props.getAuthUser.user,
       post: props.getPostById.post,
-      loading
+      loading,
     });
   }
 
@@ -60,8 +52,12 @@ class PostDetailScreen extends React.Component {
           </Left>
           <Body>
             {this.state.post && (
-              <Text style={{ color: "white" }} numberOfLines={1}>
-                {this.state.post.stock_symbol} ({this.state.post.stock_exchange})
+              <Text style={{ color: 'white' }} numberOfLines={1}>
+                {this.state.post.stock_symbol}
+                {' '}
+(
+                {this.state.post.stock_exchange}
+)
               </Text>
             )}
           </Body>
@@ -70,12 +66,11 @@ class PostDetailScreen extends React.Component {
               type="Ionicons"
               name="md-chatbubbles"
               style={styles.chatIcon}
-              onPress={() =>
-                this.props.navigation.navigate("CommentScreen", {
-                  authUser: this.state.authUser,
-                  channel: this.state.post.channel,
-                  post: this.state.post
-                })
+              onPress={() => this.props.navigation.navigate('CommentScreen', {
+                authUser: this.state.authUser,
+                channel: this.state.post.channel,
+                post: this.state.post,
+              })
               }
             />
           </Right>
@@ -86,30 +81,40 @@ class PostDetailScreen extends React.Component {
               color="#000"
               style={{
                 flex: 1,
-                justifyContent: "center",
-                alignItems: "center"
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             />
           )}
 
           {!this.state.loading && (
             <View>
-              <Text style={{ marginBottom: 5, alignContent: "center" }}>
-                <Text style={{ fontWeight: "bold" }}>
+              <Text style={{ marginBottom: 5, alignContent: 'center' }}>
+                <Text style={{ fontWeight: 'bold' }}>
                   {this.state.post.stock_name}
                 </Text>
-                <Text
-                  style={{ padding: 10, fontSize: 12, fontWeight: "normal" }}
-                >
-                  &nbsp;({this.state.post.stock_exchange})
+                <Text style={{ padding: 10, fontSize: 12, fontWeight: 'normal' }}>
+                  &nbsp;(
+                  {this.state.post.stock_exchange}
+)
                 </Text>
               </Text>
-              <Text note style={{ marginBottom: 3, color: "#333" }}>
-                {this.state.post.signal.toUpperCase()}:{" "}
-                {this.state.post.trigger} | SL: {this.state.post.stoploss} |
-                TRGT: {this.state.post.target}
+              <Text note style={{ marginBottom: 3, color: '#333' }}>
+                {this.state.post.signal.toUpperCase()}
+:
+                {this.state.post.trigger}
+                {' '}
+| SL:
+                {' '}
+                {this.state.post.stoploss}
+                {' '}
+| TRGT:
+                {this.state.post.target}
               </Text>
-              <Text note># {this.state.post.channel.title}</Text>
+              <Text note>
+#
+                {this.state.post.channel.title}
+              </Text>
             </View>
           )}
         </View>
@@ -121,44 +126,42 @@ class PostDetailScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.background.secondary
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.background.secondary,
   },
 
   cancelIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 26
+    color: 'white',
+    fontSize: 26,
   },
 
   text: {
-    color: "black"
+    color: 'black',
   },
 
   stock_name: {
-    color: "black",
+    color: 'black',
     fontSize: 22,
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   chatIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 22
-  }
+    color: 'white',
+    fontSize: 22,
+  },
 });
 
 export default compose(
-  graphql(GET_AUTH_USERS_QUERY, { name: "getAuthUser" }),
+  graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
   graphql(GET_POST_BY_ID, {
-    name: "getPostById",
-    options: props => {
-      return {
-        variables: {
-          post_id: props.navigation.state.params.post_id
-        }
-      };
-    }
-  })
+    name: 'getPostById',
+    options: props => ({
+      variables: {
+        post_id: props.navigation.state.params.post_id,
+      },
+    }),
+  }),
 )(PostDetailScreen);

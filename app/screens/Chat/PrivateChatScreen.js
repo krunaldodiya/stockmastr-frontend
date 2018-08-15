@@ -1,47 +1,48 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { View } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
+import { View } from 'native-base';
 
 // component
-import PrivateChat from "../../components/Chat/PrivateChat";
+import PrivateChat from '../../components/Chat/PrivateChat';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default class PrivateChatScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      channel: null,
       authUser: null,
       guestUser: null,
-      loading: true
     };
   }
 
   componentWillMount() {
-    const { params } = this.props.navigation.state;
+    const { navigation } = this.props;
 
     this.setState({
-      authUser: params.authUser,
-      guestUser: params.guestUser,
-      loading: false
+      authUser: navigation.state.params.authUser,
+      guestUser: navigation.state.params.guestUser,
     });
   }
 
   render() {
+    const { guestUser, authUser } = this.state;
+
     return (
       <View style={styles.container}>
-        <PrivateChat
-          {...this.props}
-          authUser={this.state.authUser}
-          guestUser={this.state.guestUser}
-        />
+        <PrivateChat {...this.props} authUser={authUser} guestUser={guestUser} />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+PrivateChatScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};

@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
 import {
   View,
   Text,
@@ -22,7 +24,25 @@ import { UPDATE_USER_MUTATION, GET_AUTH_USERS_QUERY } from '../../graphql';
 // libs
 import theme from '../../libs/theme';
 
+const styles = StyleSheet.create({
+  cancelIcon: {
+    padding: 10,
+    color: 'white',
+    fontSize: 26,
+  },
+
+  checkIcon: {
+    padding: 10,
+    color: 'white',
+    fontSize: 26,
+  },
+});
+
 class ManageProfileScreen extends React.Component {
+  static navigationOptions = {
+    header: null,
+  };
+
   constructor(props) {
     super(props);
 
@@ -32,16 +52,49 @@ class ManageProfileScreen extends React.Component {
     };
   }
 
-  static navigationOptions = {
-    header: null,
-  };
-
   async componentWillMount() {
     const { getAuthUser } = this.props;
     this.setState({ authUser: getAuthUser.user, loading: false });
   }
 
+  updateData(key, value) {
+    const { authUser } = this.state;
+    this.setState({ authUser: { ...authUser, [key]: value } });
+  }
+
+  async updateProfile() {
+    this.setState({ loading: true });
+
+    const { authUser } = this.state;
+    const { navigation, updateUserMutation } = this.props;
+    const { type } = navigation.state.params;
+    const {
+      mobile, name, city, state, gender,
+    } = authUser;
+
+    updateUserMutation({
+      variables: {
+        id: authUser.id,
+        mobile,
+        name,
+        state,
+        city,
+        gender,
+      },
+    })
+      .then(
+        () => (type === 'replace' ? navigation.replace('HomeScreen') : navigation.navigate('HomeScreen')),
+      )
+      .catch((error) => {
+        console.log(error);
+        this.setState({ loading: false });
+      });
+  }
+
   render() {
+    const { navigation } = this.props;
+    const { loading, authUser } = this.state;
+
     return (
       <Container>
         <Header style={{ backgroundColor: theme.background.primary }}>
@@ -50,7 +103,7 @@ class ManageProfileScreen extends React.Component {
               type="MaterialIcons"
               name="arrow-back"
               style={styles.cancelIcon}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => navigation.goBack()}
             />
           </Left>
           <Body>
@@ -75,7 +128,7 @@ CREATE PROFILE
             padding: 10,
           }}
         >
-          {this.state.loading && (
+          {loading && (
             <Spinner
               color="#000"
               style={{
@@ -86,7 +139,7 @@ CREATE PROFILE
             />
           )}
 
-          {!this.state.loading && (
+          {!loading && (
             <View>
               <Item
                 style={{
@@ -107,7 +160,7 @@ CREATE PROFILE
                   }}
                   onChangeText={name => this.updateData('name', name)}
                   underlineColorAndroid="transparent"
-                  value={this.state.authUser.name}
+                  value={authUser.name}
                   placeholder="Full Name"
                   returnKeyType="next"
                 />
@@ -131,7 +184,7 @@ CREATE PROFILE
                       borderBottomRightRadius: 0,
                       backgroundColor: 'white',
                     },
-                    this.state.authUser.gender === 'male' && {
+                    authUser.gender === 'male' && {
                       backgroundColor: theme.background.primary,
                     },
                   ]}
@@ -140,15 +193,13 @@ CREATE PROFILE
                   <Text
                     style={[
                       { fontSize: 14, color: 'black' },
-                      this.state.authUser.gender === 'male' && { color: 'white' },
+                      authUser.gender === 'male' && { color: 'white' },
                     ]}
                   >
                     Male
                   </Text>
 
-                  {this.state.authUser.gender === 'male' && (
-                    <Icon type="Ionicons" name="ios-checkmark" />
-                  )}
+                  {authUser.gender === 'male' && <Icon type="Ionicons" name="ios-checkmark" />}
                 </Button>
                 <Button
                   style={[
@@ -160,7 +211,7 @@ CREATE PROFILE
                       borderBottomRightRadius: 20,
                       backgroundColor: 'white',
                     },
-                    this.state.authUser.gender === 'female' && {
+                    authUser.gender === 'female' && {
                       backgroundColor: theme.background.primary,
                     },
                   ]}
@@ -169,7 +220,7 @@ CREATE PROFILE
                   <Text
                     style={[
                       { fontSize: 14, color: 'black' },
-                      this.state.authUser.gender === 'female' && {
+                      authUser.gender === 'female' && {
                         color: 'white',
                       },
                     ]}
@@ -177,9 +228,7 @@ CREATE PROFILE
                     Female
                   </Text>
 
-                  {this.state.authUser.gender === 'female' && (
-                    <Icon type="Ionicons" name="ios-checkmark" />
-                  )}
+                  {authUser.gender === 'female' && <Icon type="Ionicons" name="ios-checkmark" />}
                 </Button>
               </Item>
 
@@ -202,7 +251,7 @@ CREATE PROFILE
                   }}
                   onChangeText={state => this.updateData('state', state)}
                   underlineColorAndroid="transparent"
-                  value={this.state.authUser.state}
+                  value={authUser.state}
                   placeholder="State"
                   returnKeyType="next"
                 />
@@ -227,7 +276,7 @@ CREATE PROFILE
                   }}
                   onChangeText={city => this.updateData('city', city)}
                   underlineColorAndroid="transparent"
-                  value={this.state.authUser.city}
+                  value={authUser.city}
                   placeholder="City"
                   returnKeyType="next"
                 />
@@ -238,56 +287,11 @@ CREATE PROFILE
       </Container>
     );
   }
-
-  updateData(key, value) {
-    const authUser = { ...this.state.authUser, [key]: value };
-    this.setState({ authUser });
-  }
-
-  async updateProfile() {
-    this.setState({ loading: true });
-
-    const { navigation, updateUserMutation } = this.props;
-    const { type } = navigation.state.params;
-    const {
-      mobile, name, city, state, gender,
-    } = this.state.authUser;
-
-    updateUserMutation({
-      variables: {
-        id: this.state.authUser.id,
-        mobile,
-        name,
-        state,
-        city,
-        gender,
-      },
-    })
-      .then(() => {
-        type === 'replace'
-          ? this.props.navigation.replace('HomeScreen')
-          : this.props.navigation.navigate('HomeScreen');
-      })
-      .catch((error) => {
-        console.log(error);
-        this.setState({ loading: false });
-      });
-  }
 }
 
-const styles = StyleSheet.create({
-  cancelIcon: {
-    padding: 10,
-    color: 'white',
-    fontSize: 26,
-  },
-
-  checkIcon: {
-    padding: 10,
-    color: 'white',
-    fontSize: 26,
-  },
-});
+ManageProfileScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
 
 export default compose(
   graphql(UPDATE_USER_MUTATION, { name: 'updateUserMutation' }),

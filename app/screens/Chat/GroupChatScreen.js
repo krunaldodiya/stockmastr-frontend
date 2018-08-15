@@ -1,9 +1,17 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Text, Spinner } from "native-base";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
+import { View, Text, Spinner } from 'native-base';
 
 // component
-import GroupChat from "../../components/Chat/GroupChat";
+import GroupChat from '../../components/Chat/GroupChat';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default class GroupChatScreen extends React.Component {
   constructor(props) {
@@ -12,83 +20,77 @@ export default class GroupChatScreen extends React.Component {
     this.state = {
       channel: null,
       authUser: null,
-      guestUser: null,
       isSubscribed: null,
-      loading: true
     };
   }
 
   componentWillMount() {
-    const { params } = this.props.navigation.state;
+    const { navigation } = this.props;
 
     const isSubscribed = this.checkSubscription(
-      params.channel_subscriptions,
-      params.authUser
+      navigation.state.params.channel_subscriptions,
+      navigation.state.params.authUser,
     );
 
     this.setState({
-      isSubscribed: isSubscribed ? true : false,
-      channel: params.channel,
-      authUser: params.authUser,
-      loading: false
+      isSubscribed: !!isSubscribed,
+      channel: navigation.state.params.channel,
+      authUser: navigation.state.params.authUser,
     });
   }
 
-  checkSubscription(channel_subscriptions, authUser) {
-    return channel_subscriptions.filter(
-      channel_subscription => channel_subscription.subscriber.id == authUser.id
-    )[0];
-  }
+  checkSubscription = (channelSubscriptions, authUser) => {
+    const data = channelSubscriptions.filter(
+      channelSubscription => channelSubscription.subscriber.id ==== authUser.id,
+    );
+
+    return data[0];
+  };
 
   render() {
+    const {
+      loading, channel, isSubscribed, authUser,
+    } = this.state;
+    const { navigation } = this.props;
+
     return (
       <View style={styles.container}>
-        {this.state.loading && (
+        {loading && (
           <Spinner
             color="#000"
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           />
         )}
 
-        {!this.state.loading && (
+        {!loading && (
           <View style={{ flex: 1 }}>
-            {this.state.channel.type == "paid" &&
-              this.state.isSubscribed && (
-                <GroupChat
-                  {...this.props}
-                  channel={this.state.channel}
-                  authUser={this.state.authUser}
-                />
-              )}
+            {channel.type === 'paid'
+              && isSubscribed && <GroupChat {...this.props} channel={channel} authUser={authUser} />}
 
-            {this.state.channel.type == "free" && (
-              <GroupChat
-                {...this.props}
-                channel={this.state.channel}
-                authUser={this.state.authUser}
-              />
+            {channel.type === 'free' && (
+              <GroupChat {...this.props} channel={channel} authUser={authUser} />
             )}
 
-            {this.state.channel.type == "paid" &&
-              !this.state.isSubscribed && (
+            {channel.type === 'paid'
+              && !isSubscribed && (
                 <View
                   style={{
                     flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center"
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  <Text style={{ color: "black" }}>
-                    Please, Subscribe to start chat.
+                  <Text style={{ color: 'black' }}>
+Please, Subscribe to start chat.
                   </Text>
                   <Text
-                    style={{ color: "blue", marginTop: 10 }}
-                    onPress={() => this.props.navigation.goBack()}
+                    style={{ color: 'blue', marginTop: 10 }}
+                    onPress={() => navigation.goBack()}
                   >
                     Go Back
                   </Text>
                 </View>
-              )}
+            )}
           </View>
         )}
       </View>
@@ -96,8 +98,6 @@ export default class GroupChatScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+GroupChatScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
