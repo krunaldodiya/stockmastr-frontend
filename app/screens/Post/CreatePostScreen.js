@@ -2,6 +2,8 @@ import React from 'react';
 import {
   StyleSheet, Alert, TouchableOpacity, Platform,
 } from 'react-native';
+import PropTypes from 'prop-types';
+
 import {
   Text,
   Input,
@@ -94,21 +96,22 @@ class CreatePostScreen extends React.Component {
     this.setState({ post });
   };
 
-  setSelectedChannel = (channel_id) => {
-    const state = this.state.post;
-    const channel = this.state.channels.filter(channel => channel.id == channel_id)[0];
+  setSelectedChannel = (channelId) => {
+    const { post } = this.state;
+    const channel = post.channels.filter(postChannel => postChannel.id === channelId)[0];
 
-    state.channel_id = channel.id;
-    state.segment = channel.segment;
-    state.stock_exchange = 'NSE';
+    post.channel_id = channel.id;
+    post.segment = channel.segment;
+    post.stock_exchange = 'NSE';
 
-    this.setState({ state });
+    this.setState({ post });
   };
 
   getSymbols = (text) => {
+    const { post } = this.state;
     const url = `https://symbol-search.tradingview.com/symbol_search/?text=${text}&type=${
-      this.state.post.segment
-    }&exchange=${this.state.post.stock_exchange}&hl=false&lang=en&domain=production`;
+      post.segment
+    }&exchange=${post.stock_exchange}&hl=false&lang=en&domain=production`;
 
     axios
       .get(url, { headers: { Origin: 'https://in.tradingview.com' } })
@@ -116,7 +119,7 @@ class CreatePostScreen extends React.Component {
         this.setState({ stocks: data });
       })
       .catch((e) => {
-        console.log(e);
+        Alert.alert(e);
       });
   };
 
@@ -145,47 +148,50 @@ class CreatePostScreen extends React.Component {
   };
 
   updateData = (key, value) => {
-    const state = this.state.post;
-    state[key] = value;
+    const { post } = this.state;
+    post[key] = value;
 
-    this.setState({ state });
+    this.setState({ post });
   };
 
   addChannel = () => {
-    if (!this.state.post.channel_id) {
-      return alert('Channel is required');
+    const { post, authUser } = this.state;
+    const { navigation, createPostMutation } = this.props;
+
+    if (!post.channel_id) {
+      return Alert.alert('Channel is required');
     }
 
-    if (!this.state.post.stock_name) {
-      return alert('Stock is required');
+    if (!post.stock_name) {
+      return Alert.alert('Stock is required');
     }
 
-    if (!this.state.post.target) {
-      return alert('Target is required');
+    if (!post.target) {
+      return Alert.alert('Target is required');
     }
 
-    if (!this.state.post.stoploss) {
-      return alert('Stoploss is required');
+    if (!post.stoploss) {
+      return Alert.alert('Stoploss is required');
     }
 
     this.setState({ loading: true });
 
     const postData = {
-      channel_id: this.state.post.channel_id,
-      user_id: this.state.authUser.id,
-      description: this.state.post.description,
-      signal: this.state.post.signal,
-      trigger: parseFloat(this.state.post.trigger),
-      stoploss: parseFloat(this.state.post.stoploss),
-      target: parseFloat(this.state.post.target),
-      segment: this.state.post.segment,
-      stock_exchange: this.state.post.stock_exchange,
-      stock_symbol: this.state.post.stock_symbol,
-      stock_name: this.state.post.stock_name,
-      status: this.state.post.status,
+      channel_id: post.channel_id,
+      user_id: authUser.id,
+      description: post.description,
+      signal: post.signal,
+      trigger: parseFloat(post.trigger),
+      stoploss: parseFloat(post.stoploss),
+      target: parseFloat(post.target),
+      segment: post.segment,
+      stock_exchange: post.stock_exchange,
+      stock_symbol: post.stock_symbol,
+      stock_name: post.stock_name,
+      status: post.status,
     };
 
-    const addPost = this.props.createPostMutation({
+    const addPost = createPostMutation({
       variables: postData,
       refetchQueries: [
         {
@@ -194,14 +200,19 @@ class CreatePostScreen extends React.Component {
       ],
     });
 
-    addPost.then(() => {
-      this.props.navigation.replace('PostDetailScreen', {
+    return addPost.then(() => {
+      navigation.replace('PostDetailScreen', {
         post_id: addPost.data.createPost.id,
       });
     });
   };
 
   render() {
+    const { navigation } = this.props;
+    const {
+      loading, post, stocks, channels,
+    } = this.state;
+
     return (
       <Container>
         <Header style={{ backgroundColor: theme.background.primary }}>
@@ -210,7 +221,7 @@ class CreatePostScreen extends React.Component {
               type="MaterialIcons"
               name="arrow-back"
               style={styles.cancelIcon}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => navigation.goBack()}
             />
           </Left>
           <Body>
@@ -228,14 +239,14 @@ PLACE CALL
           </Right>
         </Header>
 
-        {this.state.loading && (
+        {loading && (
           <Spinner
             color="#000"
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           />
         )}
 
-        {!this.state.loading && (
+        {!loading && (
           <Content
             style={{
               flex: 1,
@@ -255,22 +266,22 @@ PLACE CALL
             >
               <Picker
                 placeholder="Select a Channel"
-                selectedValue={this.state.post.channel_id}
-                onValueChange={channel_id => this.setSelectedChannel(channel_id)}
+                selectedValue={post.channel_id}
+                onValueChange={channelId => this.setSelectedChannel(channelId)}
                 textStyle={{ color: '#6a6a6a' }}
               >
                 <Picker.Item label="Select a Channel" value={null} />
-                {this.state.channels.map((channel, index) => (
+                {channels.map((channel, index) => (
                   <Picker.Item
                     label={`${channel.title}(${channel.segment})`}
                     value={channel.id}
-                    key={index}
+                    key={index.toString()}
                   />
                 ))}
               </Picker>
             </Item>
 
-            {this.state.post.channel_id && (
+            {post.channel_id && (
               <Item style={{ borderBottomWidth: 0, marginBottom: 5, marginLeft: 0 }}>
                 <Button
                   style={[
@@ -281,7 +292,7 @@ PLACE CALL
                       borderTopRightRadius: 0,
                       borderBottomRightRadius: 0,
                     },
-                    this.state.post.stock_exchange == 'NSE' && {
+                    post.stock_exchange === 'NSE' && {
                       backgroundColor: 'aquamarine',
                     },
                   ]}
@@ -290,7 +301,7 @@ PLACE CALL
                   <Text
                     style={[
                       { fontSize: 14, color: 'white' },
-                      this.state.post.stock_exchange == 'NSE' && {
+                      post.stock_exchange === 'NSE' && {
                         color: 'black',
                       },
                     ]}
@@ -307,7 +318,7 @@ PLACE CALL
                       borderTopRightRadius: 20,
                       borderBottomRightRadius: 20,
                     },
-                    this.state.post.stock_exchange == 'BSE' && {
+                    post.stock_exchange === 'BSE' && {
                       backgroundColor: 'aquamarine',
                     },
                   ]}
@@ -316,7 +327,7 @@ PLACE CALL
                   <Text
                     style={[
                       { fontSize: 14, color: 'white' },
-                      this.state.post.stock_exchange == 'BSE' && {
+                      post.stock_exchange === 'BSE' && {
                         color: 'black',
                       },
                     ]}
@@ -327,7 +338,7 @@ PLACE CALL
               </Item>
             )}
 
-            {this.state.post.stock_exchange && (
+            {post.stock_exchange && (
               <Autocomplete
                 underlineColorAndroid="transparent"
                 style={{
@@ -337,11 +348,11 @@ PLACE CALL
                   padding: 10,
                   margin: 0,
                 }}
-                hideResults={!this.state.stocks.length}
+                hideResults={!stocks.length}
                 placeholder="Select a Stock"
                 autoCorrect={false}
-                data={this.state.stocks}
-                defaultValue={this.state.post.stock_name}
+                data={stocks}
+                defaultValue={post.stock_name}
                 onChangeText={text => this.getSymbols(text)}
                 renderItem={item => (
                   <TouchableOpacity onPress={() => this.setSelectedStock(item)}>
@@ -353,7 +364,7 @@ PLACE CALL
               />
             )}
 
-            {this.state.post.stock_name && (
+            {post.stock_name && (
               <Item
                 style={{
                   borderBottomWidth: 0,
@@ -371,7 +382,7 @@ PLACE CALL
                       borderTopRightRadius: 0,
                       borderBottomRightRadius: 0,
                     },
-                    this.state.post.signal == 'buy' && {
+                    post.signal === 'buy' && {
                       backgroundColor: 'aquamarine',
                     },
                   ]}
@@ -380,7 +391,7 @@ PLACE CALL
                   <Text
                     style={[
                       { fontSize: 14, color: 'white' },
-                      this.state.post.signal == 'buy' && { color: 'black' },
+                      post.signal === 'buy' && { color: 'black' },
                     ]}
                   >
                     BUY
@@ -395,7 +406,7 @@ PLACE CALL
                       borderTopRightRadius: 20,
                       borderBottomRightRadius: 20,
                     },
-                    this.state.post.signal == 'sell' && {
+                    post.signal === 'sell' && {
                       backgroundColor: 'aquamarine',
                     },
                   ]}
@@ -404,7 +415,7 @@ PLACE CALL
                   <Text
                     style={[
                       { fontSize: 14, color: 'white' },
-                      this.state.post.signal == 'sell' && { color: 'black' },
+                      post.signal === 'sell' && { color: 'black' },
                     ]}
                   >
                     SELL
@@ -413,7 +424,7 @@ PLACE CALL
               </Item>
             )}
 
-            {this.state.post.stock_name && (
+            {post.stock_name && (
               <Item
                 style={{
                   width: '100%',
@@ -433,15 +444,15 @@ PLACE CALL
                   }}
                   onChangeText={trigger => this.updateData('trigger', trigger)}
                   underlineColorAndroid="transparent"
-                  value={this.state.post.trigger}
+                  value={post.trigger}
                   keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'phone-pad'}
-                  placeholder={this.state.post.signal == 'buy' ? 'Buying Price' : 'Selling Price'}
+                  placeholder={post.signal === 'buy' ? 'Buying Price' : 'Selling Price'}
                   returnKeyType="next"
                 />
               </Item>
             )}
 
-            {this.state.post.stock_name && (
+            {post.stock_name && (
               <Item
                 style={{
                   width: '100%',
@@ -461,7 +472,7 @@ PLACE CALL
                   }}
                   onChangeText={target => this.updateData('target', target)}
                   underlineColorAndroid="transparent"
-                  value={this.state.post.target}
+                  value={post.target}
                   keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'phone-pad'}
                   placeholder="Target"
                   returnKeyType="next"
@@ -475,7 +486,7 @@ PLACE CALL
                   }}
                   onChangeText={stoploss => this.updateData('stoploss', stoploss)}
                   underlineColorAndroid="transparent"
-                  value={this.state.post.stoploss}
+                  value={post.stoploss}
                   keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'phone-pad'}
                   placeholder="Stoploss"
                   returnKeyType="next"
@@ -483,7 +494,7 @@ PLACE CALL
               </Item>
             )}
 
-            {this.state.post.stock_name && (
+            {post.stock_name && (
               <Item
                 style={{
                   width: '100%',
@@ -504,7 +515,7 @@ PLACE CALL
                   }}
                   onChangeText={description => this.updateData('description', description)}
                   underlineColorAndroid="transparent"
-                  value={this.state.post.description}
+                  value={post.description}
                   placeholder="Technical/Fundamental Description (optional)"
                   returnKeyType="next"
                 />
@@ -517,6 +528,11 @@ PLACE CALL
   }
 }
 
+CreatePostScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+  createPostMutation: PropTypes.func.isRequired,
+};
+
 export default compose(
   withApollo,
   graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
@@ -525,9 +541,9 @@ export default compose(
   }),
   graphql(GET_AUTH_USER_CHANNELS_QUERY, {
     name: 'getUserChannelsQuery',
-    options: props => ({
+    options: ({ getAuthUser }) => ({
       variables: {
-        user_id: props.getAuthUser.user.id,
+        user_id: getAuthUser.user.id,
       },
     }),
   }),

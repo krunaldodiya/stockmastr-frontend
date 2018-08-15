@@ -1,5 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+
 import {
   View,
   Text,
@@ -14,7 +16,6 @@ import {
   Textarea,
 } from 'native-base';
 
-import axios from 'axios';
 import theme from '../../libs/theme';
 
 const styles = StyleSheet.create({
@@ -47,7 +48,21 @@ export default class EditPostScreen extends React.Component {
     };
   }
 
+  editPost = () => {
+    //
+  };
+
+  updateData = (key, value) => {
+    const { channel } = this.state;
+    channel[key] = value;
+
+    this.setState({ channel });
+  };
+
   render() {
+    const { channel } = this.state;
+    const { navigation } = this.props;
+
     return (
       <Container>
         <Header style={{ backgroundColor: theme.background.primary }}>
@@ -56,7 +71,7 @@ export default class EditPostScreen extends React.Component {
               type="MaterialIcons"
               name="arrow-back"
               style={styles.cancelIcon}
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => navigation.goBack()}
             />
           </Left>
           <Body>
@@ -69,7 +84,7 @@ CREATE A CHANNEL
               type="MaterialIcons"
               name="check"
               style={styles.checkIcon}
-              onPress={() => this.addChannel()}
+              onPress={this.editPost}
             />
           </Right>
         </Header>
@@ -94,7 +109,7 @@ CREATE A CHANNEL
               }}
               onChangeText={title => this.updateData('title', title)}
               underlineColorAndroid="transparent"
-              value={this.state.channel.title}
+              value={channel.title}
               placeholder="Channel Title"
               returnKeyType="next"
             />
@@ -120,7 +135,7 @@ CREATE A CHANNEL
               }}
               onChangeText={description => this.updateData('description', description)}
               underlineColorAndroid="transparent"
-              value={this.state.channel.description}
+              value={channel.description}
               placeholder="Channel Description"
               returnKeyType="next"
             />
@@ -129,29 +144,8 @@ CREATE A CHANNEL
       </Container>
     );
   }
-
-  updateData(key, value) {
-    const state = this.state.channel;
-    state[key] = value;
-
-    this.setState({ state });
-  }
-
-  addChannel() {
-    if (!this.state.channel.title.length || !this.state.channel.description.length) {
-      return alert('Title & Description is required');
-    }
-
-    this.props.dispatchAddChannel();
-
-    axios
-      .post(api.addChannel, this.state.channel, getHeaders(this.props.auth.token))
-      .then(({ data }) => {
-        this.props.dispatchAddChannelSuccess({ channel_subscription: data.channel_subscription });
-        this.props.navigation.goBack();
-      })
-      .catch((e) => {
-        this.props.dispatchAddChannelFail();
-      });
-  }
 }
+
+EditPostScreen.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};

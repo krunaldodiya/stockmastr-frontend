@@ -41,7 +41,7 @@ export default class GroupChatScreen extends React.Component {
 
   checkSubscription = (channelSubscriptions, authUser) => {
     const data = channelSubscriptions.filter(
-      channelSubscription => channelSubscription.subscriber.id ==== authUser.id,
+      channelSubscription => channelSubscription.subscriber.id === authUser.id,
     );
 
     return data[0];
