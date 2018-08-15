@@ -1,9 +1,12 @@
-import React from "react";
-import { FlatList } from "react-native";
-import { View, Text, Fab, Icon, ListItem, Body, Spinner } from "native-base";
+import React from 'react';
+import { FlatList } from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  View, Fab, Icon, Spinner,
+} from 'native-base';
 
-import theme from "../../libs/theme";
-import Post from "../Post";
+import theme from '../../libs/theme';
+import Post from '../Post';
 
 class Feeds extends React.Component {
   constructor(props) {
@@ -11,9 +14,8 @@ class Feeds extends React.Component {
 
     this.state = {
       authUser: null,
-      subscriptions: [],
       posts: [],
-      loading: true
+      loading: true,
     };
   }
 
@@ -26,52 +28,56 @@ class Feeds extends React.Component {
   }
 
   async init(props) {
-    const {
-      getAuthUser,
-      getChannelSubscriptionsQuery,
-      getAuthUsersPostQuery
-    } = props;
+    const { getAuthUser, getAuthUsersPostQuery } = props;
 
     this.setState({
       authUser: getAuthUser.user,
-      subscriptions: getChannelSubscriptionsQuery.getAuthUserSubscriptions,
       posts: getAuthUsersPostQuery.getAuthUserPosts,
-      loading: false
+      loading: false,
     });
   }
 
   render() {
+    const { loading, posts, authUser } = this.state;
+    const { navigation } = this.props;
+
     return (
       <View style={{ flex: 1 }}>
-        {this.state.loading && (
+        {loading && (
           <Spinner
             color="#000"
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           />
         )}
 
-        {!this.state.loading && (
+        {!loading && (
           <FlatList
             extraData={this.state}
-            data={this.state.posts}
-            renderItem={data => <Post {...this.props} post={data.item} channel={data.item.channel} />}
+            data={posts}
+            renderItem={data => (
+              <Post {...this.props} post={data.item} channel={data.item.channel} />
+            )}
             keyExtractor={(item, index) => index.toString()}
           />
         )}
 
-        {!this.state.loading &&
-          this.state.authUser.type == "provider" && (
+        {!loading
+          && authUser.type === 'provider' && (
             <Fab
               style={{ backgroundColor: theme.background.primary }}
-              onPress={() => this.props.navigation.push("CreatePostScreen")}
+              onPress={() => navigation.push('CreatePostScreen')}
               position="bottomRight"
             >
               <Icon type="MaterialIcons" name="add" />
             </Fab>
-          )}
+        )}
       </View>
     );
   }
 }
+
+Feeds.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
 
 export default Feeds;

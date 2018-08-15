@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_CHANNEL_BY_ID = gql`
   query($channel_id: ID!) {

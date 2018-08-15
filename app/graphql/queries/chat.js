@@ -1,49 +1,50 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_MESSAGES_QUERY = gql`
-query ($user_id: ID!) {
-    user(where: {id: $user_id}) {
+  query($user_id: ID!) {
+    user(where: { id: $user_id }) {
+      id
+      mobile
+      email
+      type
+      name
+      gender
+      city
+      state
+      createdAt
+      updatedAt
+      channels {
         id
-        mobile
-        email
-        type
-        name
-        gender
-        city
-        state
+        title
+        description
+        segment
+        owner {
+          id
+          name
+          city
+          state
+        }
         createdAt
-        updatedAt
-        channels {
+      }
+      subscriptions {
+        channel {
+          id
+          title
+          description
+          segment
+          owner {
             id
-            title
-            description
-            segment
-            owner {
-                id
-                name
-                city
-                state
-            }
-            createdAt
+            name
+            city
+            state
+          }
+          createdAt
         }
-        subscriptions {
-            channel {
-                id
-                title
-                description
-                segment
-                owner {
-                    id
-                    name
-                    city
-                    state
-                }
-                createdAt
-            }
-        }
+      }
     }
-}`;
+  }
+`;
 
-export {
-    GET_MESSAGES_QUERY
-}
+const HELLO = 'hello';
+
+export { GET_MESSAGES_QUERY, HELLO };

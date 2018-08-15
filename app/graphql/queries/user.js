@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_USERS_QUERY = gql`
   query {
@@ -87,8 +87,5 @@ const GET_USER_BY_ID = gql`
 `;
 
 export {
-  GET_AUTH_USERS_QUERY,
-  GET_USERS_QUERY,
-  CHECK_USER_EXISTS_QUERY,
-  GET_USER_BY_ID
+  GET_AUTH_USERS_QUERY, GET_USERS_QUERY, CHECK_USER_EXISTS_QUERY, GET_USER_BY_ID,
 };

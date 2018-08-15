@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const GET_POST_BY_ID = gql`
   query($post_id: ID!) {

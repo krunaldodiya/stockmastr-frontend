@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import {
   View,
   Text,
@@ -12,15 +12,15 @@ import {
   Left,
   Body,
   Right,
-  Spinner
-} from "native-base";
+  Spinner,
+} from 'native-base';
 
 // components
-import { compose, graphql } from "react-apollo";
-import { UPDATE_USER_MUTATION, GET_AUTH_USERS_QUERY } from "../../graphql";
+import { compose, graphql } from 'react-apollo';
+import { UPDATE_USER_MUTATION, GET_AUTH_USERS_QUERY } from '../../graphql';
 
 // libs
-import theme from "../../libs/theme";
+import theme from '../../libs/theme';
 
 class ManageProfileScreen extends React.Component {
   constructor(props) {
@@ -28,16 +28,17 @@ class ManageProfileScreen extends React.Component {
 
     this.state = {
       authUser: null,
-      loading: true
+      loading: true,
     };
   }
 
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   async componentWillMount() {
-    this.setState({ authUser: this.props.getAuthUser.user, loading: false });
+    const { getAuthUser } = this.props;
+    this.setState({ authUser: getAuthUser.user, loading: false });
   }
 
   render() {
@@ -53,7 +54,9 @@ class ManageProfileScreen extends React.Component {
             />
           </Left>
           <Body>
-            <Text style={{ color: "white" }}>CREATE PROFILE</Text>
+            <Text style={{ color: 'white' }}>
+CREATE PROFILE
+            </Text>
           </Body>
           <Right>
             <Icon
@@ -69,7 +72,7 @@ class ManageProfileScreen extends React.Component {
           style={{
             flex: 1,
             backgroundColor: theme.background.secondary,
-            padding: 10
+            padding: 10,
           }}
         >
           {this.state.loading && (
@@ -77,8 +80,8 @@ class ManageProfileScreen extends React.Component {
               color="#000"
               style={{
                 flex: 1,
-                justifyContent: "center",
-                alignItems: "center"
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             />
           )}
@@ -87,12 +90,12 @@ class ManageProfileScreen extends React.Component {
             <View>
               <Item
                 style={{
-                  width: "100%",
+                  width: '100%',
                   borderRadius: 50,
                   borderWidth: 1,
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginBottom: 5,
-                  marginLeft: 0
+                  marginLeft: 0,
                 }}
               >
                 <Input
@@ -100,9 +103,9 @@ class ManageProfileScreen extends React.Component {
                     paddingLeft: 20,
                     paddingTop: 0,
                     paddingBottom: 0,
-                    fontSize: 14
+                    fontSize: 14,
                   }}
-                  onChangeText={name => this.updateData("name", name)}
+                  onChangeText={name => this.updateData('name', name)}
                   underlineColorAndroid="transparent"
                   value={this.state.authUser.name}
                   placeholder="Full Name"
@@ -112,10 +115,10 @@ class ManageProfileScreen extends React.Component {
 
               <Item
                 style={{
-                  width: "100%",
+                  width: '100%',
                   borderBottomWidth: 0,
                   marginBottom: 5,
-                  marginLeft: 0
+                  marginLeft: 0,
                 }}
               >
                 <Button
@@ -126,24 +129,24 @@ class ManageProfileScreen extends React.Component {
                       borderBottomLeftRadius: 20,
                       borderTopRightRadius: 0,
                       borderBottomRightRadius: 0,
-                      backgroundColor: "white"
+                      backgroundColor: 'white',
                     },
-                    this.state.authUser.gender == "male" && {
-                      backgroundColor: theme.background.primary
-                    }
+                    this.state.authUser.gender === 'male' && {
+                      backgroundColor: theme.background.primary,
+                    },
                   ]}
-                  onPress={() => this.updateData("gender", "male")}
+                  onPress={() => this.updateData('gender', 'male')}
                 >
                   <Text
                     style={[
-                      { fontSize: 14, color: "black" },
-                      this.state.authUser.gender == "male" && { color: "white" }
+                      { fontSize: 14, color: 'black' },
+                      this.state.authUser.gender === 'male' && { color: 'white' },
                     ]}
                   >
                     Male
                   </Text>
 
-                  {this.state.authUser.gender == "male" && (
+                  {this.state.authUser.gender === 'male' && (
                     <Icon type="Ionicons" name="ios-checkmark" />
                   )}
                 </Button>
@@ -155,26 +158,26 @@ class ManageProfileScreen extends React.Component {
                       borderBottomLeftRadius: 0,
                       borderTopRightRadius: 20,
                       borderBottomRightRadius: 20,
-                      backgroundColor: "white"
+                      backgroundColor: 'white',
                     },
-                    this.state.authUser.gender == "female" && {
-                      backgroundColor: theme.background.primary
-                    }
+                    this.state.authUser.gender === 'female' && {
+                      backgroundColor: theme.background.primary,
+                    },
                   ]}
-                  onPress={() => this.updateData("gender", "female")}
+                  onPress={() => this.updateData('gender', 'female')}
                 >
                   <Text
                     style={[
-                      { fontSize: 14, color: "black" },
-                      this.state.authUser.gender == "female" && {
-                        color: "white"
-                      }
+                      { fontSize: 14, color: 'black' },
+                      this.state.authUser.gender === 'female' && {
+                        color: 'white',
+                      },
                     ]}
                   >
                     Female
                   </Text>
 
-                  {this.state.authUser.gender == "female" && (
+                  {this.state.authUser.gender === 'female' && (
                     <Icon type="Ionicons" name="ios-checkmark" />
                   )}
                 </Button>
@@ -182,12 +185,12 @@ class ManageProfileScreen extends React.Component {
 
               <Item
                 style={{
-                  width: "100%",
+                  width: '100%',
                   borderRadius: 50,
                   borderWidth: 1,
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginBottom: 5,
-                  marginLeft: 0
+                  marginLeft: 0,
                 }}
               >
                 <Input
@@ -195,9 +198,9 @@ class ManageProfileScreen extends React.Component {
                     paddingLeft: 20,
                     paddingTop: 0,
                     paddingBottom: 0,
-                    fontSize: 14
+                    fontSize: 14,
                   }}
-                  onChangeText={state => this.updateData("state", state)}
+                  onChangeText={state => this.updateData('state', state)}
                   underlineColorAndroid="transparent"
                   value={this.state.authUser.state}
                   placeholder="State"
@@ -207,12 +210,12 @@ class ManageProfileScreen extends React.Component {
 
               <Item
                 style={{
-                  width: "100%",
+                  width: '100%',
                   borderRadius: 50,
                   borderWidth: 1,
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginBottom: 5,
-                  marginLeft: 0
+                  marginLeft: 0,
                 }}
               >
                 <Input
@@ -220,9 +223,9 @@ class ManageProfileScreen extends React.Component {
                     paddingLeft: 20,
                     paddingTop: 0,
                     paddingBottom: 0,
-                    fontSize: 14
+                    fontSize: 14,
                   }}
-                  onChangeText={city => this.updateData("city", city)}
+                  onChangeText={city => this.updateData('city', city)}
                   underlineColorAndroid="transparent"
                   value={this.state.authUser.city}
                   placeholder="City"
@@ -244,26 +247,28 @@ class ManageProfileScreen extends React.Component {
   async updateProfile() {
     this.setState({ loading: true });
 
-    const { type } = this.props.navigation.state.params;
-    const { mobile, name, city, state, gender } = this.state.authUser;
+    const { navigation, updateUserMutation } = this.props;
+    const { type } = navigation.state.params;
+    const {
+      mobile, name, city, state, gender,
+    } = this.state.authUser;
 
-    this.props
-      .updateUserMutation({
-        variables: {
-          id: this.state.authUser.id,
-          mobile,
-          name,
-          state,
-          city,
-          gender
-        }
+    updateUserMutation({
+      variables: {
+        id: this.state.authUser.id,
+        mobile,
+        name,
+        state,
+        city,
+        gender,
+      },
+    })
+      .then(() => {
+        type === 'replace'
+          ? this.props.navigation.replace('HomeScreen')
+          : this.props.navigation.navigate('HomeScreen');
       })
-      .then(({ data }) => {
-        type == "replace"
-          ? this.props.navigation.replace("HomeScreen")
-          : this.props.navigation.navigate("HomeScreen");
-      })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         this.setState({ loading: false });
       });
@@ -273,18 +278,18 @@ class ManageProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   cancelIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 26
+    color: 'white',
+    fontSize: 26,
   },
 
   checkIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 26
-  }
+    color: 'white',
+    fontSize: 26,
+  },
 });
 
 export default compose(
-  graphql(UPDATE_USER_MUTATION, { name: "updateUserMutation" }),
-  graphql(GET_AUTH_USERS_QUERY, { name: "getAuthUser" })
+  graphql(UPDATE_USER_MUTATION, { name: 'updateUserMutation' }),
+  graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
 )(ManageProfileScreen);

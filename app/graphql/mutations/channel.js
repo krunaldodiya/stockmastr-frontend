@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 const CREATE_CHANNEL_MUTATION = gql`
   mutation(
@@ -107,12 +107,7 @@ const CREATE_REVIEW_MUTATION = gql`
 `;
 
 const UPDATE_REVIEW_MUTATION = gql`
-  mutation(
-    $review_id: ID!
-    $title: String!
-    $description: String!
-    $ratings: Float!
-  ) {
+  mutation($review_id: ID!, $title: String!, $description: String!, $ratings: Float!) {
     updateReview(
       where: { id: $review_id }
       data: { title: $title, description: $description, ratings: $ratings }
@@ -132,5 +127,5 @@ export {
   UNSUBSCRIBE_FROM_CHANNEL_MUTATION,
   UPLOAD_CHANNEL_PICTURE_MUTATION,
   CREATE_REVIEW_MUTATION,
-  UPDATE_REVIEW_MUTATION
+  UPDATE_REVIEW_MUTATION,
 };

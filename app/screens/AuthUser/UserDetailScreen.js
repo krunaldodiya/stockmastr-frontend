@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import React from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import {
   View,
   Text,
@@ -16,24 +16,25 @@ import {
   Thumbnail,
   Content,
   Separator,
-  Spinner
-} from "native-base";
+  Spinner,
+} from 'native-base';
 
-import theme from "../../libs/theme";
-import Channels from "../../components/Tabs/Channels";
-import {httpUrl} from "../../libs/vars";
+import { compose, graphql } from 'react-apollo';
+import { ReactNativeFile } from 'apollo-upload-client';
+import theme from '../../libs/theme';
+import Channels from '../../components/Tabs/Channels';
+import { httpUrl } from '../../libs/vars';
 
 // apollo
-import { compose, graphql } from "react-apollo";
 import {
   GET_USER_BY_ID,
   GET_AUTH_USERS_QUERY,
   GET_GUEST_USER_SUBSCRIPTIONS_QUERY,
-  UPLOAD_USER_AVATAR_MUTATION
-} from "../../graphql";
+  UPLOAD_USER_AVATAR_MUTATION,
+} from '../../graphql';
 
-import { ReactNativeFile } from "apollo-upload-client";
-const ImagePicker = require("react-native-image-picker");
+
+const ImagePicker = require('react-native-image-picker');
 
 class UserDetailScreen extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ class UserDetailScreen extends React.Component {
     this.state = {
       authUser: null,
       guestUser: null,
-      loading: true
+      loading: true,
     };
   }
 
@@ -60,43 +61,40 @@ class UserDetailScreen extends React.Component {
     this.setState({
       authUser: props.getAuthUser.user,
       guestUser: props.getUserById.user,
-      loading
+      loading,
     });
   }
 
   async selectUserAvatar() {
     if (this.state.guestUser.id !== this.state.authUser.id) return;
 
-    var options = {
-      title: "Select Avatar",
+    const options = {
+      title: 'Select Avatar',
       storageOptions: {
         skipBackup: true,
-        path: "images"
-      }
+        path: 'images',
+      },
     };
 
-    ImagePicker.showImagePicker(options, response => {
+    ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) return;
 
       const file = new ReactNativeFile({
         uri: response.uri,
-        type:
-          response.fileName.split(".").pop() == "jpg"
-            ? "image/jpeg"
-            : "image/png",
-        name: response.fileName
+        type: response.fileName.split('.').pop() == 'jpg' ? 'image/jpeg' : 'image/png',
+        name: response.fileName,
       });
 
       this.props.uploadUserAvatarMutation({
         variables: {
           image: file,
-          user_id: this.state.authUser.id
+          user_id: this.state.authUser.id,
         },
         refetchQueries: [
           {
-            query: GET_AUTH_USERS_QUERY
-          }
-        ]
+            query: GET_AUTH_USERS_QUERY,
+          },
+        ],
       });
     });
   }
@@ -115,7 +113,9 @@ class UserDetailScreen extends React.Component {
           </Left>
 
           <Body>
-            <Text style={{ color: "white" }}>PROFILE</Text>
+            <Text style={{ color: 'white' }}>
+PROFILE
+            </Text>
           </Body>
 
           {!this.state.loading && (
@@ -125,11 +125,10 @@ class UserDetailScreen extends React.Component {
                   type="Ionicons"
                   name="md-chatbubbles"
                   style={styles.chatIcon}
-                  onPress={() =>
-                    this.props.navigation.navigate("PrivateChatScreen", {
-                      authUser: this.state.authUser,
-                      guestUser: this.state.guestUser
-                    })
+                  onPress={() => this.props.navigation.navigate('PrivateChatScreen', {
+                    authUser: this.state.authUser,
+                    guestUser: this.state.guestUser,
+                  })
                   }
                 />
               )}
@@ -150,8 +149,8 @@ class UserDetailScreen extends React.Component {
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
@@ -167,7 +166,7 @@ class UserDetailScreen extends React.Component {
                             type="MaterialIcons"
                             name="camera-alt"
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               right: 0,
                               bottom: 0,
                               borderWidth: 1,
@@ -176,17 +175,15 @@ class UserDetailScreen extends React.Component {
                               padding: 3,
                               zIndex: 1,
                               borderRadius: 20,
-                              borderColor: "#000",
-                              color: "#000"
+                              borderColor: '#000',
+                              color: '#000',
                             }}
                           />
                         )}
                         <Thumbnail
                           large
                           source={{
-                            uri: `${httpUrl}/images/${
-                              this.state.guestUser.avatar
-                            }`
+                            uri: `${httpUrl}/images/${this.state.guestUser.avatar}`,
                           }}
                         />
                       </TouchableOpacity>
@@ -197,25 +194,23 @@ class UserDetailScreen extends React.Component {
                         {this.state.guestUser.name}
                       </Text>
                       <Text note>
-                        {this.state.guestUser.type == "trader"
-                          ? "Trader"
-                          : "Tips Provider"}
+                        {this.state.guestUser.type == 'trader' ? 'Trader' : 'Tips Provider'}
                       </Text>
                     </Body>
                   </ListItem>
 
                   <Separator bordered>
-                    <Text style={{ fontSize: 16 }}>About</Text>
+                    <Text style={{ fontSize: 16 }}>
+About
+                    </Text>
                   </Separator>
 
                   <ListItem>
                     <View style={{ flex: 1, marginTop: 5 }}>
-                      <Text style={{ fontSize: 17, color: "#333" }}>
-                        Gender
+                      <Text style={{ fontSize: 17, color: '#333' }}>
+Gender
                       </Text>
-                      <Text
-                        style={{ marginTop: 5, color: "blue", fontSize: 12 }}
-                      >
+                      <Text style={{ marginTop: 5, color: 'blue', fontSize: 12 }}>
                         {this.state.guestUser.gender.toUpperCase()}
                       </Text>
                     </View>
@@ -223,13 +218,13 @@ class UserDetailScreen extends React.Component {
 
                   <ListItem>
                     <View style={{ flex: 1, marginTop: 5 }}>
-                      <Text style={{ fontSize: 17, color: "#333" }}>
-                        Location
+                      <Text style={{ fontSize: 17, color: '#333' }}>
+Location
                       </Text>
-                      <Text
-                        style={{ marginTop: 5, color: "blue", fontSize: 12 }}
-                      >
-                        {this.state.guestUser.city.toUpperCase()},{" "}
+                      <Text style={{ marginTop: 5, color: 'blue', fontSize: 12 }}>
+                        {this.state.guestUser.city.toUpperCase()}
+,
+                        {' '}
                         {this.state.guestUser.state.toUpperCase()}
                       </Text>
                     </View>
@@ -251,8 +246,8 @@ class UserDetailScreen extends React.Component {
                 color="#000"
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center"
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               />
             )}
@@ -274,69 +269,65 @@ class UserDetailScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.background.secondary
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.background.secondary,
   },
 
   cancelIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 26
+    color: 'white',
+    fontSize: 26,
   },
 
   editIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 22
+    color: 'white',
+    fontSize: 22,
   },
 
   chatIcon: {
     padding: 10,
-    color: "white",
-    fontSize: 22
+    color: 'white',
+    fontSize: 22,
   },
 
   tabs: {
-    backgroundColor: theme.background.primary
+    backgroundColor: theme.background.primary,
   },
 
   activeTabs: {
-    backgroundColor: theme.background.primary
+    backgroundColor: theme.background.primary,
   },
 
   text: {
-    color: "white",
-    fontWeight: "normal"
+    color: 'white',
+    fontWeight: 'normal',
   },
 
   activeText: {
-    color: "white",
-    fontWeight: "bold"
-  }
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
 
 export default compose(
-  graphql(GET_AUTH_USERS_QUERY, { name: "getAuthUser" }),
+  graphql(GET_AUTH_USERS_QUERY, { name: 'getAuthUser' }),
   graphql(GET_USER_BY_ID, {
-    name: "getUserById",
-    options: props => {
-      return {
-        variables: { user_id: props.navigation.state.params.user_id }
-      };
-    }
+    name: 'getUserById',
+    options: props => ({
+      variables: { user_id: props.navigation.state.params.user_id },
+    }),
   }),
   graphql(GET_GUEST_USER_SUBSCRIPTIONS_QUERY, {
-    name: "getChannelSubscriptionsQuery",
-    options: props => {
-      return {
-        variables: {
-          subscriber_id: props.navigation.state.params.user_id
-        }
-      };
-    }
+    name: 'getChannelSubscriptionsQuery',
+    options: props => ({
+      variables: {
+        subscriber_id: props.navigation.state.params.user_id,
+      },
+    }),
   }),
   graphql(UPLOAD_USER_AVATAR_MUTATION, {
-    name: "uploadUserAvatarMutation"
-  })
+    name: 'uploadUserAvatarMutation',
+  }),
 )(UserDetailScreen);

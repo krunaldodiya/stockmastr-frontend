@@ -1,2 +1,3 @@
-export * from "./chat";
-export * from "./channel";
+export * from './post';
+export * from './channel';
+export * from './user';

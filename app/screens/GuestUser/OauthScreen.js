@@ -45,25 +45,6 @@ class OauthScreen extends React.Component {
     };
   }
 
-  async auth(provider) {
-    switch (provider) {
-      case 'google':
-        this.loginWithGoogle();
-        break;
-
-      case 'facebook':
-        this.loginWithFacebook();
-        break;
-
-      case 'twitter':
-        this.loginWithTwitter();
-        break;
-
-      default:
-        break;
-    }
-  }
-
   async loginWithGoogle() {
     google({
       appId: '994327051971-86prhenegaqbk3e3ehmsecpqmsufsejq.apps.googleusercontent.com',
@@ -162,7 +143,7 @@ class OauthScreen extends React.Component {
           <Item>
             <Button
               style={[styles.submitButton, { backgroundColor: '#DB4437' }]}
-              onPress={() => this.auth('google')}
+              onPress={() => this.loginWithGoogle()}
             >
               <Text style={{ width: '100%', textAlign: 'center' }}>
 Login with Google
@@ -173,7 +154,7 @@ Login with Google
           <Item>
             <Button
               style={[styles.submitButton, { backgroundColor: '#3B5998' }]}
-              onPress={() => this.auth('facebook')}
+              onPress={() => this.loginWithFacebook()}
             >
               <Text style={{ width: '100%', textAlign: 'center' }}>
 Login with Facebook

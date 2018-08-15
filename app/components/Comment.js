@@ -1,17 +1,35 @@
-import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
 import {
-  View,
-  Text,
-  Container,
-  Header,
-  Left,
-  Button,
-  Icon,
-  Right,
-  Body
-} from "native-base";
-import theme from "../libs/theme";
+  View, Text, Container, Header, Left, Button, Icon, Right, Body,
+} from 'native-base';
+import theme from '../libs/theme';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  header: {
+    backgroundColor: theme.background.primary,
+  },
+
+  text: {
+    padding: 10,
+    color: 'white',
+    fontSize: 18,
+  },
+
+  icon: {
+    color: 'white',
+    fontSize: 24,
+  },
+
+  chatInput: {
+    padding: 10,
+  },
+});
 
 export default class Comment extends React.Component {
   constructor(props) {
@@ -19,8 +37,7 @@ export default class Comment extends React.Component {
 
     this.state = {
       guestUser: null,
-      authUser: null,
-      channel: null
+      channel: null,
     };
   }
 
@@ -28,18 +45,17 @@ export default class Comment extends React.Component {
     this.setState({ ...this.props });
   }
 
-  sendMessage() {
-      console.log("okay");
-  }
-
   render() {
+    const { navigation } = this.props;
+    const { channel, guestUser, keywords } = this.state;
+
     return (
       <Container style={styles.container}>
         <Header style={styles.header}>
           <Left>
             <Button transparent>
               <Icon
-                onPress={() => this.props.navigation.goBack()}
+                onPress={() => navigation.goBack()}
                 style={styles.icon}
                 type="MaterialIcons"
                 name="arrow-back"
@@ -50,17 +66,15 @@ export default class Comment extends React.Component {
           </Left>
 
           <Body>
-            <Text style={{ color: "white" }} numberOfLines={1}>
-              {this.state.channel
-                ? this.state.channel.title
-                : this.state.guestUser.name}
+            <Text style={{ color: 'white' }} numberOfLines={1}>
+              {channel ? channel.title : guestUser.name}
             </Text>
           </Body>
 
           <Right>
             <Button transparent>
               <Icon
-                onPress={() => this.props.navigation.goBack()}
+                onPress={() => navigation.goBack()}
                 style={styles.icon}
                 type="MaterialIcons"
                 name="more-vert"
@@ -71,23 +85,23 @@ export default class Comment extends React.Component {
           </Right>
         </Header>
 
-        <View style={{ flex: 1, justifyContent: "flex-start" }}>
-          <View
-            style={{ flex: 1, backgroundColor: theme.background.secondary }}
-          >
-            <Text>hello</Text>
+        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+          <View style={{ flex: 1, backgroundColor: theme.background.secondary }}>
+            <Text>
+hello
+            </Text>
           </View>
 
           <View>
             <TextInput
-              value={this.state.keywords}
-              onChangeText={keywords => this.setState({ keywords })}
+              value={keywords}
+              onChangeText={string => this.setState({ keywords: string })}
               onSubmitEditing={() => this.sendMessage()}
               clearButtonMode="never"
               underlineColorAndroid="transparent"
               placeholder="Search Channels"
               placeholderTextColor="#ccc"
-              autoFocus={true}
+              autoFocus
               returnKeyType="search"
               style={styles.chatInput}
             />
@@ -98,27 +112,6 @@ export default class Comment extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-
-  header: {
-    backgroundColor: theme.background.primary
-  },
-
-  text: {
-    padding: 10,
-    color: "white",
-    fontSize: 18
-  },
-
-  icon: {
-    color: "white",
-    fontSize: 24
-  },
-
-  chatInput: {
-    padding: 10
-  }
-});
+Comment.propTypes = {
+  navigation: PropTypes.shape.isRequired,
+};
