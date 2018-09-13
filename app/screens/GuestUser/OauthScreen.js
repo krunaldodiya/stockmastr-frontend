@@ -34,7 +34,7 @@ class OauthScreen extends React.Component {
 
   async loginWithGoogle() {
     google({
-      appId: '994327051971-86prhenegaqbk3e3ehmsecpqmsufsejq.apps.googleusercontent.com',
+      appId: '700045608007-opuiu8g06mosevje8mfnc897d29bj31q.apps.googleusercontent.com',
       callback: 'com.ssx.socialstock:/oauth2redirect',
     })
       .then((info) => {
