@@ -1,12 +1,19 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
-import { theme } from "../libs/theme";
+import { theme } from '../libs/theme';
 
 // components
-import Logo from "../components/Logo";
+import Logo from '../components/Logo';
 
-import { getUserId } from "../services/auth";
+import { getAuthToken } from '../services/auth';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.background.primary,
+  },
+});
 
 export default class SplashScreen extends React.Component {
   static options() {
@@ -14,14 +21,14 @@ export default class SplashScreen extends React.Component {
       topBar: {
         visible: false,
         drawBehind: true,
-        animate: false
-      }
+        animate: false,
+      },
     };
   }
 
   async componentDidMount() {
-    const authUserId = await getUserId();
-    const screen = authUserId ? "WelcomeScreen" : "RequestOtpScreen";
+    const authToken = await getAuthToken();
+    const screen = authToken ? 'WelcomeScreen' : 'GetStartedScreen';
 
     setTimeout(() => this.props.navigation.replace(screen), 3000);
   }
@@ -38,10 +45,3 @@ export default class SplashScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background.primary
-  }
-});

@@ -10,10 +10,12 @@ import { client } from './app/libs/apollo';
 // screens
 import SplashScreen from './app/screens/SplashScreen';
 import NoNetworkScreen from './app/screens/NoNetworkScreen';
+import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 
 const AppStackNavigator = createStackNavigator(
   {
     SplashScreen: { screen: SplashScreen },
+    GetStartedScreen: { screen: GetStartedScreen },
   },
   {
     initialRouteName: 'SplashScreen',

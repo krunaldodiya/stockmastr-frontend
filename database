@@ -1,0 +1,90 @@
+---------------------------------------
+heroku
+---------------------------------------
+database => socialstock-prisma-server
+backend => socialstock-yoga-server
+
+----------------------------
+channel_reviews
+----------------------------
+    id - primary key  
+    title  
+    description  
+    ratings  
+    channel_id  
+    reviewer_id  
+    created_at  
+    updated_at  
+
+----------------------------
+channel_subscriptions
+----------------------------
+    id - primary key  
+    channel_id  
+    subscriber_id  
+    created_at  
+    updated_at  
+
+----------------------------
+channels
+----------------------------
+    id - primary key  
+    title  
+    description  
+    price  
+    accuracy  
+    minimum_calls  
+    image  
+    owner_id  
+    created_at  
+    updated_at  
+
+----------------------------
+post_comments
+----------------------------
+    id - primary key  
+    comment  
+    user_id  
+    post_id  
+    created_at  
+    updated_at  
+
+----------------------------
+post_statuses
+----------------------------
+    id - primary key  
+    post_id  
+    trigger  
+    target  
+    stoploss  
+    status  
+    created_at  
+    updated_at  
+
+----------------------------
+posts
+----------------------------
+    id - primary key  
+    description  
+    owner_id  
+    channel_id  
+    stock_exchange  
+    stock_symbol  
+    stock_name  
+    created_at  
+    updated_at  
+    signal  
+
+----------------------------
+users
+----------------------------
+    id - primary key  
+    name  
+    email  
+    type  
+    gender  
+    city  
+    state  
+    avatar  
+    created_at  
+    updated_at  
