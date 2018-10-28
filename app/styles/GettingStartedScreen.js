@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import theme from '../libs/theme';
 
 export default StyleSheet.create({
   container: {
@@ -8,6 +9,13 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
+  },
+  termsWrapper: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    marginBottom: 20,
   },
   termsIcon: {
     width: 40,
@@ -15,15 +23,30 @@ export default StyleSheet.create({
   },
   termsHeader: {
     fontWeight: '400',
-    fontFamily: 'TitilliumWeb-SemiBold',
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
     color: 'black',
     fontSize: 22,
-    paddingLeft: 20,
-    paddingTop: 5,
+    marginLeft: 10,
+    marginTop: 5,
   },
   termsBody: {
     fontSize: 12,
-    fontFamily: 'TitilliumWeb-Regular',
+    fontFamily: theme.fonts.TitilliumWebRegular,
+  },
+  agreeWrapper: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  agreeText: {
+    marginLeft: 10,
+    marginTop: 1,
+    fontSize: 14,
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
+  },
+  agreeButton: {
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
   },
   submitButton: {
     borderRadius: 20,

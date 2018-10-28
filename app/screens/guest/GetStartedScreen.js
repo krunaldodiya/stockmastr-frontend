@@ -33,46 +33,36 @@ class GetStartedScreen extends React.Component {
           style={styles.blurBackground}
           resizeMode="cover"
           resizeMethod="auto"
-          blurRadius={10}
+          blurRadius={5}
           source={background}
         >
-          <View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
+          <View style={styles.termsWrapper}>
             <Image style={styles.termsIcon} source={contract} />
+
             <Text style={styles.termsHeader}>
 TERMS & CONDITIONS
             </Text>
-            <ScrollView>
-              <Text style={styles.termsBody}>
-                {termsText}
-              </Text>
-            </ScrollView>
           </View>
 
-          <View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
+          <ScrollView>
+            <Text style={styles.termsBody}>
+              {termsText}
+            </Text>
+          </ScrollView>
+
+          <View style={styles.agreeWrapper}>
             <CheckBox
               isChecked={agree}
               checkedColor="white"
               onClick={() => this.setState({ agree: !agree })}
             />
 
-            <Text
-              style={{
-                marginLeft: 10,
-                marginTop: 1,
-                fontSize: 14,
-                fontFamily: 'TitilliumWeb-SemiBold',
-              }}
-            >
-              I have read all the terms & conditions.
+            <Text style={styles.agreeText}>
+I have read all the terms & conditions.
             </Text>
           </View>
 
-          <View
-            style={{
-              justifyContent: 'flex-end',
-              alignSelf: 'center',
-            }}
-          >
+          <View style={styles.agreeButton}>
             <TouchableOpacity
               disabled={!agree}
               style={agree ? styles.submitButton : styles.submitButtonDisabled}
