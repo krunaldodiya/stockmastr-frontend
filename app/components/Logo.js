@@ -1,6 +1,5 @@
 import React from 'react';
-import { View } from 'native-base';
-import { Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import theme from '../libs/theme';
 
 const image = require('../../assets/images/logo.png');

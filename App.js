@@ -1,6 +1,5 @@
 import React from 'react';
-import { NetInfo } from 'react-native';
-import { View } from 'native-base';
+import { StatusBar, NetInfo, View } from 'react-native';
 import { ApolloProvider } from 'react-apollo';
 import { createStackNavigator } from 'react-navigation';
 
@@ -11,11 +10,13 @@ import { client } from './app/libs/apollo';
 import SplashScreen from './app/screens/SplashScreen';
 import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
+import OAuthScreen from './app/screens/guest/OAuthScreen';
 
 const AppStackNavigator = createStackNavigator(
   {
     SplashScreen: { screen: SplashScreen },
     GetStartedScreen: { screen: GetStartedScreen },
+    OAuthScreen: { screen: OAuthScreen },
   },
   {
     initialRouteName: 'SplashScreen',
@@ -51,6 +52,13 @@ export default class App extends React.Component {
       <ApolloProvider client={client}>
         {connectionInfo && (
           <View style={{ flex: 1 }}>
+            <StatusBar
+              backgroundColor="transparent"
+              barStyle="light-content"
+              translucent
+              animated
+            />
+
             {connectionInfo.type === 'none' && <NoNetworkScreen />}
             {connectionInfo.type !== 'none' && <AppStackNavigator />}
           </View>

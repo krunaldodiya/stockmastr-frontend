@@ -27,7 +27,7 @@ export default class SplashScreen extends React.Component {
     const authToken = await getAuthToken();
     const screen = authToken ? 'WelcomeScreen' : 'GetStartedScreen';
 
-    setTimeout(() => this.props.navigation.replace(screen), 10000);
+    setTimeout(() => this.props.navigation.replace(screen), 1000);
   }
 
   render() {
