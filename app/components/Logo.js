@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text } from 'native-base';
 import { Image, StyleSheet } from 'react-native';
-import { theme } from '../libs/theme';
+import theme from '../libs/theme';
 
-const image = require('../../Assets/images/logo.png');
+const image = require('../../assets/images/logo.png');
 
 const styles = StyleSheet.create({
   container: {

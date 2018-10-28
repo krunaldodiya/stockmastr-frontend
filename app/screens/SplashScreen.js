@@ -1,19 +1,12 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-
-import { theme } from '../libs/theme';
+import { View } from 'react-native';
 
 // components
 import Logo from '../components/Logo';
-
+// services
 import { getAuthToken } from '../services/auth';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.background.primary,
-  },
-});
+// styles
+import styles from '../styles/SplashScreen';
 
 export default class SplashScreen extends React.Component {
   static options() {

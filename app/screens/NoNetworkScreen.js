@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { theme } from '../libs/theme';
+import theme from '../libs/theme';
 
 const styles = StyleSheet.create({
   container: {

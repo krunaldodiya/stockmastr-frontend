@@ -4,7 +4,7 @@ import {
   View, Text, Button, Container, Form, Label, CheckBox,
 } from 'native-base';
 
-const contract = require('../../../Assets/images/contract.png');
+const contract = require('../../../assets/images/contract.png');
 
 const styles = StyleSheet.create({
   submitButton: {
