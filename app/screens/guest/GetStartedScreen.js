@@ -1,19 +1,11 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Image } from 'react-native';
+import { ScrollView, Image } from 'react-native';
 import {
   View, Text, Button, Container, Form, Label, CheckBox,
 } from 'native-base';
+import styles from '../../styles/GettingStartedScreen';
 
 const contract = require('../../../assets/images/contract.png');
-
-const styles = StyleSheet.create({
-  submitButton: {
-    borderRadius: 20,
-    marginTop: 10,
-    padding: 10,
-    backgroundColor: '#1B1B1B',
-  },
-});
 
 class GetStartedScreen extends React.Component {
   static navigationOptions = {
@@ -32,7 +24,7 @@ class GetStartedScreen extends React.Component {
   }
 
   render() {
-    const { buttonText, termsText } = this.state;
+    const { buttonText, termsText, agree } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -71,7 +63,7 @@ class GetStartedScreen extends React.Component {
             </View>
 
             <View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
-              <CheckBox checked={this.state.agree} />
+              <CheckBox checked={agree} onPress={() => this.setState({ agree: !agree })} />
               <Text
                 style={{
                   marginLeft: 18,
@@ -88,7 +80,11 @@ class GetStartedScreen extends React.Component {
                 alignSelf: 'center',
               }}
             >
-              <Button style={styles.submitButton} onPress={() => navigation.replace('OauthScreen')}>
+              <Button
+                disabled={!agree}
+                style={agree ? styles.submitButton : styles.submitButtonDisabled}
+                onPress={() => navigation.replace('OauthScreen')}
+              >
                 <Text style={{ textAlign: 'center' }}>
                   {buttonText}
                 </Text>
