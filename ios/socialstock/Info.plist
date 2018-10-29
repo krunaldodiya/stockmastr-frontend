@@ -70,6 +70,17 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>TitilliumWebBlack.ttf</string>
+		<string>TitilliumWebBold.ttf</string>
+		<string>TitilliumWebBoldItalic.ttf</string>
+		<string>TitilliumWebExtraLight.ttf</string>
+		<string>TitilliumWebExtraLightItalic.ttf</string>
+		<string>TitilliumWebItalic.ttf</string>
+		<string>TitilliumWebLight.ttf</string>
+		<string>TitilliumWebLightItalic.ttf</string>
+		<string>TitilliumWebRegular.ttf</string>
+		<string>TitilliumWebSemiBold.ttf</string>
+		<string>TitilliumWebSemiBoldItalic.ttf</string>
 	</array>
 </dict>
 </plist>

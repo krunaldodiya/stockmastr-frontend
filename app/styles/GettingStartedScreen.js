@@ -27,7 +27,7 @@ export default StyleSheet.create({
     color: 'black',
     fontSize: 22,
     marginLeft: 10,
-    marginTop: 5,
+    marginTop: 3,
   },
   termsBody: {
     fontSize: 12,
@@ -62,10 +62,12 @@ export default StyleSheet.create({
   },
   submitButtonText: {
     textAlign: 'center',
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
     color: 'white',
   },
   submitButtonTextDisabled: {
     textAlign: 'center',
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
     color: '#ccc',
   },
 });
