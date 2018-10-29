@@ -55,6 +55,17 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>TitilliumWeb-Black.ttf</string>
+		<string>TitilliumWeb-Bold.ttf</string>
+		<string>TitilliumWeb-BoldItalic.ttf</string>
+		<string>TitilliumWeb-ExtraLight.ttf</string>
+		<string>TitilliumWeb-ExtraLightItalic.ttf</string>
+		<string>TitilliumWeb-Italic.ttf</string>
+		<string>TitilliumWeb-Light.ttf</string>
+		<string>TitilliumWeb-LightItalic.ttf</string>
+		<string>TitilliumWeb-Regular.ttf</string>
+		<string>TitilliumWeb-SemiBold.ttf</string>
+		<string>TitilliumWeb-SemiBoldItalic.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
@@ -70,17 +81,6 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>TitilliumWebBlack.ttf</string>
-		<string>TitilliumWebBold.ttf</string>
-		<string>TitilliumWebBoldItalic.ttf</string>
-		<string>TitilliumWebExtraLight.ttf</string>
-		<string>TitilliumWebExtraLightItalic.ttf</string>
-		<string>TitilliumWebItalic.ttf</string>
-		<string>TitilliumWebLight.ttf</string>
-		<string>TitilliumWebLightItalic.ttf</string>
-		<string>TitilliumWebRegular.ttf</string>
-		<string>TitilliumWebSemiBold.ttf</string>
-		<string>TitilliumWebSemiBoldItalic.ttf</string>
 	</array>
 </dict>
 </plist>

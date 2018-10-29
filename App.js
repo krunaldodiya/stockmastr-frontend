@@ -50,15 +50,10 @@ export default class App extends React.Component {
     const { connectionInfo } = this.state;
     return (
       <ApolloProvider client={client}>
+        <StatusBar backgroundColor="transparent" barStyle="light-content" translucent animated />
+
         {connectionInfo && (
           <View style={{ flex: 1 }}>
-            <StatusBar
-              backgroundColor="transparent"
-              barStyle="light-content"
-              translucent
-              animated
-            />
-
             {connectionInfo.type === 'none' && <NoNetworkScreen />}
             {connectionInfo.type !== 'none' && <AppStackNavigator />}
           </View>

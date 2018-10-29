@@ -33,7 +33,7 @@ class GetStartedScreen extends React.Component {
           style={styles.blurBackground}
           resizeMode="cover"
           resizeMethod="auto"
-          blurRadius={5}
+          blurRadius={10}
           source={background}
         >
           <View style={styles.termsWrapper}>

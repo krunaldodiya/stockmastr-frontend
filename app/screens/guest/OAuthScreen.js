@@ -20,7 +20,7 @@ class OAuthScreen extends React.Component {
           style={styles.image}
           resizeMode="cover"
           resizeMethod="auto"
-          blurRadius={6}
+          blurRadius={10}
           source={background}
         >
           <Text style={styles.text}>

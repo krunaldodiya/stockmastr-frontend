@@ -27,24 +27,12 @@ export default class SplashScreen extends React.Component {
     const authToken = await getAuthToken();
     const screen = authToken ? 'WelcomeScreen' : 'GetStartedScreen';
 
-    setTimeout(() => this.props.navigation.replace(screen), 1000);
+    setTimeout(() => this.props.navigation.replace(screen), 5000);
   }
 
   render() {
-    // const { visible } = this.state.topBar;
-
     return (
       <View style={styles.container}>
-        {/* <View style={{ flex: 1 }}>
-          <Logo />
-
-          {!visible && (
-          <Text style={styles.text}>
-SocialStock
-          </Text>
-          )}
-        </View> */}
-
         <LottieView source={badge} autoPlay loop />
       </View>
     );
