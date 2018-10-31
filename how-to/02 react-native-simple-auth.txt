@@ -63,7 +63,7 @@ Open ios/<ProjectName>.xcodeproj file.
 Scroll down to URL Types section and add a new URL type with <ProjectName> URL Schema.
 --------------------------------
 identifier (com.ssx.socialstock)
-url schema (com.ssx.socialstock)
+url schemes (com.ssx.socialstock)
 
 
 
