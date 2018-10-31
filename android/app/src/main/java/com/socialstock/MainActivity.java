@@ -1,4 +1,4 @@
-package com.socialstock;
+package com.ssx.socialstock;
 
 import com.facebook.react.ReactActivity;
 
