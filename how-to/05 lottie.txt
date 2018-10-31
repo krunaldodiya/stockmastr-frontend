@@ -1,0 +1,8 @@
+react-native link lottie-react-native
+react-native link lottie-ios
+
+1) android
+work out of the box
+
+2) ios
+open the Xcode project configuration and add the Lottie.framework as Embedded Binaries.

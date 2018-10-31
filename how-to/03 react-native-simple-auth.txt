@@ -71,7 +71,34 @@ url schemes (com.ssx.socialstock)
 facebook
 --------------------------------
 identifier (com.ssx.socialstock)
-url schemes (fbfb1941481456155598)
+url schemes (fb1941481456155598)
+
+
+or using info.plist
+--------------------------------------
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>com.ssx.socialstock</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>com.ssx.socialstock</string>
+        </array>
+    </dict>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>Editor</string>
+        <key>CFBundleURLName</key>
+        <string>com.ssx.socialstock</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>fb1941481456155598</string>
+        </array>
+    </dict>
+</array>
 
 
 Android
@@ -81,11 +108,11 @@ On Android you’ll need to edit android/app/src/main/AndroidManifest.xml file t
 1) Add this code:
 
     <activity
-    android:name=".MainActivity"
-    android:label="@string/app_name"
-    android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-    android:windowSoftInputMode="adjustResize" 
-    android:launchMode="singleTask">
+        android:name=".MainActivity"
+        android:label="@string/app_name"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:windowSoftInputMode="adjustResize" 
+        android:launchMode="singleTask">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -94,12 +121,12 @@ On Android you’ll need to edit android/app/src/main/AndroidManifest.xml file t
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="com.ssx.socialstock" android:host="login" />
+            <data android:scheme="com.ssx.socialstock" />
         </intent-filter>
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
             <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="fb1941481456155598" android:host="login" />
+            <data android:scheme="fb1941481456155598" />
         </intent-filter>
     </activity>
