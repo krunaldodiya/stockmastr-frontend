@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 // 3rd party
-import LottieView from 'lottie-react-native';
+// import LottieView from 'lottie-react-native';
 // components
-import Logo from '../components/Logo';
+// import Logo from '../components/Logo';
 // services
 import { getAuthToken } from '../services/auth';
 // styles
@@ -33,7 +33,10 @@ export default class SplashScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <LottieView source={badge} autoPlay loop />
+        <Text>
+hello
+        </Text>
+        {/* <LottieView source={badge} autoPlay loop /> */}
       </View>
     );
   }

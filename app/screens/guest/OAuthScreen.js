@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-import Expo from 'expo';
+// import Expo from 'expo';
 import axios from 'axios';
 
 import { Icon } from 'react-native-vector-icons';
@@ -34,31 +34,31 @@ class OAuthScreen extends React.Component {
     });
   };
 
-  loginWithGoogle = async () => {
-    const { user } = await Expo.Google.logInAsync({
-      androidClientId: '700045608007-2sconl7ioipu1s6l6j3os3fpqa8suvd5.apps.googleusercontent.com',
-      iosClientId: '700045608007-77iit7ov1thbbcmr2olfmsf1a2ategh7.apps.googleusercontent.com',
-      scopes: ['profile', 'email'],
-    });
+  // loginWithGoogle = async () => {
+  //   const { user } = await Expo.Google.logInAsync({
+  //     androidClientId: '700045608007-2sconl7ioipu1s6l6j3os3fpqa8suvd5.apps.googleusercontent.com',
+  //     iosClientId: '700045608007-77iit7ov1thbbcmr2olfmsf1a2ategh7.apps.googleusercontent.com',
+  //     scopes: ['profile', 'email'],
+  //   });
 
-    this.setUSer(user);
-  };
+  //   this.setUSer(user);
+  // };
 
-  loginWithFacebook = async () => {
-    const { token, type } = await Expo.Facebook.logInWithReadPermissionsAsync('1941481456155598', {
-      permissions: ['public_profile', 'email'],
-    });
+  // loginWithFacebook = async () => {
+  //   const { token, type } = await Expo.Facebook.logInWithReadPermissionsAsync('1941481456155598', {
+  //     permissions: ['public_profile', 'email'],
+  //   });
 
-    if (type == 'success') {
-      const { data } = await axios.get(
-        `https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}`,
-      );
+  //   if (type == 'success') {
+  //     const { data } = await axios.get(
+  //       `https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}`,
+  //     );
 
-      this.setUSer(data);
-    } else {
-      alert('failed');
-    }
-  };
+  //     this.setUSer(data);
+  //   } else {
+  //     alert('failed');
+  //   }
+  // };
 
   showAnimation = () => {
     const { favorite } = this.state;

@@ -9,7 +9,6 @@ import { client } from './app/libs/apollo';
 import { getAuthToken } from './app/services/auth';
 
 // screens
-import SplashScreen from './app/screens/SplashScreen';
 import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
@@ -17,7 +16,6 @@ import OAuthScreen from './app/screens/guest/OAuthScreen';
 const createAppStackNavigator = (initialRouteName) => {
   const AppStackNavigator = createStackNavigator(
     {
-      SplashScreen: { screen: SplashScreen },
       GetStartedScreen: { screen: GetStartedScreen },
       OAuthScreen: { screen: OAuthScreen },
     },
@@ -65,7 +63,7 @@ export default class App extends React.Component {
     const { connectionInfo, screen } = this.state;
     return (
       <ApolloProvider client={client}>
-        <StatusBar backgroundColor="transparent" barStyle="light-content" translucent animated />
+        <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
         {connectionInfo && (
           <View style={{ flex: 1 }}>

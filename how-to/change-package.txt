@@ -1,0 +1,14 @@
+
+1) android
+   open android studio
+
+2) ios
+   open xcode
+
+-----------------------
+OR
+-----------------------
+
+#Install npm i react-native-app-id -g
+#Usage react-native-app-id com.myawesome.app "My Awsome App"
+

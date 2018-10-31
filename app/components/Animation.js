@@ -1,8 +1,8 @@
 import React from 'react';
+import { View, Text } from 'react-native';
+// import { DangerZone } from 'expo';
 
-import { DangerZone } from 'expo';
-
-const { Lottie } = DangerZone;
+// const { Lottie } = DangerZone;
 
 const like = require('../../assets/js/like.json');
 
@@ -34,18 +34,23 @@ class Animation extends React.Component {
 
   render() {
     return (
-      <Lottie
-        style={{
-          position: 'absolute',
-          top: 112,
-          left: 125,
-          width: 90,
-          height: 90,
-        }}
-        ref={animation => (this.animation = animation)}
-        source={this.state.animation}
-        autoPlay
-      />
+      <View>
+        <Text>
+test
+        </Text>
+      </View>
+      // <Lottie
+      //   style={{
+      //     position: 'absolute',
+      //     top: 112,
+      //     left: 125,
+      //     width: 90,
+      //     height: 90,
+      //   }}
+      //   ref={animation => (this.animation = animation)}
+      //   source={this.state.animation}
+      //   autoPlay
+      // />
     );
   }
 }
