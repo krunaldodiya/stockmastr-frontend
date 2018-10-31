@@ -22,7 +22,7 @@ class OAuthScreen extends React.Component {
 
   loginWithGoogle = async () => {
     google({
-      appId: '700045608007-opuiu8g06mosevje8mfnc897d29bj31q.apps.googleusercontent.com',
+      appId: '700045608007-77iit7ov1thbbcmr2olfmsf1a2ategh7.apps.googleusercontent.com',
       callback: 'com.ssx.socialstock:/oauth2redirect',
     })
       .then((info) => {
@@ -36,7 +36,7 @@ class OAuthScreen extends React.Component {
   loginWithFacebook = async () => {
     facebook({
       appId: '1941481456155598',
-      callback: 'com.ssx.socialstock://authorize',
+      callback: 'fb1941481456155598://authorize',
     })
       .then((info) => {
         this.checkAuth(info);

@@ -32,6 +32,16 @@
 				<string>com.ssx.socialstock</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.ssx.socialstock</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1941481456155598</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
