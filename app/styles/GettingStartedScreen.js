@@ -5,17 +5,13 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
-  blurBackground: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
   termsWrapper: {
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   termsIcon: {
     width: 40,
@@ -30,13 +26,15 @@ export default StyleSheet.create({
     marginTop: 3,
   },
   termsBody: {
+    paddingHorizontal: 20,
     fontSize: 12,
     fontFamily: theme.fonts.TitilliumWebRegular,
   },
+  blurView: {
+    padding: 20,
+  },
   agreeWrapper: {
     flexDirection: 'row',
-    marginBottom: 20,
-    marginTop: 20,
   },
   agreeText: {
     marginLeft: 10,
@@ -47,6 +45,7 @@ export default StyleSheet.create({
   agreeButton: {
     justifyContent: 'flex-end',
     alignSelf: 'center',
+    marginTop: 20,
   },
   submitButton: {
     borderRadius: 20,

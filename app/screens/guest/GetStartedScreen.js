@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  View, Text, ScrollView, Image, TouchableOpacity, ImageBackground,
+  View, Text, ScrollView, Image, TouchableOpacity,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import styles from '../../styles/GettingStartedScreen';
 
 const contract = require('../../../assets/images/contract.png');
-const background = require('../../../assets/images/background.png');
 
 class GetStartedScreen extends React.Component {
   static navigationOptions = {
@@ -29,27 +28,21 @@ class GetStartedScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.blurBackground}
-          resizeMode="cover"
-          resizeMethod="auto"
-          blurRadius={10}
-          source={background}
-        >
-          <View style={styles.termsWrapper}>
-            <Image style={styles.termsIcon} source={contract} />
+        <View style={styles.termsWrapper}>
+          <Image style={styles.termsIcon} source={contract} />
 
-            <Text style={styles.termsHeader}>
+          <Text style={styles.termsHeader}>
 TERMS & CONDITIONS
-            </Text>
-          </View>
+          </Text>
+        </View>
 
-          <ScrollView>
-            <Text style={styles.termsBody}>
-              {termsText}
-            </Text>
-          </ScrollView>
+        <ScrollView>
+          <Text style={styles.termsBody}>
+            {termsText}
+          </Text>
+        </ScrollView>
 
+        <View style={styles.blurView}>
           <View style={styles.agreeWrapper}>
             <CheckBox
               isChecked={agree}
@@ -73,7 +66,7 @@ I have read all the terms & conditions.
               </Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
+        </View>
       </View>
     );
   }
