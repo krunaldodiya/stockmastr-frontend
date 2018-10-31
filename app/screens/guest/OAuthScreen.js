@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-
-// import Expo from 'expo';
-import axios from 'axios';
-
-import { Icon } from 'react-native-vector-icons';
+// 3rd
+import { google, facebook } from 'react-native-simple-auth';
+// style
 import styles from '../../styles/OAuthScreen';
-import Animation from '../../components/Animation';
+// services
+import { setAuthToken } from '../../services/auth';
 
 class OAuthScreen extends React.Component {
   static navigationOptions = {
@@ -18,73 +17,52 @@ class OAuthScreen extends React.Component {
 
     this.state = {
       user: null,
-      favorite: false,
-      showAnimation: false,
     };
   }
 
-  setUSer = async (data) => {
-    const { name, email } = data;
-
-    this.setState({
-      user: {
-        name,
-        email,
-      },
-    });
+  loginWithGoogle = async () => {
+    google({
+      appId: '700045608007-opuiu8g06mosevje8mfnc897d29bj31q.apps.googleusercontent.com',
+      callback: 'com.ssx.socialstock:/oauth2redirect',
+    })
+      .then((info) => {
+        this.checkAuth(info);
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   };
 
-  // loginWithGoogle = async () => {
-  //   const { user } = await Expo.Google.logInAsync({
-  //     androidClientId: '700045608007-2sconl7ioipu1s6l6j3os3fpqa8suvd5.apps.googleusercontent.com',
-  //     iosClientId: '700045608007-77iit7ov1thbbcmr2olfmsf1a2ategh7.apps.googleusercontent.com',
-  //     scopes: ['profile', 'email'],
-  //   });
-
-  //   this.setUSer(user);
-  // };
-
-  // loginWithFacebook = async () => {
-  //   const { token, type } = await Expo.Facebook.logInWithReadPermissionsAsync('1941481456155598', {
-  //     permissions: ['public_profile', 'email'],
-  //   });
-
-  //   if (type == 'success') {
-  //     const { data } = await axios.get(
-  //       `https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}`,
-  //     );
-
-  //     this.setUSer(data);
-  //   } else {
-  //     alert('failed');
-  //   }
-  // };
-
-  showAnimation = () => {
-    const { favorite } = this.state;
-
-    if (favorite == false) {
-      this.setState({
-        showAnimation: true,
+  loginWithFacebook = async () => {
+    facebook({
+      appId: '1941481456155598',
+      callback: 'com.ssx.socialstock://authorize',
+    })
+      .then((info) => {
+        this.checkAuth(info);
+      })
+      .catch((error) => {
+        console.log('error', error);
       });
+  };
 
-      setTimeout(() => {
-        this.setState({
-          favorite: favorite !== true,
-          showAnimation: false,
+  checkAuth = async (info) => {
+    const { navigation, socialAuthMutation } = this.props;
+    const variables = { email: info.user.email, name: info.user.name };
+
+    socialAuthMutation({ variables })
+      .then(async (response) => {
+        await setAuthToken(response.data.socialAuth.token);
+
+        return navigation.replace('UserTypeScreen', {
+          type: response.data.socialAuth.user.type,
         });
-      }, 1500);
-    }
-
-    if (favorite === true) {
-      this.setState({
-        favorite: false,
-      });
-    }
+      })
+      .catch(error => console.log(error));
   };
 
   render() {
-    const { user, favorite, showAnimation } = this.state;
+    const { user } = this.state;
 
     return (
       <View style={styles.container}>
@@ -98,9 +76,6 @@ class OAuthScreen extends React.Component {
             }}
           >
             <Text style={{ color: 'white' }}>
-              {JSON.stringify(favorite)}
-            </Text>
-            <Text style={{ color: 'white' }}>
               {user.name}
             </Text>
             <Text style={{ color: 'white' }}>
@@ -108,35 +83,6 @@ class OAuthScreen extends React.Component {
             </Text>
           </View>
         )}
-
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'white',
-            padding: 10,
-          }}
-        >
-          {!showAnimation && (
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                top: 150,
-                left: 165,
-              }}
-              onPress={() => this.showAnimation()}
-            >
-              <Icon
-                name={favorite ? 'heart' : 'heart-o'}
-                color={favorite ? 'red' : 'black'}
-                size={32}
-              />
-            </TouchableOpacity>
-          )}
-
-          <View style={{ flex: 1 }}>
-            {showAnimation && <Animation />}
-          </View>
-        </View>
 
         <View
           style={{
