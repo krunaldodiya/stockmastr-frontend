@@ -5,6 +5,8 @@ import { createStackNavigator } from 'react-navigation';
 
 // libs
 import { client } from './app/libs/apollo';
+// services
+import { getAuthToken } from './app/services/auth';
 
 // screens
 import SplashScreen from './app/screens/SplashScreen';
@@ -12,19 +14,23 @@ import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
 
-const AppStackNavigator = createStackNavigator(
-  {
-    SplashScreen: { screen: SplashScreen },
-    GetStartedScreen: { screen: GetStartedScreen },
-    OAuthScreen: { screen: OAuthScreen },
-  },
-  {
-    initialRouteName: 'SplashScreen',
-    navigationOptions: {
-      header: null,
+const createAppStackNavigator = (initialRouteName) => {
+  const AppStackNavigator = createStackNavigator(
+    {
+      SplashScreen: { screen: SplashScreen },
+      GetStartedScreen: { screen: GetStartedScreen },
+      OAuthScreen: { screen: OAuthScreen },
     },
-  },
-);
+    {
+      initialRouteName,
+      navigationOptions: {
+        header: null,
+      },
+    },
+  );
+
+  return <AppStackNavigator />;
+};
 
 export default class App extends React.Component {
   constructor(props) {
@@ -32,14 +38,23 @@ export default class App extends React.Component {
 
     this.state = {
       connectionInfo: null,
+      screen: null,
     };
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     NetInfo.addEventListener('connectionChange', connectionInfo => this.handleConnectionChanged(connectionInfo));
     const connectionInfo = await NetInfo.getConnectionInfo();
 
     this.handleConnectionChanged(connectionInfo);
+  }
+
+  async componentDidMount() {
+    const authToken = await getAuthToken();
+
+    this.setState({
+      screen: authToken ? 'WelcomeScreen' : 'GetStartedScreen',
+    });
   }
 
   async handleConnectionChanged(connectionInfo) {
@@ -47,7 +62,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { connectionInfo } = this.state;
+    const { connectionInfo, screen } = this.state;
     return (
       <ApolloProvider client={client}>
         <StatusBar backgroundColor="transparent" barStyle="light-content" translucent animated />
@@ -55,7 +70,7 @@ export default class App extends React.Component {
         {connectionInfo && (
           <View style={{ flex: 1 }}>
             {connectionInfo.type === 'none' && <NoNetworkScreen />}
-            {connectionInfo.type !== 'none' && <AppStackNavigator />}
+            {connectionInfo.type !== 'none' && createAppStackNavigator(screen)}
           </View>
         )}
       </ApolloProvider>
