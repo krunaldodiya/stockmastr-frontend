@@ -4,6 +4,7 @@ import theme from '../libs/theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#68b2e3',
   },
   termsWrapper: {
     flexDirection: 'row',
