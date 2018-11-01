@@ -183,7 +183,7 @@ SEND OTP
             }}
             onPress={() => this.loginWithFacebook()}
           >
-            <Image style={{ width: 64, height: 64 }} source={facebookLogin} />
+            <Image style={{ width: 60, height: 60 }} source={facebookLogin} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -192,7 +192,7 @@ SEND OTP
             }}
             onPress={() => this.loginWithGoogle()}
           >
-            <Image style={{ width: 64, height: 64 }} source={googleLogin} />
+            <Image style={{ width: 60, height: 60 }} source={googleLogin} />
           </TouchableOpacity>
         </View>
       </View>
