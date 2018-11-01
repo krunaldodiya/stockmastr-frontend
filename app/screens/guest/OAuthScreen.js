@@ -65,6 +65,8 @@ class OAuthScreen extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <View style={styles.container}>
         <View
@@ -136,7 +138,7 @@ class OAuthScreen extends React.Component {
               alignSelf: 'center',
               backgroundColor: 'black',
             }}
-            onPress={() => this.loginWithGoogle()}
+            onPress={() => navigation.replace('VerifyOtpScreen')}
           >
             <Text style={styles.text}>
 SEND OTP

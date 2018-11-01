@@ -28,6 +28,7 @@
     "react-native": "0.57.4",
     "react-native-autocomplete-input": "^3.5.0",
     "react-native-check-box": "^2.1.6",
+    "react-native-confirmation-code-input": "^1.0.4",
     "react-native-google-autocomplete": "^0.1.5",
     "react-native-image-picker": "^0.27.1",
     "react-native-loading-spinner-overlay": "^1.0.1",

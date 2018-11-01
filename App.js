@@ -12,12 +12,14 @@ import { getAuthToken } from './app/services/auth';
 import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
+import VerifyOtpScreen from './app/screens/guest/VerifyOtpScreen';
 
 const createAppStackNavigator = (initialRouteName) => {
   const AppStackNavigator = createStackNavigator(
     {
       GetStartedScreen: { screen: GetStartedScreen },
       OAuthScreen: { screen: OAuthScreen },
+      VerifyOtpScreen: { screen: VerifyOtpScreen },
     },
     {
       initialRouteName,
