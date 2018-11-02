@@ -5,7 +5,7 @@ import {
 // 3rd
 // style
 import CodeInput from 'react-native-confirmation-code-input';
-import styles from '../../styles/OAuthScreen';
+import styles from '../../styles/VerifyOtpScreen';
 // services
 // theme
 import theme from '../../libs/theme';
@@ -25,12 +25,9 @@ class VerifyOtpScreen extends React.Component {
       otp: null,
       verifyOtp: '1234',
       time: 9,
+      otpVerified: false,
     };
   }
-
-  onFinishCheckingCode = async (isValid, code) => {
-    console.log(isValid, code);
-  };
 
   componentDidMount() {
     const interval = setInterval(() => {
@@ -42,6 +39,17 @@ class VerifyOtpScreen extends React.Component {
       }
     }, 1000);
   }
+
+  onFinishCheckingCode = async isValid => this.setState({ otpVerified: isValid });
+
+  verifyOtp = async () => {
+    const { otpVerified } = this.state;
+    const { navigation } = this.props;
+
+    if (otpVerified) {
+      navigation.replace('HomeScreen');
+    }
+  };
 
   render() {
     const { otp, verifyOtp, time } = this.state;
@@ -114,10 +122,10 @@ class VerifyOtpScreen extends React.Component {
             codeLength={4}
             space={5}
             size={50}
-            autoFocus={false}
+            autoFocus
             inputPosition="center"
             codeInputStyle={{ fontSize: 30 }}
-            onFulfill={(isValid, code) => this.onFinishCheckingCode(isValid, code)}
+            onFulfill={isValid => this.onFinishCheckingCode(isValid)}
           />
         </View>
 
@@ -169,14 +177,15 @@ class VerifyOtpScreen extends React.Component {
 
           <TouchableOpacity
             style={{
-              padding: 10,
+              padding: 8,
               borderRadius: 40,
               marginTop: 30,
-              width: '50%',
+              marginBottom: 10,
+              width: '45%',
               alignSelf: 'center',
               backgroundColor: 'black',
             }}
-            onPress={() => this.loginWithGoogle()}
+            onPress={() => this.verifyOtp()}
           >
             <Text style={styles.text}>
 VERIFY OTP

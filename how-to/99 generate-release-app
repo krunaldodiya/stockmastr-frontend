@@ -1,0 +1,14 @@
+name Krunal Dodiya
+organization unit [KD]
+organization [SocialStock]
+city [Ahmedabad]
+state [Gujarat]
+country [IN]
+
+alias socialstock
+password socialstock@1987
+appId com.socialstock
+
+keytool -genkey -v -keystore socialstock.keystore -alias socialstock -keyalg RSA -keysize 2048 -validity 10000
+
+paste socialstock.keystore into android/app

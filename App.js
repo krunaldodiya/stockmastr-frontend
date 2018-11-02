@@ -13,6 +13,7 @@ import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
 import VerifyOtpScreen from './app/screens/guest/VerifyOtpScreen';
+import HomeScreen from './app/screens/auth/HomeScreen';
 
 const createAppStackNavigator = (initialRouteName) => {
   const AppStackNavigator = createStackNavigator(
@@ -20,6 +21,7 @@ const createAppStackNavigator = (initialRouteName) => {
       GetStartedScreen: { screen: GetStartedScreen },
       OAuthScreen: { screen: OAuthScreen },
       VerifyOtpScreen: { screen: VerifyOtpScreen },
+      HomeScreen: { screen: HomeScreen },
     },
     {
       initialRouteName,
@@ -53,7 +55,7 @@ export default class App extends React.Component {
     const authToken = await getAuthToken();
 
     this.setState({
-      screen: authToken ? 'WelcomeScreen' : 'GetStartedScreen',
+      screen: authToken ? 'HomeScreen' : 'GetStartedScreen',
     });
   }
 

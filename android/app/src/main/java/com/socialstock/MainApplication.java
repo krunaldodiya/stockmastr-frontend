@@ -1,4 +1,4 @@
-package com.ssx.socialstock;
+package com.socialstock;
 
 import android.app.Application;
 

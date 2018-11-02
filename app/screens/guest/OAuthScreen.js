@@ -24,7 +24,7 @@ class OAuthScreen extends React.Component {
   loginWithGoogle = async () => {
     google({
       appId: '700045608007-77iit7ov1thbbcmr2olfmsf1a2ategh7.apps.googleusercontent.com',
-      callback: 'com.ssx.socialstock:/oauth2redirect',
+      callback: 'com.socialstock:/oauth2redirect',
     })
       .then((info) => {
         this.checkAuth(info);
@@ -132,11 +132,11 @@ class OAuthScreen extends React.Component {
 
           <TouchableOpacity
             style={{
-              padding: 10,
+              padding: 7,
               borderRadius: 40,
               marginTop: 30,
               marginBottom: 10,
-              width: '50%',
+              width: '40%',
               alignSelf: 'center',
               backgroundColor: 'black',
             }}

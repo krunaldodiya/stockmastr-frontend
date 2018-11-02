@@ -15,6 +15,6 @@ export default StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontSize: 20,
-    fontFamily: theme.fonts.TitilliumWebBold,
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
   },
 });
