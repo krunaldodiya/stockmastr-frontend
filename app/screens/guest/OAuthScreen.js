@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, Image, TextInput,
+  View, Text, TouchableOpacity, Image, TextInput, KeyboardAvoidingView,
 } from 'react-native';
 // 3rd
 import { google, facebook } from 'react-native-simple-auth';
@@ -68,14 +68,11 @@ class OAuthScreen extends React.Component {
     const { navigation } = this.props;
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
         <View
           style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
             alignItems: 'center',
-            paddingTop: 20,
+            marginTop: 20,
           }}
         >
           <Image style={{ width: 130, height: 130 }} source={phoneHand} />
@@ -83,11 +80,10 @@ class OAuthScreen extends React.Component {
 
         <View
           style={{
-            flex: 1,
             flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            padding: 5,
+            marginTop: 20,
           }}
         >
           <Text
@@ -106,6 +102,7 @@ class OAuthScreen extends React.Component {
               textAlign: 'center',
               color: '#ffffff',
               marginHorizontal: 20,
+              marginTop: 10,
               fontFamily: theme.fonts.TitilliumWebSemiBold,
             }}
           >
@@ -113,7 +110,12 @@ class OAuthScreen extends React.Component {
           </Text>
         </View>
 
-        <View style={{ flexDirection: 'column', marginTop: 10 }}>
+        <View
+          style={{
+            flexDirection: 'column',
+            marginTop: 30,
+          }}
+        >
           <TextInput
             placeholder="john.doe@example.com"
             placeholderTextColor="#000"
@@ -176,7 +178,6 @@ SEND OTP
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            marginBottom: 30,
           }}
         >
           <TouchableOpacity
@@ -197,7 +198,7 @@ SEND OTP
             <Image style={{ width: 60, height: 60 }} source={googleLogin} />
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

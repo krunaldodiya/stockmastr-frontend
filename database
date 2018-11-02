@@ -1,7 +1,7 @@
 ---------------------------------------
 heroku
 ---------------------------------------
-database => socialstock-prisma-server
+database => socialstock-prisma-db
 backend => socialstock-yoga-server
 
 ----------------------------
@@ -29,15 +29,16 @@ channel_subscriptions
 channels
 ----------------------------
     id - primary key  
+    type
     title  
     description  
-    price  
-    accuracy  
-    minimum_calls  
     image  
     owner_id  
     created_at  
     updated_at  
+    posts
+    channel_subscriptions: [ChannelSubscription!]!
+
 
 ----------------------------
 post_comments
@@ -73,6 +74,7 @@ posts
     stock_name  
     created_at  
     updated_at  
+    charge
     signal  
 
 ----------------------------
@@ -82,7 +84,10 @@ users
     name  
     email  
     type  
-    gender  
+    gender
+    dob
+    experience
+    sebi_registration_number  
     city  
     state  
     avatar  

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, Image,
+  View, Text, TouchableOpacity, Image, KeyboardAvoidingView,
 } from 'react-native';
 // 3rd
 // style
@@ -47,14 +47,11 @@ class VerifyOtpScreen extends React.Component {
     const { otp, verifyOtp, time } = this.state;
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
         <View
           style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
             alignItems: 'center',
-            paddingTop: 20,
+            marginTop: 20,
           }}
         >
           <Image style={{ width: 130, height: 130 }} source={phoneHand} />
@@ -62,11 +59,9 @@ class VerifyOtpScreen extends React.Component {
 
         <View
           style={{
-            flex: 1,
-            flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            padding: 5,
+            marginTop: 20,
           }}
         >
           <View
@@ -94,6 +89,7 @@ class VerifyOtpScreen extends React.Component {
               borderRadius: 10,
               paddingVertical: 5,
               paddingHorizontal: 10,
+              marginTop: 20,
             }}
           >
             <Text
@@ -109,51 +105,7 @@ class VerifyOtpScreen extends React.Component {
           </View>
         </View>
 
-        <View
-          style={{
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{ fontSize: 16, color: 'white', fontFamily: theme.fonts.TitilliumWebRegular }}
-          >
-            RESEND OTP &nbsp;
-            <Text
-              style={{
-                fontSize: 16,
-                color: 'black',
-                fontFamily: theme.fonts.TitilliumWebSemiBold,
-              }}
-            >
-              in
-            </Text>
-          </Text>
-
-          <View
-            style={{
-              borderWidth: 2,
-              borderColor: 'white',
-              borderRadius: 40,
-              marginTop: 20,
-              width: 60,
-              height: 60,
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: 'bold',
-                color: 'white',
-                fontSize: 22,
-                textAlign: 'center',
-                marginTop: 12,
-              }}
-            >
-              {time}
-            </Text>
-          </View>
-        </View>
-
-        <View style={{ flexDirection: 'column', marginTop: 10 }}>
+        <View style={{ height: 70, marginVertical: 20 }}>
           <CodeInput
             ref={otp}
             keyboardType="numeric"
@@ -164,16 +116,62 @@ class VerifyOtpScreen extends React.Component {
             size={50}
             autoFocus={false}
             inputPosition="center"
-            containerStyle={{ marginBottom: 100 }}
             codeInputStyle={{ fontSize: 30 }}
             onFulfill={(isValid, code) => this.onFinishCheckingCode(isValid, code)}
           />
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'column',
+            marginTop: 10,
+          }}
+        >
+          <View style={{ alignItems: 'center' }}>
+            <Text
+              style={{ fontSize: 16, color: 'white', fontFamily: theme.fonts.TitilliumWebRegular }}
+            >
+              RESEND OTP &nbsp;
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: 'black',
+                  fontFamily: theme.fonts.TitilliumWebSemiBold,
+                }}
+              >
+                in
+              </Text>
+            </Text>
+
+            <View
+              style={{
+                borderWidth: 2,
+                borderColor: 'white',
+                borderRadius: 40,
+                marginTop: 20,
+                width: 60,
+                height: 60,
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: 'white',
+                  fontSize: 22,
+                  textAlign: 'center',
+                  marginTop: 12,
+                }}
+              >
+                {time}
+              </Text>
+            </View>
+          </View>
 
           <TouchableOpacity
             style={{
               padding: 10,
               borderRadius: 40,
-              marginBottom: 30,
+              marginTop: 30,
               width: '50%',
               alignSelf: 'center',
               backgroundColor: 'black',
@@ -185,7 +183,7 @@ VERIFY OTP
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
