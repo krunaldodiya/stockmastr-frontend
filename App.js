@@ -5,8 +5,6 @@ import { createStackNavigator } from 'react-navigation';
 
 // libs
 import { client } from './app/libs/apollo';
-// services
-import { getAuthToken } from './app/services/auth';
 
 // screens
 import NoNetworkScreen from './app/screens/NoNetworkScreen';
@@ -14,6 +12,7 @@ import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
 import VerifyOtpScreen from './app/screens/guest/VerifyOtpScreen';
 import HomeScreen from './app/screens/auth/HomeScreen';
+import { getInitialScreen } from './app/services/get_initial_screen';
 
 const createAppStackNavigator = (initialRouteName) => {
   const AppStackNavigator = createStackNavigator(
@@ -52,11 +51,9 @@ export default class App extends React.Component {
   }
 
   async componentDidMount() {
-    const authToken = await getAuthToken();
+    const screen = await getInitialScreen();
 
-    this.setState({
-      screen: authToken ? 'HomeScreen' : 'GetStartedScreen',
-    });
+    this.setState({ screen });
   }
 
   async handleConnectionChanged(connectionInfo) {
@@ -65,11 +62,13 @@ export default class App extends React.Component {
 
   render() {
     const { connectionInfo, screen } = this.state;
+    const ready = connectionInfo && screen;
+
     return (
       <ApolloProvider client={client}>
         <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
-        {connectionInfo && (
+        {ready && (
           <View style={{ flex: 1 }}>
             {connectionInfo.type === 'none' && <NoNetworkScreen />}
             {connectionInfo.type !== 'none' && createAppStackNavigator(screen)}

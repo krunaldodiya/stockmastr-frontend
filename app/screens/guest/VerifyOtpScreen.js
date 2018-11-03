@@ -5,8 +5,10 @@ import {
 // 3rd
 // style
 import CodeInput from 'react-native-confirmation-code-input';
+import { compose, withApollo } from 'react-apollo';
 import styles from '../../styles/VerifyOtpScreen';
 // services
+import { manageAuth, getInitialScreen } from '../../services';
 // theme
 import theme from '../../libs/theme';
 
@@ -21,10 +23,13 @@ class VerifyOtpScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    const { email, otp } = props.navigation.state.params;
+
     this.state = {
-      otp: null,
-      verifyOtp: '1234',
-      time: 9,
+      email,
+      otp: otp.toString(),
+      verifyOtp: null,
+      time: 30,
       otpVerified: false,
     };
   }
@@ -40,19 +45,28 @@ class VerifyOtpScreen extends React.Component {
     }, 1000);
   }
 
-  onFinishCheckingCode = async isValid => this.setState({ otpVerified: isValid });
+  onFinishCheckingCode = async (isValid) => {
+    this.setState({ otpVerified: isValid });
+  };
 
-  verifyOtp = async () => {
-    const { otpVerified } = this.state;
-    const { navigation } = this.props;
+  otpAuth = async () => {
+    const { otpVerified, email } = this.state;
+    const { navigation, client } = this.props;
 
     if (otpVerified) {
-      navigation.replace('HomeScreen');
+      const user = await manageAuth(client, { email });
+      if (user) {
+        const screen = await getInitialScreen();
+
+        navigation.replace(screen, { user });
+      }
     }
   };
 
   render() {
-    const { otp, verifyOtp, time } = this.state;
+    const {
+      otp, verifyOtp, time, otpVerified,
+    } = this.state;
 
     return (
       <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
@@ -79,12 +93,20 @@ class VerifyOtpScreen extends React.Component {
             }}
           >
             <Text
-              style={{ fontSize: 16, color: 'white', fontFamily: theme.fonts.TitilliumWebRegular }}
+              style={{
+                fontSize: 16,
+                color: 'white',
+                fontFamily: theme.fonts.TitilliumWebRegular,
+              }}
             >
               Please, Enter verification code send to &nbsp;
             </Text>
             <Text
-              style={{ fontSize: 16, color: 'black', fontFamily: theme.fonts.TitilliumWebSemiBold }}
+              style={{
+                fontSize: 16,
+                color: 'black',
+                fontFamily: theme.fonts.TitilliumWebSemiBold,
+              }}
             >
               john.doe@example.com
             </Text>
@@ -115,10 +137,10 @@ class VerifyOtpScreen extends React.Component {
 
         <View style={{ height: 70, marginVertical: 20 }}>
           <CodeInput
-            ref={otp}
+            ref={verifyOtp}
             keyboardType="numeric"
             className="border-b"
-            compareWithCode={verifyOtp}
+            compareWithCode={otp}
             codeLength={4}
             space={5}
             size={50}
@@ -137,7 +159,11 @@ class VerifyOtpScreen extends React.Component {
         >
           <View style={{ alignItems: 'center' }}>
             <Text
-              style={{ fontSize: 16, color: 'white', fontFamily: theme.fonts.TitilliumWebRegular }}
+              style={{
+                fontSize: 16,
+                color: 'white',
+                fontFamily: theme.fonts.TitilliumWebRegular,
+              }}
             >
               RESEND OTP &nbsp;
               <Text
@@ -175,26 +201,20 @@ class VerifyOtpScreen extends React.Component {
             </View>
           </View>
 
-          <TouchableOpacity
-            style={{
-              padding: 8,
-              borderRadius: 40,
-              marginTop: 30,
-              marginBottom: 10,
-              width: '45%',
-              alignSelf: 'center',
-              backgroundColor: 'black',
-            }}
-            onPress={() => this.verifyOtp()}
-          >
-            <Text style={styles.text}>
-VERIFY OTP
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.submitButtonWrapper}>
+            <TouchableOpacity
+              style={otpVerified ? styles.submitButton : styles.submitButtonDisabled}
+              onPress={() => this.otpAuth()}
+            >
+              <Text style={otpVerified ? styles.submitButtonText : styles.submitButtonTextDisabled}>
+                VERIFY OTP
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     );
   }
 }
 
-export default VerifyOtpScreen;
+export default compose(withApollo)(VerifyOtpScreen);

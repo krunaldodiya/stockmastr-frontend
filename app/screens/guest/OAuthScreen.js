@@ -2,12 +2,15 @@ import React from 'react';
 import {
   View, Text, TouchableOpacity, Image, TextInput, KeyboardAvoidingView,
 } from 'react-native';
+import { compose, withApollo } from 'react-apollo';
 // 3rd
-import { google, facebook } from 'react-native-simple-auth';
+import Spinner from 'react-native-loading-spinner-overlay';
 // style
 import styles from '../../styles/OAuthScreen';
 // services
-import { setAuthToken } from '../../services/auth';
+import {
+  sendOtp, makeSocialAuth, manageAuth, getInitialScreen,
+} from '../../services';
 // theme
 import theme from '../../libs/theme';
 
@@ -21,54 +24,60 @@ class OAuthScreen extends React.Component {
     header: null,
   };
 
-  loginWithGoogle = async () => {
-    google({
-      appId: '700045608007-77iit7ov1thbbcmr2olfmsf1a2ategh7.apps.googleusercontent.com',
-      callback: 'com.socialstock:/oauth2redirect',
-    })
-      .then((info) => {
-        this.checkAuth(info);
-      })
-      .catch((error) => {
-        console.log('error', error);
-      });
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: null,
+      error: false,
+      spinner: false,
+    };
+  }
+
+  socialAuth = async (gateway) => {
+    const { navigation, client } = this.props;
+
+    const info = await makeSocialAuth(gateway);
+    const { email, name } = info.user;
+
+    const user = await manageAuth(client, { email, name });
+    if (user) {
+      const screen = await getInitialScreen();
+
+      navigation.replace(screen, { user });
+    }
+
+    return false;
   };
 
-  loginWithFacebook = async () => {
-    facebook({
-      appId: '1941481456155598',
-      callback: 'fb1941481456155598://authorize',
-    })
-      .then((info) => {
-        this.checkAuth(info);
+  sendOtp = async () => {
+    const { email } = this.state;
+    const { navigation } = this.props;
+
+    this.setState({ spinner: true });
+
+    sendOtp(email)
+      .then(({ data }) => {
+        this.setState({ spinner: false });
+        navigation.replace('VerifyOtpScreen', data);
       })
-      .catch((error) => {
-        console.log('error', error);
+      .catch((e) => {
+        this.setState({ spinner: false, error: true });
       });
-  };
-
-  checkAuth = async (info) => {
-    console.log(info);
-
-    const { navigation, socialAuthMutation } = this.props;
-    const variables = { email: info.user.email, name: info.user.name };
-
-    socialAuthMutation({ variables })
-      .then(async (response) => {
-        await setAuthToken(response.data.socialAuth.token);
-
-        return navigation.replace('UserTypeScreen', {
-          type: response.data.socialAuth.user.type,
-        });
-      })
-      .catch(error => console.log(error));
   };
 
   render() {
-    const { navigation } = this.props;
+    const { error, spinner } = this.state;
 
     return (
       <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
+        <Spinner
+          visible={spinner}
+          textContent="Loading..."
+          textStyle={styles.spinner}
+          overlayColor="rgba(0,0,0,0.8)"
+        />
+
         <View
           style={{
             alignItems: 'center',
@@ -119,8 +128,9 @@ class OAuthScreen extends React.Component {
           <TextInput
             placeholder="john.doe@example.com"
             placeholderTextColor="#000"
+            onChangeText={email => this.setState({ email, error: false })}
             style={{
-              borderColor: 'black',
+              borderColor: error ? 'red' : 'black',
               marginHorizontal: 30,
               marginTop: 10,
               borderWidth: 1,
@@ -130,22 +140,13 @@ class OAuthScreen extends React.Component {
             }}
           />
 
-          <TouchableOpacity
-            style={{
-              padding: 7,
-              borderRadius: 40,
-              marginTop: 30,
-              marginBottom: 10,
-              width: '40%',
-              alignSelf: 'center',
-              backgroundColor: 'black',
-            }}
-            onPress={() => navigation.replace('VerifyOtpScreen')}
-          >
-            <Text style={styles.text}>
+          <View style={styles.submitButtonWrapper}>
+            <TouchableOpacity style={styles.submitButton} onPress={() => this.sendOtp()}>
+              <Text style={styles.submitButtonText}>
 SEND OTP
-            </Text>
-          </TouchableOpacity>
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={{ alignItems: 'center', marginVertical: 20 }}>
@@ -184,7 +185,7 @@ SEND OTP
             style={{
               borderRadius: 40,
             }}
-            onPress={() => this.loginWithFacebook()}
+            onPress={() => this.socialAuth('facebook')}
           >
             <Image style={{ width: 60, height: 60 }} source={facebookLogin} />
           </TouchableOpacity>
@@ -193,7 +194,7 @@ SEND OTP
             style={{
               borderRadius: 40,
             }}
-            onPress={() => this.loginWithGoogle()}
+            onPress={() => this.socialAuth('google')}
           >
             <Image style={{ width: 60, height: 60 }} source={googleLogin} />
           </TouchableOpacity>
@@ -203,4 +204,4 @@ SEND OTP
   }
 }
 
-export default OAuthScreen;
+export default compose(withApollo)(OAuthScreen);
