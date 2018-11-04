@@ -9,7 +9,12 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../../styles/OAuthScreen';
 // services
 import {
-  sendOtp, makeSocialAuth, manageAuth, getInitialScreen,
+  login,
+  sendOtp,
+  makeSocialAuth,
+  checkUserExists,
+  register,
+  getInitialScreen,
 } from '../../services';
 // theme
 import theme from '../../libs/theme';
@@ -40,14 +45,13 @@ class OAuthScreen extends React.Component {
     const info = await makeSocialAuth(gateway);
     const { email, name } = info.user;
 
-    const user = await manageAuth(client, { email, name });
-    if (user) {
-      const screen = await getInitialScreen();
+    const user = await checkUserExists(client, { email });
+    if (!user) await register(client, { email, name });
 
-      navigation.replace(screen, { user });
-    }
+    const token = await login(email);
+    const screen = await getInitialScreen();
 
-    return false;
+    return token ? navigation.replace(screen, { user }) : false;
   };
 
   sendOtp = async () => {

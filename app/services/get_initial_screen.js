@@ -1,27 +1,15 @@
-import axios from 'axios';
-import { getAuthToken } from './auth';
-import { httpUrl } from '../libs/vars';
+import { getAuthToken, getNewUser } from './auth';
 
 const getInitialScreen = async () => {
   try {
     const authToken = await getAuthToken();
+    const isNewUser = await getNewUser();
+
     if (!authToken) {
       return 'GetStartedScreen';
     }
 
-    const { data } = await axios.post(
-      `${httpUrl}/api/me`,
-      {},
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-      },
-    );
-
-    return data.type_selected ? 'HomeScreen' : 'UserTypeScreen';
+    return JSON.parse(isNewUser) === 0 ? 'UserTypeScreen' : 'HomeScreen';
   } catch (e) {
     return false;
   }

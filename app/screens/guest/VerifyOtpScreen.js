@@ -8,7 +8,9 @@ import CodeInput from 'react-native-confirmation-code-input';
 import { compose, withApollo } from 'react-apollo';
 import styles from '../../styles/VerifyOtpScreen';
 // services
-import { manageAuth, getInitialScreen } from '../../services';
+import {
+  getInitialScreen, checkUserExists, register, login,
+} from '../../services';
 // theme
 import theme from '../../libs/theme';
 
@@ -54,13 +56,16 @@ class VerifyOtpScreen extends React.Component {
     const { navigation, client } = this.props;
 
     if (otpVerified) {
-      const user = await manageAuth(client, { email });
-      if (user) {
-        const screen = await getInitialScreen();
+      const user = await checkUserExists(client, { email });
+      if (!user) await register(client, { email });
 
-        navigation.replace(screen, { user });
-      }
+      const token = await login(email);
+      const screen = await getInitialScreen();
+
+      return token ? navigation.replace(screen, { user }) : false;
     }
+
+    return false;
   };
 
   render() {

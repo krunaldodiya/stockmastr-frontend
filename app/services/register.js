@@ -1,7 +1,14 @@
+import { CREATE_USER } from './graph/mutations/create_user';
+
 const register = async (client, variables) => {
   try {
-    console.log('register');
-    return true;
+    const userData = await client.mutate({
+      mutation: CREATE_USER,
+      fetchPolicy: 'no-cache',
+      variables,
+    });
+
+    return !!userData;
   } catch (e) {
     return false;
   }
