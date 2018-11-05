@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View, TouchableOpacity, Text, WebView, Modal,
 } from 'react-native';
+import { api } from '../../libs/api';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class HomeScreen extends React.Component {
   handleNavigation = (state) => {
     const { url, loading, title } = state;
 
-    if (url === 'http://192.168.2.200:8000/payments/response' && loading === false) {
+    if (url === api.paymentResponse && loading === false) {
       if (title === 'success') {
         this.setState({ message: 'Success' });
       }
@@ -43,7 +44,7 @@ export default class HomeScreen extends React.Component {
   showModal = () => {
     const { order } = this.state;
     const { id, userId, amount } = order;
-    const url = `http://192.168.2.200:8000/payments/request?order=${id}&user=${userId}&amount=${amount}`;
+    const url = `${api.paymentRequest}?order=${id}&user=${userId}&amount=${amount}`;
 
     return (
       <Modal visible={order} onRequestClose={() => this.setState({ order: null })}>
@@ -61,6 +62,10 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         {order && this.showModal()}
+
+        <Text>
+          {api.login}
+        </Text>
 
         <TouchableOpacity onPress={() => this.createOrder()}>
           <Text style={{ padding: 10 }}>

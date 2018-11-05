@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { httpUrl } from '../libs/vars';
+import { api } from '../libs/api';
 import { setAuthToken, setNewUser } from './auth';
 
 const login = async (email) => {
   try {
     const userData = await axios.post(
-      `${httpUrl}/auth/login`,
+      api.login,
       {
         email,
       },

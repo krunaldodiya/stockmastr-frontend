@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { httpUrl } from '../libs/vars';
+import { api } from '../libs/api';
 
 const sendOtp = email => axios.post(
-  `${httpUrl}/auth/otp`,
+  api.sendOtp,
   { email },
   {
     headers: {
