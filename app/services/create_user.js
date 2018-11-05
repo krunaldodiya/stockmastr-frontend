@@ -1,6 +1,6 @@
 import { CREATE_USER } from './graph/mutations/create_user';
 
-const register = async (client, variables) => {
+const createUser = async (client, variables) => {
   try {
     const userData = await client.mutate({
       mutation: CREATE_USER,
@@ -8,10 +8,10 @@ const register = async (client, variables) => {
       variables,
     });
 
-    return !!userData;
+    return userData.data.user;
   } catch (e) {
     return false;
   }
 };
 
-export { register };
+export { createUser };

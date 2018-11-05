@@ -13,7 +13,7 @@ import {
   sendOtp,
   makeSocialAuth,
   checkUserExists,
-  register,
+  createUser,
   getInitialScreen,
 } from '../../services';
 // theme
@@ -45,11 +45,17 @@ class OAuthScreen extends React.Component {
     const info = await makeSocialAuth(gateway);
     const { email, name } = info.user;
 
-    const user = await checkUserExists(client, { email });
-    if (!user) await register(client, { email, name });
+    this.setState({ spinner: true });
+
+    let user = await checkUserExists(client, { email });
+    if (!user) {
+      user = await createUser(client, { email, name });
+    }
 
     const token = await login(email);
     const screen = await getInitialScreen();
+
+    this.setState({ spinner: false });
 
     return token ? navigation.replace(screen, { user }) : false;
   };

@@ -9,7 +9,7 @@ import { compose, withApollo } from 'react-apollo';
 import styles from '../../styles/VerifyOtpScreen';
 // services
 import {
-  getInitialScreen, checkUserExists, register, login,
+  getInitialScreen, checkUserExists, createUser, login,
 } from '../../services';
 // theme
 import theme from '../../libs/theme';
@@ -56,8 +56,10 @@ class VerifyOtpScreen extends React.Component {
     const { navigation, client } = this.props;
 
     if (otpVerified) {
-      const user = await checkUserExists(client, { email });
-      if (!user) await register(client, { email });
+      let user = await checkUserExists(client, { email });
+      if (!user) {
+        user = await createUser(client, { email });
+      }
 
       const token = await login(email);
       const screen = await getInitialScreen();

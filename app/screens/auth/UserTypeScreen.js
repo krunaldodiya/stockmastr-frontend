@@ -7,6 +7,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { compose, withApollo } from 'react-apollo';
 // 3rd
@@ -14,13 +15,11 @@ import Spinner from 'react-native-loading-spinner-overlay';
 // style
 import styles from '../../styles/UseTypeScreen';
 // services
-import {
-  login, makeSocialAuth, checkUserExists, register, getInitialScreen,
-} from '../../services';
 // theme
 import theme from '../../libs/theme';
 import Switch from '../../components/Switch';
 
+import { updateUser } from '../../services';
 // images
 const phoneHand = require('../../../assets/images/phone-hand.png');
 
@@ -37,10 +36,12 @@ class UserTypeScreen extends React.Component {
     this.state = {
       error: false,
       spinner: false,
+      id: null,
+      name: null,
       selectedGender: 'Male',
       selectedType: 'Trader',
       cities: [],
-      selectedCity: {
+      selectedLocation: {
         id: null,
         name: null,
         state: null,
@@ -48,23 +49,39 @@ class UserTypeScreen extends React.Component {
     };
   }
 
-  socialAuth = async (gateway) => {
-    const { navigation, client } = this.props;
+  async componentWillMount() {
+    const { navigation } = this.props;
 
-    const info = await makeSocialAuth(gateway);
-    const { email, name } = info.user;
+    if (!navigation.state.params) {
+      return console.log('logout');
+    }
 
-    const user = await checkUserExists(client, { email });
-    if (!user) await register(client, { email, name });
-
-    const token = await login(email);
-    const screen = await getInitialScreen();
-
-    return token ? navigation.replace(screen, { user }) : false;
-  };
+    console.log(navigation);
+    
+    const { id, name } = navigation.state.params.user;
+    return this.setState({ id, name });
+  }
 
   updateProfile = async () => {
-    //
+    const {
+      id, selectedLocation, name, selectedGender, selectedType,
+    } = this.state;
+    const { client } = this.props;
+
+    if (!selectedLocation.id) Alert.alert('Oops', 'Please, select a city.');
+    if (name < 5) Alert.alert('Oops', 'Please, Provide your full name.');
+
+    const user = await updateUser(client, {
+      id,
+      name,
+      city: selectedLocation.name,
+      state: selectedLocation.state,
+      gender: selectedGender,
+      type: selectedType,
+      profile_updated: true,
+    });
+
+    console.log(user);
   };
 
   setSelectedGender = (selectedGender) => {
@@ -88,7 +105,13 @@ class UserTypeScreen extends React.Component {
 
   render() {
     const {
-      error, spinner, selectedGender, selectedType, cities, selectedCity,
+      error,
+      spinner,
+      selectedGender,
+      selectedType,
+      cities,
+      selectedLocation,
+      name,
     } = this.state;
 
     return (
@@ -149,7 +172,8 @@ class UserTypeScreen extends React.Component {
               placeholder="Name"
               placeholderTextColor="#ededed"
               autoCorrect={false}
-              onChangeText={() => this.setState({ error: false })}
+              value={name}
+              onChangeText={input => this.setState({ name: input })}
               style={{
                 color: 'white',
                 paddingLeft: 10,
@@ -169,7 +193,7 @@ class UserTypeScreen extends React.Component {
             <TextInput
               placeholder="Location"
               placeholderTextColor="#ededed"
-              value={selectedCity.id && `${selectedCity.name}, ${selectedCity.state}`}
+              value={selectedLocation.id && `${selectedLocation.name}, ${selectedLocation.state}`}
               onChangeText={keywords => this.handleTextChange(keywords)}
               style={{
                 color: 'white',
@@ -183,7 +207,7 @@ class UserTypeScreen extends React.Component {
                 <Text
                   autoCorrect={false}
                   style={{ color: 'white', padding: 10 }}
-                  onPress={() => this.setState({ cities: [], selectedCity: city })}
+                  onPress={() => this.setState({ cities: [], selectedLocation: city })}
                 >
                   {`${city.name}, ${city.state}`}
                 </Text>
