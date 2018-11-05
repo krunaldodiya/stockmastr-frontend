@@ -19,7 +19,7 @@ import styles from '../../styles/UseTypeScreen';
 import theme from '../../libs/theme';
 import Switch from '../../components/Switch';
 
-import { updateUser } from '../../services';
+import { updateUser, resetAuthToken, resetNewUser } from '../../services';
 // images
 const phoneHand = require('../../../assets/images/phone-hand.png');
 
@@ -41,6 +41,7 @@ class UserTypeScreen extends React.Component {
       selectedGender: 'Male',
       selectedType: 'Trader',
       cities: [],
+      selectedCity: null,
       selectedLocation: {
         id: null,
         name: null,
@@ -53,11 +54,12 @@ class UserTypeScreen extends React.Component {
     const { navigation } = this.props;
 
     if (!navigation.state.params) {
-      return console.log('logout');
+      await resetAuthToken();
+      await resetNewUser();
+
+      return navigation.replace('GetStartedScreen');
     }
 
-    console.log(navigation);
-    
     const { id, name } = navigation.state.params.user;
     return this.setState({ id, name });
   }
@@ -66,10 +68,15 @@ class UserTypeScreen extends React.Component {
     const {
       id, selectedLocation, name, selectedGender, selectedType,
     } = this.state;
-    const { client } = this.props;
+    const { client, navigation } = this.props;
 
-    if (!selectedLocation.id) Alert.alert('Oops', 'Please, select a city.');
-    if (name < 5) Alert.alert('Oops', 'Please, Provide your full name.');
+    if (name < 5) {
+      return Alert.alert('Oops', 'Please, Provide your full name.');
+    }
+
+    if (!selectedLocation.id) {
+      return Alert.alert('Oops', 'Please, select a city.');
+    }
 
     const user = await updateUser(client, {
       id,
@@ -81,7 +88,9 @@ class UserTypeScreen extends React.Component {
       profile_updated: true,
     });
 
-    console.log(user);
+    if (user) {
+      return navigation.replace('HomeScreen', { user });
+    }
   };
 
   setSelectedGender = (selectedGender) => {
@@ -93,6 +102,8 @@ class UserTypeScreen extends React.Component {
   };
 
   handleTextChange = (keywords) => {
+    this.setState({ selectedCity: keywords });
+
     if (keywords.length > 2) {
       const data = citiesList.filter((city) => {
         const regex = new RegExp(`^${keywords}`, 'gi');
@@ -105,13 +116,7 @@ class UserTypeScreen extends React.Component {
 
   render() {
     const {
-      error,
-      spinner,
-      selectedGender,
-      selectedType,
-      cities,
-      selectedLocation,
-      name,
+      error, spinner, selectedGender, selectedType, cities, selectedCity, name,
     } = this.state;
 
     return (
@@ -193,7 +198,7 @@ class UserTypeScreen extends React.Component {
             <TextInput
               placeholder="Location"
               placeholderTextColor="#ededed"
-              value={selectedLocation.id && `${selectedLocation.name}, ${selectedLocation.state}`}
+              value={selectedCity}
               onChangeText={keywords => this.handleTextChange(keywords)}
               style={{
                 color: 'white',
@@ -207,7 +212,12 @@ class UserTypeScreen extends React.Component {
                 <Text
                   autoCorrect={false}
                   style={{ color: 'white', padding: 10 }}
-                  onPress={() => this.setState({ cities: [], selectedLocation: city })}
+                  onPress={() => this.setState({
+                    cities: [],
+                    selectedCity: `${city.name}, ${city.state}`,
+                    selectedLocation: city,
+                  })
+                  }
                 >
                   {`${city.name}, ${city.state}`}
                 </Text>

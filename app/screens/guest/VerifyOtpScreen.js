@@ -6,6 +6,7 @@ import {
 // style
 import CodeInput from 'react-native-confirmation-code-input';
 import { compose, withApollo } from 'react-apollo';
+import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../../styles/VerifyOtpScreen';
 // services
 import {
@@ -28,6 +29,7 @@ class VerifyOtpScreen extends React.Component {
     const { email, otp } = props.navigation.state.params;
 
     this.state = {
+      spinner: false,
       email,
       otp: otp.toString(),
       verifyOtp: null,
@@ -56,6 +58,8 @@ class VerifyOtpScreen extends React.Component {
     const { navigation, client } = this.props;
 
     if (otpVerified) {
+      this.setState({ spinner: true });
+
       let user = await checkUserExists(client, { email });
       if (!user) {
         user = await createUser(client, { email });
@@ -64,19 +68,26 @@ class VerifyOtpScreen extends React.Component {
       const token = await login(email);
       const screen = await getInitialScreen();
 
+      this.setState({ spinner: false });
+
       return token ? navigation.replace(screen, { user }) : false;
     }
-
-    return false;
   };
 
   render() {
     const {
-      otp, verifyOtp, time, otpVerified,
+      otp, verifyOtp, time, otpVerified, spinner,
     } = this.state;
 
     return (
       <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
+        <Spinner
+          visible={spinner}
+          textContent="Loading..."
+          textStyle={styles.spinner}
+          overlayColor="rgba(0,0,0,0.8)"
+        />
+
         <View
           style={{
             alignItems: 'center',

@@ -42,22 +42,28 @@ class OAuthScreen extends React.Component {
   socialAuth = async (gateway) => {
     const { navigation, client } = this.props;
 
-    const info = await makeSocialAuth(gateway);
-    const { email, name } = info.user;
+    setTimeout(() => {
+      this.setState({ spinner: true });
+    }, 1000);
 
-    this.setState({ spinner: true });
+    try {
+      const info = await makeSocialAuth(gateway);
+      const { email, name } = info.user;
 
-    let user = await checkUserExists(client, { email });
-    if (!user) {
-      user = await createUser(client, { email, name });
+      let user = await checkUserExists(client, { email });
+      if (!user) {
+        user = await createUser(client, { email, name });
+      }
+
+      const token = await login(email);
+      const screen = await getInitialScreen();
+
+      this.setState({ spinner: false });
+
+      return token ? navigation.replace(screen, { user }) : false;
+    } catch (e) {
+      this.setState({ spinner: false });
     }
-
-    const token = await login(email);
-    const screen = await getInitialScreen();
-
-    this.setState({ spinner: false });
-
-    return token ? navigation.replace(screen, { user }) : false;
   };
 
   sendOtp = async () => {
