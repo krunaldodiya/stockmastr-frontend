@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { api } from '../libs/api';
 import { setAuthToken, setNewUser } from './auth';
+import bugsnag from './bugsnag';
 
 const login = async (email) => {
   try {
@@ -29,7 +30,7 @@ const login = async (email) => {
 
     return false;
   } catch (e) {
-    return false;
+    bugsnag.notify(e);
   }
 };
 

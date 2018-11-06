@@ -1,4 +1,5 @@
 import { CREATE_USER } from './graph/mutations/create_user';
+import bugsnag from './bugsnag';
 
 const createUser = async (client, variables) => {
   try {
@@ -10,7 +11,7 @@ const createUser = async (client, variables) => {
 
     return userData.data.user;
   } catch (e) {
-    return false;
+    bugsnag.notify(e);
   }
 };
 

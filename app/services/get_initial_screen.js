@@ -1,4 +1,5 @@
 import { getAuthToken, getNewUser } from './auth';
+import bugsnag from './bugsnag';
 
 const getInitialScreen = async () => {
   try {
@@ -11,7 +12,7 @@ const getInitialScreen = async () => {
 
     return JSON.parse(isNewUser) === 0 ? 'UserTypeScreen' : 'HomeScreen';
   } catch (e) {
-    return false;
+    bugsnag.notify(e);
   }
 };
 

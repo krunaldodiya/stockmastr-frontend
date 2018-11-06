@@ -13,6 +13,9 @@ import OAuthScreen from './app/screens/guest/OAuthScreen';
 import VerifyOtpScreen from './app/screens/guest/VerifyOtpScreen';
 import HomeScreen from './app/screens/auth/HomeScreen';
 import UserTypeScreen from './app/screens/auth/UserTypeScreen';
+import WalletScreen from './app/screens/auth/WalletScreen';
+
+// libs
 import { getInitialScreen } from './app/services/get_initial_screen';
 
 const createAppStackNavigator = (initialRouteName) => {
@@ -23,6 +26,7 @@ const createAppStackNavigator = (initialRouteName) => {
       VerifyOtpScreen: { screen: VerifyOtpScreen },
       HomeScreen: { screen: HomeScreen },
       UserTypeScreen: { screen: UserTypeScreen },
+      WalletScreen: { screen: WalletScreen },
     },
     {
       initialRouteName,

@@ -24,6 +24,7 @@ const phoneHand = require('../../../assets/images/phone-hand.png');
 const facebookLogin = require('../../../assets/images/facebook.png');
 const googleLogin = require('../../../assets/images/google.png');
 
+
 class OAuthScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -72,14 +73,14 @@ class OAuthScreen extends React.Component {
 
     this.setState({ spinner: true });
 
-    sendOtp(email)
-      .then(({ data }) => {
-        this.setState({ spinner: false });
-        navigation.replace('VerifyOtpScreen', data);
-      })
-      .catch((e) => {
-        this.setState({ spinner: false, error: true });
-      });
+    try {
+      const { data } = await sendOtp(email);
+
+      this.setState({ spinner: false });
+      return data ? navigation.replace('VerifyOtpScreen', data) : false;
+    } catch (error) {
+      this.setState({ spinner: false, error: true });
+    }
   };
 
   render() {

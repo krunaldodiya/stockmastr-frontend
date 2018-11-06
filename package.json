@@ -18,6 +18,7 @@
     "apollo-upload-client": "^9.0.0",
     "apollo-utilities": "^1.0.21",
     "axios": "^0.18.0",
+    "bugsnag-react-native": "^2.12.2",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "moment": "^2.22.2",

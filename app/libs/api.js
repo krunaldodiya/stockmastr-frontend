@@ -3,8 +3,8 @@ import { httpUrl, wsUrl } from './vars';
 const api = {
   httpGraphQL: `${httpUrl}/graphql`,
   wsGraphQL: `${wsUrl}/graphql`,
-  login: `${httpUrl}/auth/login`,
-  sendOtp: `${httpUrl}/auth/otp`,
+  login: `${httpUrl}/api/auth/login`,
+  sendOtp: `${httpUrl}/api/auth/otp`,
   paymentRequest: `${httpUrl}/api/payments/request`,
   paymentResponse: `${httpUrl}/api/payments/response`,
 };

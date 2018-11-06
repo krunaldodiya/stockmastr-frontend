@@ -1,4 +1,5 @@
 import { CHECK_USER_EXISTS } from './graph/queries/check_user_exists';
+import bugsnag from './bugsnag';
 
 const checkUserExists = async (client, variables) => {
   try {
@@ -10,7 +11,7 @@ const checkUserExists = async (client, variables) => {
 
     return userData.data.user;
   } catch (e) {
-    return false;
+    bugsnag.notify(e);
   }
 };
 
