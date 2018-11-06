@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, Image, KeyboardAvoidingView,
+  View, Text, TouchableOpacity, Image, KeyboardAvoidingView, Alert,
 } from 'react-native';
 // 3rd
 // style
@@ -10,7 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../../styles/VerifyOtpScreen';
 // services
 import {
-  getInitialScreen, checkUserExists, createUser, login,
+  getInitialScreen, checkUserExists, createUser, login, sendOtp,
 } from '../../services';
 // theme
 import theme from '../../libs/theme';
@@ -33,7 +33,7 @@ class VerifyOtpScreen extends React.Component {
       email,
       otp: otp.toString(),
       verifyOtp: null,
-      time: 30,
+      time: 20,
       otpVerified: false,
     };
   }
@@ -74,10 +74,27 @@ class VerifyOtpScreen extends React.Component {
     }
   };
 
+  resendOtp = async () => {
+    const { email } = this.state;
+
+    this.setState({ spinner: true });
+
+    try {
+      const { data } = await sendOtp(email);
+
+      this.setState({ spinner: false, otp: data.otp.toString() });
+      return Alert.alert('Success', 'Please, check your email');
+    } catch (error) {
+      this.setState({ spinner: false });
+    }
+  };
+
   render() {
     const {
       otp, verifyOtp, time, otpVerified, spinner,
     } = this.state;
+
+    const { navigation } = this.props;
 
     return (
       <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
@@ -140,16 +157,18 @@ class VerifyOtpScreen extends React.Component {
               marginTop: 20,
             }}
           >
-            <Text
-              style={{
-                fontSize: 18,
-                textAlign: 'center',
-                color: '#ffffff',
-                fontFamily: theme.fonts.TitilliumWebSemiBold,
-              }}
-            >
-              Not your email ?
-            </Text>
+            <TouchableOpacity onPress={() => navigation.replace('OAuthScreen')}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  textAlign: 'center',
+                  color: '#ffffff',
+                  fontFamily: theme.fonts.TitilliumWebSemiBold,
+                }}
+              >
+                Not your email ?
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -176,24 +195,26 @@ class VerifyOtpScreen extends React.Component {
           }}
         >
           <View style={{ alignItems: 'center' }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: 'white',
-                fontFamily: theme.fonts.TitilliumWebRegular,
-              }}
-            >
-              RESEND OTP &nbsp;
+            <TouchableOpacity disabled={time > 0} onPress={() => this.resendOtp()}>
               <Text
                 style={{
                   fontSize: 16,
-                  color: 'black',
-                  fontFamily: theme.fonts.TitilliumWebSemiBold,
+                  color: time > 0 ? 'gray' : 'indigo',
+                  fontFamily: theme.fonts.TitilliumWebRegular,
                 }}
               >
-                in
+                RESEND OTP &nbsp;
+                <Text
+                  style={{
+                    fontSize: 16,
+                    color: time > 0 ? 'gray' : 'black',
+                    fontFamily: theme.fonts.TitilliumWebRegular,
+                  }}
+                >
+                  IN
+                </Text>
               </Text>
-            </Text>
+            </TouchableOpacity>
 
             <View
               style={{
