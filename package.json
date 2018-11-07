@@ -33,6 +33,7 @@
     "react-native-popup-menu": "^0.14.0",
     "react-native-ratings": "^5.3.0",
     "react-native-simple-auth": "^2.4.0",
+    "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.18.0",
     "subscriptions-transport-ws": "^0.9.15"

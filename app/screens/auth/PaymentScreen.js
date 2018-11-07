@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default class PaymentScreen extends React.Component {
   constructor(props) {
     super(props);
 

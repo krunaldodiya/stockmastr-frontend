@@ -6,8 +6,16 @@ const CREATE_USER = gql`
       id
       name
       email
-      dob
       mobile
+      gender
+      dob
+      type
+      city
+      state
+      sebi_number
+      experience
+      avatar
+      profile_updated
     }
   }
 `;

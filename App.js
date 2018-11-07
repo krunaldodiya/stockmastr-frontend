@@ -11,7 +11,7 @@ import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
 import VerifyOtpScreen from './app/screens/guest/VerifyOtpScreen';
-import HomeScreen from './app/screens/auth/HomeScreen';
+import HomeScreen from './app/screens/tabs/HomeScreen';
 import UserTypeScreen from './app/screens/auth/UserTypeScreen';
 import WalletScreen from './app/screens/auth/WalletScreen';
 

@@ -24,7 +24,6 @@ const phoneHand = require('../../../assets/images/phone-hand.png');
 const facebookLogin = require('../../../assets/images/facebook.png');
 const googleLogin = require('../../../assets/images/google.png');
 
-
 class OAuthScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -56,7 +55,7 @@ class OAuthScreen extends React.Component {
         user = await createUser(client, { email, name });
       }
 
-      const token = await login(email);
+      const token = await login(client, { email });
       const screen = await getInitialScreen();
 
       this.setState({ spinner: false });

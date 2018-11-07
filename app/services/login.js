@@ -1,29 +1,20 @@
-import axios from 'axios';
-import { api } from '../libs/api';
 import { setAuthToken, setNewUser } from './auth';
+import { LOGIN } from './graph/mutations/login';
 import bugsnag from './bugsnag';
 
-const login = async (email) => {
+const login = async (client, variables) => {
   try {
-    const userData = await axios.post(
-      api.login,
-      {
-        email,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      },
-    );
+    const userData = await client.mutate({
+      mutation: LOGIN,
+      fetchPolicy: 'no-cache',
+      variables,
+    });
 
     if (userData) {
-      const { token } = userData.data;
-      const profileUpdated = userData.data.user.profile_updated;
+      const { token, user } = userData.data.auth;
 
       await setAuthToken(token);
-      await setNewUser(JSON.stringify(profileUpdated));
+      await setNewUser(JSON.stringify(user.profile_updated));
 
       return token;
     }

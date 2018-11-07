@@ -65,7 +65,7 @@ class VerifyOtpScreen extends React.Component {
         user = await createUser(client, { email });
       }
 
-      const token = await login(email);
+      const token = await login(client, { email });
       const screen = await getInitialScreen();
 
       this.setState({ spinner: false });
