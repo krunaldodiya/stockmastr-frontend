@@ -38,8 +38,10 @@ class HomeTab extends React.Component {
   }
 
   action = (grid) => {
+    const { navigation } = this.props;
+
     if (grid.title === 'SHARE') {
-      //
+      navigation.push('ShareScreen');
     }
   };
 

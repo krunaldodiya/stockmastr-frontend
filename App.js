@@ -15,6 +15,7 @@ import TabScreen from './app/screens/TabScreen';
 import UserTypeScreen from './app/screens/auth/UserTypeScreen';
 import WalletScreen from './app/screens/auth/WalletScreen';
 import NewsDetailScreen from './app/screens/NewsDetailScreen';
+import ShareScreen from './app/screens/ShareScreen';
 
 // libs
 import { getInitialScreen } from './app/services/get_initial_screen';
@@ -29,6 +30,7 @@ const createAppStackNavigator = (initialRouteName) => {
       UserTypeScreen: { screen: UserTypeScreen },
       WalletScreen: { screen: WalletScreen },
       NewsDetailScreen: { screen: NewsDetailScreen },
+      ShareScreen: { screen: ShareScreen },
     },
     {
       initialRouteName,

@@ -5,7 +5,7 @@ const getNews = async (client, variables) => {
   try {
     const userData = await client.query({
       query: GET_NEWS,
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'cache-first',
       variables,
     });
 

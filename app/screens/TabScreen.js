@@ -5,11 +5,10 @@ import { View } from 'react-native';
 import { compose, withApollo } from 'react-apollo';
 import BottomMenu from '../components/BottomMenu';
 // tabs
-import HomeTab from '../components/tabs/Home';
-import NotificationsTab from '../components/tabs/Notifications';
-import NewsTab from '../components/tabs/News';
-import SettingsTab from '../components/tabs/Settings';
-import ShareMenu from '../components/ShareMenu';
+import HomeTab from '../components/tabs/HomeTab';
+import NotificationsTab from '../components/tabs/NotificationsTab';
+import NewsTab from '../components/tabs/NewsTab';
+import SettingsTab from '../components/tabs/SettingsTab';
 
 class TabScreen extends React.Component {
   constructor(props) {
@@ -37,8 +36,6 @@ class TabScreen extends React.Component {
         </View>
 
         <BottomMenu currentTab={currentTab} changeTab={this.changeTab} />
-
-        <ShareMenu />
       </View>
     );
   }

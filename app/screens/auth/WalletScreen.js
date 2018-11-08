@@ -66,7 +66,7 @@ export default class WalletScreen extends React.Component {
         {order && this.showModal()}
 
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigation.goBack()}>
-          <Icon name="navigate-before" color="black" size={32} style={{ margin: 10 }} />
+          <Icon name="navigate-before" color="black" size={32} style={{ marginVertical: 10 }} />
 
           <Text style={{ marginTop: 17 }}>
 WALLET

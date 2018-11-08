@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Modal, Text, TouchableOpacity,
+  View, Modal, Text, TouchableOpacity, TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../libs/theme';
@@ -10,7 +10,6 @@ export default class ShareMenu extends React.Component {
     super(props);
 
     this.state = {
-      visible: true,
       shares: [
         {
           id: '1',
@@ -53,17 +52,18 @@ export default class ShareMenu extends React.Component {
   }
 
   render() {
-    const { shares, visible } = this.state;
+    const { shares } = this.state;
+    const { visible, hideShareMenu } = this.props;
 
     return (
       <Modal
         animationType="slide"
         transparent
         visible={visible}
-        onRequestClose={() => this.setState({ visible: false })}
+        onRequestClose={() => hideShareMenu()}
       >
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ visible: false })} />
+          <TouchableOpacity style={{ flex: 1 }} onPress={() => hideShareMenu()} />
 
           <View style={{ margin: 10 }}>
             <View
@@ -108,8 +108,8 @@ export default class ShareMenu extends React.Component {
               ))}
             </View>
 
-            <TouchableOpacity
-              onPress={() => this.setState({ visible: false })}
+            <TouchableHighlight
+              onPress={() => hideShareMenu()}
               style={{
                 backgroundColor: 'whitesmoke',
                 padding: 12,
@@ -127,7 +127,7 @@ export default class ShareMenu extends React.Component {
               >
                 Cancel
               </Text>
-            </TouchableOpacity>
+            </TouchableHighlight>
           </View>
         </View>
       </Modal>
