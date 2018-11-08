@@ -9,6 +9,7 @@ import HomeTab from '../components/tabs/Home';
 import NotificationsTab from '../components/tabs/Notifications';
 import NewsTab from '../components/tabs/News';
 import SettingsTab from '../components/tabs/Settings';
+import ShareMenu from '../components/ShareMenu';
 
 class TabScreen extends React.Component {
   constructor(props) {
@@ -36,6 +37,8 @@ class TabScreen extends React.Component {
         </View>
 
         <BottomMenu currentTab={currentTab} changeTab={this.changeTab} />
+
+        <ShareMenu />
       </View>
     );
   }

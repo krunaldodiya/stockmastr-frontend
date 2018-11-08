@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Share from 'react-native-share';
 import theme from '../../libs/theme';
 import styles from '../../styles/HomeTab';
 import { getNews } from '../../services/graph/get_news';
@@ -35,6 +36,22 @@ class HomeTab extends React.Component {
 
     this.setState({ news, loaded: true });
   }
+
+  action = (grid) => {
+    if (grid.title === 'SHARE') {
+      //
+    }
+  };
+
+  test = () => {
+    const shareOptions = {
+      title: 'Share via',
+      url: 'some share url',
+      social: Share.Social.WHATSAPP,
+    };
+
+    Share.shareSingle(shareOptions);
+  };
 
   render() {
     const { loaded, news, grids } = this.state;
@@ -118,7 +135,8 @@ loading
           }}
         >
           {grids.map(grid => (
-            <View
+            <TouchableOpacity
+              onPress={() => this.action(grid)}
               key={grid.id}
               style={{
                 height: '50%',
@@ -132,7 +150,7 @@ loading
               <Text style={{ fontFamily: theme.fonts.TitilliumWebSemiBold }}>
                 {grid.title}
               </Text>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </View>

@@ -1,0 +1,2 @@
+npm install react-native-share --save
+react-native link react-native-share

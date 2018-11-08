@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-share')
     compile project(':bugsnag-react-native')
     compile project(':react-native-vector-icons')
     implementation fileTree(dir: "libs", include: ["*.jar"])
