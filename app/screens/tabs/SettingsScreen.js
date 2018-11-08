@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import styles from '../../styles/SettingsTab';
 
-class SettingsTab extends React.Component {
+class SettingsScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -29,4 +29,4 @@ settings
   }
 }
 
-export default SettingsTab;
+export default SettingsScreen;

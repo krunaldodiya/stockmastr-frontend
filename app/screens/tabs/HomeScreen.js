@@ -4,12 +4,12 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Share from 'react-native-share';
+import { compose, withApollo } from 'react-apollo';
 import theme from '../../libs/theme';
 import styles from '../../styles/HomeTab';
 import { getNews } from '../../services/graph/get_news';
 
-class HomeTab extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,10 +29,7 @@ class HomeTab extends React.Component {
   async componentWillMount() {
     const { client } = this.props;
 
-    const news = await getNews(client, {
-      length: 5,
-      type: 'top',
-    });
+    const news = await getNews(client, { skip: 0, take: 5, type: 'top' });
 
     this.setState({ news, loaded: true });
   }
@@ -41,18 +38,8 @@ class HomeTab extends React.Component {
     const { navigation } = this.props;
 
     if (grid.title === 'SHARE') {
-      navigation.push('ShareScreen');
+      navigation.navigate('ShareScreen');
     }
-  };
-
-  test = () => {
-    const shareOptions = {
-      title: 'Share via',
-      url: 'some share url',
-      social: Share.Social.WHATSAPP,
-    };
-
-    Share.shareSingle(shareOptions);
   };
 
   render() {
@@ -160,4 +147,4 @@ loading
   }
 }
 
-export default HomeTab;
+export default compose(withApollo)(HomeScreen);

@@ -2,6 +2,7 @@ export default {
   background: {
     primary: '#3f51b5', // #3f51b5
     secondary: 'lightblue',
+    gray: '#bababa',
   },
 
   color: {

@@ -4,10 +4,36 @@ import theme from '../libs/theme';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.background.primary,
+    backgroundColor: '#fff',
+  },
+
+  icon: {
+    margin: 13,
+  },
+
+  header: {
+    flexDirection: 'row',
+    backgroundColor: 'skyblue',
+  },
+
+  body: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
-  text: { color: 'white' },
+  signal: {
+    marginTop: 10,
+    marginLeft: 10,
+    color: 'black',
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
+    fontSize: 22,
+  },
+
+  text: {
+    textAlign: 'center',
+    color: 'black',
+    fontFamily: theme.fonts.TitilliumWebRegular,
+    fontSize: 24,
+  },
 });

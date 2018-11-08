@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ShareMenu from '../components/ShareMenu';
+import theme from '../libs/theme';
 
 export default class WalletScreen extends React.Component {
   constructor(props) {
@@ -23,28 +24,70 @@ export default class WalletScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigation.goBack()}>
-          <Icon name="navigate-before" color="black" size={32} style={{ marginVertical: 10 }} />
+          <Icon
+            name="navigate-before"
+            color="black"
+            size={32}
+            style={{ marginLeft: 5, marginVertical: 10 }}
+          />
 
-          <Text style={{ marginTop: 17 }}>
-Share & Rate
+          <Text
+            style={{
+              marginLeft: 10,
+              marginTop: 13,
+              fontSize: 18,
+              fontFamily: theme.fonts.TitilliumWebSemiBold,
+            }}
+          >
+            SHARE & RATE
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.setState({ visible: true })}>
-          <Text style={{ padding: 10 }}>
-Share the app
+        <TouchableOpacity
+          onPress={() => this.setState({ visible: true })}
+          style={{ backgroundColor: '#fff', borderBottomColor: '#ccc', borderBottomWidth: 1 }}
+        >
+          <Text
+            style={{
+              paddingVertical: 15,
+              paddingLeft: 47,
+              fontSize: 18,
+              fontFamily: theme.fonts.TitilliumWebRegular,
+            }}
+          >
+            Share the App
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.setState({ visible: true })}>
-          <Text style={{ padding: 10 }}>
-Rate the app
+        <TouchableOpacity
+          onPress={() => this.setState({ visible: true })}
+          style={{ backgroundColor: '#fff', borderBottomColor: '#ccc', borderBottomWidth: 1 }}
+        >
+          <Text
+            style={{
+              paddingVertical: 15,
+              paddingLeft: 47,
+              fontSize: 18,
+              fontFamily: theme.fonts.TitilliumWebRegular,
+            }}
+          >
+            Rate the App
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => this.setState({ visible: true })}>
-          <Text style={{ padding: 10 }}>
-Like us on facebook
+        <TouchableOpacity
+          onPress={() => this.setState({ visible: true })}
+          style={{ backgroundColor: '#fff' }}
+        >
+          <Text
+            style={{
+              paddingVertical: 15,
+              paddingLeft: 47,
+              fontSize: 18,
+              fontFamily: theme.fonts.TitilliumWebRegular,
+            }}
+          >
+            Like us on Facebook
           </Text>
         </TouchableOpacity>
 

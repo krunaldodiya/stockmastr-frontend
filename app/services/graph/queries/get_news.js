@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 const GET_NEWS = gql`
-  query($length: Int!, $type: String!) {
-    news(length: $length, type: $type) {
+  query($skip: Int!, $take: Int!, $type: String!) {
+    news(skip: $skip, take: $take, type: $type) {
       id
       title
       description

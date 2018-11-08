@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import styles from '../../styles/NotificationsTab';
 
-class NotificationsTab extends React.Component {
+class NotificationsScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -29,4 +29,4 @@ notifications
   }
 }
 
-export default NotificationsTab;
+export default NotificationsScreen;
