@@ -1,5 +1,6 @@
-import { UPDATE_USER } from './graph/mutations/update_user';
-import { setNewUser } from './auth';
+import { UPDATE_USER } from './mutations/update_user';
+import { setNewUser } from '../auth';
+import bugsnag from '../bugsnag';
 
 const updateUser = async (client, variables) => {
   try {
@@ -13,7 +14,7 @@ const updateUser = async (client, variables) => {
     await setNewUser(JSON.stringify(profileUpdated));
     return userData.data.user;
   } catch (e) {
-    return false;
+    bugsnag.notify(e);
   }
 };
 

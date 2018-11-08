@@ -10,7 +10,7 @@ const getInitialScreen = async () => {
       return 'GetStartedScreen';
     }
 
-    return JSON.parse(isNewUser) === 0 ? 'UserTypeScreen' : 'HomeScreen';
+    return JSON.parse(isNewUser) === 0 ? 'UserTypeScreen' : 'TabScreen';
   } catch (e) {
     bugsnag.notify(e);
   }

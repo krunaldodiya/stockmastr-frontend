@@ -1,5 +1,5 @@
-import { CHECK_USER_EXISTS } from './graph/queries/check_user_exists';
-import bugsnag from './bugsnag';
+import { CHECK_USER_EXISTS } from './queries/check_user_exists';
+import bugsnag from '../bugsnag';
 
 const checkUserExists = async (client, variables) => {
   try {

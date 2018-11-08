@@ -89,7 +89,7 @@ class UserTypeScreen extends React.Component {
     });
 
     if (user) {
-      return navigation.replace('HomeScreen', { user });
+      return navigation.replace('TabScreen', { user });
     }
   };
 

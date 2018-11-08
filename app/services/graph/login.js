@@ -1,6 +1,6 @@
-import { setAuthToken, setNewUser } from './auth';
-import { LOGIN } from './graph/mutations/login';
-import bugsnag from './bugsnag';
+import { LOGIN } from './mutations/login';
+import { setAuthToken, setNewUser } from '../auth';
+import bugsnag from '../bugsnag';
 
 const login = async (client, variables) => {
   try {

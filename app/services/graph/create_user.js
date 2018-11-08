@@ -1,5 +1,5 @@
-import { CREATE_USER } from './graph/mutations/create_user';
-import bugsnag from './bugsnag';
+import { CREATE_USER } from './mutations/create_user';
+import bugsnag from '../bugsnag';
 
 const createUser = async (client, variables) => {
   try {

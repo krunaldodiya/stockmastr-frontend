@@ -11,7 +11,7 @@ import NoNetworkScreen from './app/screens/NoNetworkScreen';
 import GetStartedScreen from './app/screens/guest/GetStartedScreen';
 import OAuthScreen from './app/screens/guest/OAuthScreen';
 import VerifyOtpScreen from './app/screens/guest/VerifyOtpScreen';
-import HomeScreen from './app/screens/tabs/HomeScreen';
+import TabScreen from './app/screens/TabScreen';
 import UserTypeScreen from './app/screens/auth/UserTypeScreen';
 import WalletScreen from './app/screens/auth/WalletScreen';
 
@@ -24,7 +24,7 @@ const createAppStackNavigator = (initialRouteName) => {
       GetStartedScreen: { screen: GetStartedScreen },
       OAuthScreen: { screen: OAuthScreen },
       VerifyOtpScreen: { screen: VerifyOtpScreen },
-      HomeScreen: { screen: HomeScreen },
+      TabScreen: { screen: TabScreen },
       UserTypeScreen: { screen: UserTypeScreen },
       WalletScreen: { screen: WalletScreen },
     },
