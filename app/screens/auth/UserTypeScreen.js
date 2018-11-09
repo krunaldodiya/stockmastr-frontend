@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -7,27 +7,27 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
-  Alert,
-} from 'react-native';
-import { compose, withApollo } from 'react-apollo';
+  Alert
+} from "react-native";
+import { compose, withApollo } from "react-apollo";
 // 3rd
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from "react-native-loading-spinner-overlay";
 // style
-import styles from '../../styles/UseTypeScreen';
+import styles from "../../styles/UseTypeScreen";
 // services
 // theme
-import theme from '../../libs/theme';
-import Switch from '../../components/Switch';
+import theme from "../../libs/theme";
+import Switch from "../../components/Switch";
 
-import { updateUser, resetAuthToken, resetNewUser } from '../../services';
+import { updateUser, resetAuthToken, resetNewUser } from "../../services";
 // images
-const phoneHand = require('../../../assets/images/phone-hand.png');
+const phoneHand = require("../../../assets/images/phone-hand.png");
 
-const citiesList = require('../../../assets/js/cities.json');
+const citiesList = require("../../../assets/js/cities.json");
 
 class UserTypeScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
@@ -38,15 +38,15 @@ class UserTypeScreen extends React.Component {
       spinner: false,
       id: null,
       name: null,
-      selectedGender: 'Male',
-      selectedType: 'Trader',
+      selectedGender: "Male",
+      selectedType: "Trader",
       cities: [],
       selectedCity: null,
       selectedLocation: {
         id: null,
         name: null,
-        state: null,
-      },
+        state: null
+      }
     };
   }
 
@@ -57,7 +57,7 @@ class UserTypeScreen extends React.Component {
       await resetAuthToken();
       await resetNewUser();
 
-      return navigation.replace('GetStartedScreen');
+      return navigation.replace("GetStartedScreen");
     }
 
     const { id, name } = navigation.state.params.user;
@@ -66,16 +66,20 @@ class UserTypeScreen extends React.Component {
 
   updateProfile = async () => {
     const {
-      id, selectedLocation, name, selectedGender, selectedType,
+      id,
+      selectedLocation,
+      name,
+      selectedGender,
+      selectedType
     } = this.state;
     const { client, navigation } = this.props;
 
     if (name < 5) {
-      return Alert.alert('Oops', 'Please, Provide your full name.');
+      return Alert.alert("Oops", "Please, Provide your full name.");
     }
 
     if (!selectedLocation.id) {
-      return Alert.alert('Oops', 'Please, select a city.');
+      return Alert.alert("Oops", "Please, select a city.");
     }
 
     const user = await updateUser(client, {
@@ -85,28 +89,28 @@ class UserTypeScreen extends React.Component {
       state: selectedLocation.state,
       gender: selectedGender,
       type: selectedType,
-      profile_updated: true,
+      profile_updated: true
     });
 
     if (user) {
-      return navigation.replace('TabScreen', { user });
+      return navigation.replace("TabScreen", { user });
     }
   };
 
-  setSelectedGender = (selectedGender) => {
+  setSelectedGender = selectedGender => {
     this.setState({ selectedGender });
   };
 
-  setSelectedType = (selectedType) => {
+  setSelectedType = selectedType => {
     this.setState({ selectedType });
   };
 
-  handleTextChange = (keywords) => {
+  handleTextChange = keywords => {
     this.setState({ selectedCity: keywords });
 
     if (keywords.length > 2) {
-      const data = citiesList.filter((city) => {
-        const regex = new RegExp(`^${keywords}`, 'gi');
+      const data = citiesList.filter(city => {
+        const regex = new RegExp(`^${keywords}`, "gi");
         return city.name.match(regex);
       });
 
@@ -116,11 +120,21 @@ class UserTypeScreen extends React.Component {
 
   render() {
     const {
-      error, spinner, selectedGender, selectedType, cities, selectedCity, name,
+      error,
+      spinner,
+      selectedGender,
+      selectedType,
+      cities,
+      selectedCity,
+      name
     } = this.state;
 
     return (
-      <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
+      <KeyboardAvoidingView
+        behavior="position"
+        enabled
+        style={styles.container}
+      >
         <Spinner
           visible={spinner}
           textContent="Loading..."
@@ -130,8 +144,8 @@ class UserTypeScreen extends React.Component {
 
         <View
           style={{
-            alignItems: 'center',
-            marginTop: 20,
+            alignItems: "center",
+            marginTop: 20
           }}
         >
           <Image style={{ width: 130, height: 130 }} source={phoneHand} />
@@ -139,18 +153,18 @@ class UserTypeScreen extends React.Component {
 
         <View
           style={{
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            marginTop: 20,
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            marginTop: 20
           }}
         >
           <Text
             style={{
               fontSize: 22,
-              textAlign: 'center',
-              color: '#ffffff',
-              fontFamily: theme.fonts.TitilliumWebSemiBold,
+              textAlign: "center",
+              color: "#ffffff",
+              fontFamily: theme.fonts.TitilliumWebSemiBold
             }}
           >
             USER PROFILE
@@ -159,18 +173,18 @@ class UserTypeScreen extends React.Component {
 
         <View
           style={{
-            flexDirection: 'column',
-            marginTop: 30,
+            flexDirection: "column",
+            marginTop: 30
           }}
         >
           <View
             style={{
-              borderColor: error ? 'red' : 'white',
+              borderColor: error ? "red" : "white",
               marginHorizontal: 30,
               marginTop: 10,
               borderWidth: 1,
               borderRadius: 10,
-              fontFamily: theme.fonts.TitilliumWebRegular,
+              fontFamily: theme.fonts.TitilliumWebRegular
             }}
           >
             <TextInput
@@ -180,18 +194,18 @@ class UserTypeScreen extends React.Component {
               value={name}
               onChangeText={input => this.setState({ name: input })}
               style={{
-                color: 'white',
+                color: "white",
                 paddingLeft: 10,
-                fontFamily: theme.fonts.TitilliumWebRegular,
+                fontFamily: theme.fonts.TitilliumWebRegular
               }}
             />
 
             <View
               style={{
-                width: '100%',
+                width: "100%",
                 borderWidth: 0,
                 borderBottomWidth: 1,
-                borderBottomColor: 'white',
+                borderBottomColor: "white"
               }}
             />
 
@@ -201,9 +215,9 @@ class UserTypeScreen extends React.Component {
               value={selectedCity}
               onChangeText={keywords => this.handleTextChange(keywords)}
               style={{
-                color: 'white',
+                color: "white",
                 paddingLeft: 10,
-                fontFamily: theme.fonts.TitilliumWebRegular,
+                fontFamily: theme.fonts.TitilliumWebRegular
               }}
             />
 
@@ -211,12 +225,13 @@ class UserTypeScreen extends React.Component {
               {cities.map(city => (
                 <Text
                   autoCorrect={false}
-                  style={{ color: 'white', padding: 10 }}
-                  onPress={() => this.setState({
-                    cities: [],
-                    selectedCity: `${city.name}, ${city.state}`,
-                    selectedLocation: city,
-                  })
+                  style={{ color: "white", padding: 10 }}
+                  onPress={() =>
+                    this.setState({
+                      cities: [],
+                      selectedCity: `${city.name}, ${city.state}`,
+                      selectedLocation: city
+                    })
                   }
                 >
                   {`${city.name}, ${city.state}`}
@@ -227,7 +242,7 @@ class UserTypeScreen extends React.Component {
 
           <View style={{ marginTop: 60 }}>
             <Switch
-              options={['Male', 'Female']}
+              options={["Male", "Female"]}
               selected={selectedGender}
               onChange={this.setSelectedGender}
             />
@@ -235,17 +250,18 @@ class UserTypeScreen extends React.Component {
 
           <View style={{ marginTop: 20 }}>
             <Switch
-              options={['Trader', 'Provider']}
+              options={["Trader", "Provider"]}
               selected={selectedType}
               onChange={this.setSelectedType}
             />
           </View>
 
           <View style={styles.submitButtonWrapper}>
-            <TouchableOpacity style={styles.submitButton} onPress={() => this.updateProfile()}>
-              <Text style={styles.submitButtonText}>
-SUBMIT
-              </Text>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={() => this.updateProfile()}
+            >
+              <Text style={styles.submitButtonText}>SUBMIT</Text>
             </TouchableOpacity>
           </View>
         </View>
