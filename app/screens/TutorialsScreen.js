@@ -6,8 +6,9 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import LottieView from "lottie-react-native";
 // styles
 import styles from "../styles/TutorialsScreen";
+import theme from "../libs/theme";
 
-const like = require("../../assets/js/like.json");
+const animation = require("../../assets/js/graduating_engineer.json");
 
 export default class TutorialsScreen extends React.Component {
   constructor(props) {
@@ -45,7 +46,25 @@ export default class TutorialsScreen extends React.Component {
           <Text style={styles.text}>TUTORIALS</Text>
         </TouchableOpacity>
 
-        {animate && <LottieView source={like} autoPlay style={{ top: 50 }} />}
+        {animate && (
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 4 }}>
+              <LottieView source={animation} autoPlay style={{ top: 0 }} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontFamily: theme.fonts.TitilliumWebBold,
+                  fontSize: 24,
+                  color: "white"
+                }}
+              >
+                Coming Soon
+              </Text>
+            </View>
+          </View>
+        )}
       </View>
     );
   }

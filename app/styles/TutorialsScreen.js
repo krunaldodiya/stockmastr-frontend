@@ -3,7 +3,8 @@ import theme from "../libs/theme";
 
 export default StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "skyblue"
   },
   text: {
     marginLeft: 10,
