@@ -1,7 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import theme from "../libs/theme";
-import Icon from "react-native-vector-icons/FontAwesome";
 import IconSet from "../libs/icon_set";
 
 const TopBar = props => {

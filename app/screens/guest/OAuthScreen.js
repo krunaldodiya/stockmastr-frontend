@@ -1,12 +1,17 @@
-import React from 'react';
+import React from "react";
 import {
-  View, Text, TouchableOpacity, Image, TextInput, KeyboardAvoidingView,
-} from 'react-native';
-import { compose, withApollo } from 'react-apollo';
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  KeyboardAvoidingView
+} from "react-native";
+import { compose, withApollo } from "react-apollo";
 // 3rd
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from "react-native-loading-spinner-overlay";
 // style
-import styles from '../../styles/OAuthScreen';
+import styles from "../../styles/OAuthScreen";
 // services
 import {
   login,
@@ -14,19 +19,19 @@ import {
   makeSocialAuth,
   checkUserExists,
   createUser,
-  getInitialScreen,
-} from '../../services';
+  getInitialScreen
+} from "../../services";
 // theme
-import theme from '../../libs/theme';
+import theme from "../../libs/theme";
 
 // images
-const phoneHand = require('../../../assets/images/phone-hand.png');
-const facebookLogin = require('../../../assets/images/facebook.png');
-const googleLogin = require('../../../assets/images/google.png');
+const phoneHand = require("../../../assets/images/phone-hand.png");
+const facebookLogin = require("../../../assets/images/facebook.png");
+const googleLogin = require("../../../assets/images/google.png");
 
 class OAuthScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
@@ -35,11 +40,11 @@ class OAuthScreen extends React.Component {
     this.state = {
       email: null,
       error: false,
-      spinner: false,
+      spinner: false
     };
   }
 
-  socialAuth = async (gateway) => {
+  socialAuth = async gateway => {
     const { navigation, client } = this.props;
 
     setTimeout(() => {
@@ -54,6 +59,8 @@ class OAuthScreen extends React.Component {
       if (!user) {
         user = await createUser(client, { email, name });
       }
+
+      console.log(user);
 
       const token = await login(client, { email });
       const screen = await getInitialScreen();
@@ -76,7 +83,7 @@ class OAuthScreen extends React.Component {
       const { data } = await sendOtp(email);
 
       this.setState({ spinner: false });
-      return data ? navigation.replace('VerifyOtpScreen', data) : false;
+      return data ? navigation.replace("VerifyOtpScreen", data) : false;
     } catch (error) {
       this.setState({ spinner: false, error: true });
     }
@@ -86,7 +93,11 @@ class OAuthScreen extends React.Component {
     const { error, spinner } = this.state;
 
     return (
-      <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
+      <KeyboardAvoidingView
+        behavior="position"
+        enabled
+        style={styles.container}
+      >
         <Spinner
           visible={spinner}
           textContent="Loading..."
@@ -96,8 +107,8 @@ class OAuthScreen extends React.Component {
 
         <View
           style={{
-            alignItems: 'center',
-            marginTop: 20,
+            alignItems: "center",
+            marginTop: 20
           }}
         >
           <Image style={{ width: 130, height: 130 }} source={phoneHand} />
@@ -105,18 +116,18 @@ class OAuthScreen extends React.Component {
 
         <View
           style={{
-            flexDirection: 'column',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            marginTop: 20,
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            marginTop: 20
           }}
         >
           <Text
             style={{
               fontSize: 26,
-              textAlign: 'center',
-              color: '#ffffff',
-              fontFamily: theme.fonts.TitilliumWebSemiBold,
+              textAlign: "center",
+              color: "#ffffff",
+              fontFamily: theme.fonts.TitilliumWebSemiBold
             }}
           >
             LOGIN
@@ -124,11 +135,11 @@ class OAuthScreen extends React.Component {
           <Text
             style={{
               fontSize: 18,
-              textAlign: 'center',
-              color: '#ffffff',
+              textAlign: "center",
+              color: "#ffffff",
               marginHorizontal: 20,
               marginTop: 10,
-              fontFamily: theme.fonts.TitilliumWebSemiBold,
+              fontFamily: theme.fonts.TitilliumWebSemiBold
             }}
           >
             Please, Enter your email to receive verification code
@@ -137,8 +148,8 @@ class OAuthScreen extends React.Component {
 
         <View
           style={{
-            flexDirection: 'column',
-            marginTop: 30,
+            flexDirection: "column",
+            marginTop: 30
           }}
         >
           <TextInput
@@ -146,43 +157,44 @@ class OAuthScreen extends React.Component {
             placeholderTextColor="#000"
             onChangeText={email => this.setState({ email, error: false })}
             style={{
-              borderColor: error ? 'red' : 'black',
+              borderColor: error ? "red" : "black",
               marginHorizontal: 30,
               marginTop: 10,
               borderWidth: 1,
               borderRadius: 10,
               paddingLeft: 20,
-              fontFamily: theme.fonts.TitilliumWebRegular,
+              fontFamily: theme.fonts.TitilliumWebRegular
             }}
           />
 
           <View style={styles.submitButtonWrapper}>
-            <TouchableOpacity style={styles.submitButton} onPress={() => this.sendOtp()}>
-              <Text style={styles.submitButtonText}>
-SEND OTP
-              </Text>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={() => this.sendOtp()}
+            >
+              <Text style={styles.submitButtonText}>SEND OTP</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        <View style={{ alignItems: 'center', marginVertical: 20 }}>
+        <View style={{ alignItems: "center", marginVertical: 20 }}>
           <View
             style={{
-              position: 'absolute',
+              position: "absolute",
               marginTop: 13,
               borderTopWidth: 1,
-              borderTopColor: '#3d3d3d',
-              width: '100%',
+              borderTopColor: "#3d3d3d",
+              width: "100%"
             }}
           />
 
-          <View style={{ width: 50, backgroundColor: '#68b2e3' }}>
+          <View style={{ width: 50, backgroundColor: "#68b2e3" }}>
             <Text
               style={{
                 fontSize: 20,
-                textAlign: 'center',
-                color: '#3d3d3d',
-                fontFamily: theme.fonts.TitilliumWebLight,
+                textAlign: "center",
+                color: "#3d3d3d",
+                fontFamily: theme.fonts.TitilliumWebLight
               }}
             >
               OR
@@ -192,25 +204,25 @@ SEND OTP
 
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "center"
           }}
         >
           <TouchableOpacity
             style={{
-              borderRadius: 40,
+              borderRadius: 40
             }}
-            onPress={() => this.socialAuth('facebook')}
+            onPress={() => this.socialAuth("facebook")}
           >
             <Image style={{ width: 60, height: 60 }} source={facebookLogin} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={{
-              borderRadius: 40,
+              borderRadius: 40
             }}
-            onPress={() => this.socialAuth('google')}
+            onPress={() => this.socialAuth("google")}
           >
             <Image style={{ width: 60, height: 60 }} source={googleLogin} />
           </TouchableOpacity>
