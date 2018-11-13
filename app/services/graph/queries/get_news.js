@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const GET_NEWS = gql`
   query($skip: Int!, $take: Int!, $type: String!) {
