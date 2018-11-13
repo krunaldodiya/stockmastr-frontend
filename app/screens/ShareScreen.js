@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import ShareMenu from '../components/ShareMenu';
-import theme from '../libs/theme';
+import React from "react";
+import { View, TouchableOpacity, Text } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import ShareMenu from "../components/ShareMenu";
+import theme from "../libs/theme";
 
 export default class WalletScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false,
+      visible: false
     };
   }
 
@@ -22,8 +22,11 @@ export default class WalletScreen extends React.Component {
     const { navigation } = this.props;
 
     return (
-      <View style={{ flex: 1 }}>
-        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigation.goBack()}>
+      <View style={{ flex: 1, backgroundColor: "skyblue" }}>
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          onPress={() => navigation.goBack()}
+        >
           <Icon
             name="navigate-before"
             color="black"
@@ -36,55 +39,46 @@ export default class WalletScreen extends React.Component {
               marginLeft: 10,
               marginTop: 13,
               fontSize: 18,
-              fontFamily: theme.fonts.TitilliumWebSemiBold,
+              fontFamily: theme.fonts.TitilliumWebSemiBold
             }}
           >
             SHARE & RATE
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => this.setState({ visible: true })}
-          style={{ backgroundColor: '#fff', borderBottomColor: '#ccc', borderBottomWidth: 1 }}
-        >
+        <TouchableOpacity onPress={() => this.setState({ visible: true })}>
           <Text
             style={{
               paddingVertical: 15,
               paddingLeft: 47,
               fontSize: 18,
-              fontFamily: theme.fonts.TitilliumWebRegular,
+              fontFamily: theme.fonts.TitilliumWebRegular
             }}
           >
             Share the App
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => this.setState({ visible: true })}
-          style={{ backgroundColor: '#fff', borderBottomColor: '#ccc', borderBottomWidth: 1 }}
-        >
+        <TouchableOpacity onPress={() => this.setState({ visible: true })}>
           <Text
             style={{
               paddingVertical: 15,
               paddingLeft: 47,
               fontSize: 18,
-              fontFamily: theme.fonts.TitilliumWebRegular,
+              fontFamily: theme.fonts.TitilliumWebRegular
             }}
           >
             Rate the App
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => this.setState({ visible: true })}
-          style={{ backgroundColor: '#fff' }}
-        >
+        <TouchableOpacity onPress={() => this.setState({ visible: true })}>
           <Text
             style={{
               paddingVertical: 15,
               paddingLeft: 47,
               fontSize: 18,
-              fontFamily: theme.fonts.TitilliumWebRegular,
+              fontFamily: theme.fonts.TitilliumWebRegular
             }}
           >
             Like us on Facebook

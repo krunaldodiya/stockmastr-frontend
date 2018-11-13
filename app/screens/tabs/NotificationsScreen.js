@@ -1,17 +1,18 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import styles from '../../styles/NotificationsTab';
+import React from "react";
+import { View, Text } from "react-native";
+import styles from "../../styles/NotificationsTab";
+import TopBar from "../../components/TopBar";
 
 class NotificationsScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      loaded: false,
+      loaded: false
     };
   }
 
@@ -21,9 +22,11 @@ class NotificationsScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text>
-notifications
-        </Text>
+        <TopBar />
+
+        <View style={{ padding: 20 }}>
+          <Text>notifications</Text>
+        </View>
       </View>
     );
   }

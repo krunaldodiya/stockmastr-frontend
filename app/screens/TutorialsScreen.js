@@ -48,19 +48,34 @@ export default class TutorialsScreen extends React.Component {
 
         {animate && (
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 4 }}>
+            <View style={{ flex: 5 }}>
               <LottieView source={animation} autoPlay style={{ top: 0 }} />
             </View>
-            <View style={{ flex: 1 }}>
+
+            <View style={{ flex: 3 }}>
               <Text
                 style={{
                   textAlign: "center",
                   fontFamily: theme.fonts.TitilliumWebBold,
-                  fontSize: 24,
-                  color: "white"
+                  fontSize: 32,
+                  color: "#fff"
                 }}
               >
-                Coming Soon
+                Coming Soon !
+              </Text>
+
+              <Text
+                style={{
+                  marginTop: 30,
+                  textAlign: "center",
+                  fontFamily: theme.fonts.TitilliumWebRegular,
+                  fontSize: 18,
+                  color: "#000",
+                  marginHorizontal: 20
+                }}
+              >
+                Brand new tutorials will give you detailed knowledge and keep
+                you updated with stock market
               </Text>
             </View>
           </View>

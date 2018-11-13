@@ -1,15 +1,21 @@
-import React from 'react';
+import React from "react";
 import {
-  View, Text, Image, TouchableOpacity, FlatList,
-} from 'react-native';
-import { compose, withApollo } from 'react-apollo';
-import styles from '../../styles/NewsTab';
-import { getNews } from '../../services/graph/get_news';
-import theme from '../../libs/theme';
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator
+} from "react-native";
+import { compose, withApollo } from "react-apollo";
+import styles from "../../styles/NewsTab";
+import { getNews } from "../../services/graph/get_news";
+import theme from "../../libs/theme";
+import TopBar from "../../components/TopBar";
 
 class NewsScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
@@ -20,7 +26,7 @@ class NewsScreen extends React.Component {
       page: 0,
       refreshing: false,
       hasMore: true,
-      news: [],
+      news: []
     };
   }
 
@@ -28,19 +34,27 @@ class NewsScreen extends React.Component {
     this.loadNews();
   }
 
-  showNews = (news) => {
+  showNews = news => {
     const { navigation } = this.props;
 
-    return navigation.push('NewsDetailScreen', { news });
+    return navigation.push("NewsDetailScreen", { news });
   };
 
-  renderItem = (data) => {
+  renderItem = data => {
     const { item } = data;
 
     return (
       <TouchableOpacity onPress={() => this.showNews(item)}>
-        <View style={{ backgroundColor: 'whitesmoke', margin: 5, flexDirection: 'row' }}>
-          <View style={{ marginLeft: 5, marginRight: 10, justifyContent: 'center' }}>
+        <View
+          style={{
+            backgroundColor: "whitesmoke",
+            margin: 5,
+            flexDirection: "row"
+          }}
+        >
+          <View
+            style={{ marginLeft: 5, marginRight: 10, justifyContent: "center" }}
+          >
             <Image
               source={{ uri: item.image_url }}
               style={{ width: 100, height: 100 }}
@@ -53,19 +67,29 @@ class NewsScreen extends React.Component {
               style={{
                 margin: 5,
                 fontFamily: theme.fonts.TitilliumWebSemiBold,
-                fontSize: 18,
+                fontSize: 18
               }}
             >
               {item.title}
             </Text>
             <Text
               numberOfLines={2}
-              style={{ margin: 5, fontFamily: theme.fonts.TitilliumWebRegular, fontSize: 14 }}
+              style={{
+                margin: 5,
+                fontFamily: theme.fonts.TitilliumWebRegular,
+                fontSize: 14
+              }}
             >
               {item.description}
             </Text>
 
-            <Text style={{ margin: 5, fontFamily: theme.fonts.TitilliumWebLight, fontSize: 12 }}>
+            <Text
+              style={{
+                margin: 5,
+                fontFamily: theme.fonts.TitilliumWebLight,
+                fontSize: 12
+              }}
+            >
               {item.published_at}
             </Text>
           </View>
@@ -79,14 +103,14 @@ class NewsScreen extends React.Component {
     const { news, page } = this.state;
     const skip = page * 10;
 
-    const newsData = await getNews(client, { skip, take: 10, type: 'all' });
+    const newsData = await getNews(client, { skip, take: 10, type: "all" });
     const allNews = [...news, ...newsData];
 
     this.setState({
       news: allNews,
       refreshing: false,
       loaded: true,
-      hasMore: newsData.length,
+      hasMore: newsData.length
     });
   };
 
@@ -99,36 +123,34 @@ class NewsScreen extends React.Component {
   };
 
   render() {
-    const {
-      loaded, news, refreshing, hasMore,
-    } = this.state;
-
-    if (!loaded) {
-      return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <Text style={{ textAlign: 'center' }}>
-loading
-          </Text>
-        </View>
-      );
-    }
+    const { loaded, news, refreshing, hasMore } = this.state;
 
     return (
       <View style={styles.container}>
-        <FlatList
-          extraData={this.state}
-          data={news}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={data => this.renderItem(data)}
-          onEndReached={this.loadMore}
-          onEndReachedThreshold={20}
-          refreshing={refreshing}
-        />
+        <TopBar />
+
+        {!loaded && (
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <ActivityIndicator size="small" color="#000" />
+          </View>
+        )}
+
+        {loaded && (
+          <FlatList
+            extraData={this.state}
+            data={news}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={data => this.renderItem(data)}
+            onEndReached={this.loadMore}
+            onEndReachedThreshold={20}
+            refreshing={refreshing}
+          />
+        )}
 
         {!hasMore && (
-          <View style={{ justifyContent: 'center', padding: 10 }}>
+          <View style={{ justifyContent: "center", padding: 10 }}>
             <Text style={{ fontFamily: theme.fonts.TitilliumWebRegular }}>
-No more data
+              No more data
             </Text>
           </View>
         )}

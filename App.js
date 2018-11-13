@@ -13,10 +13,11 @@ import OAuthScreen from "./app/screens/guest/OAuthScreen";
 import VerifyOtpScreen from "./app/screens/guest/VerifyOtpScreen";
 import TabScreen from "./app/screens/TabScreen";
 import UserTypeScreen from "./app/screens/auth/UserTypeScreen";
-import WalletScreen from "./app/screens/auth/WalletScreen";
+import AddMoneyScreen from "./app/screens/AddMoneyScreen";
 import NewsDetailScreen from "./app/screens/NewsDetailScreen";
 import ShareScreen from "./app/screens/ShareScreen";
 import TutorialsScreen from "./app/screens/TutorialsScreen";
+import FavoritesScreen from "./app/screens/FavoritesScreen";
 
 // libs
 import { getInitialScreen } from "./app/services/get_initial_screen";
@@ -29,10 +30,11 @@ const createAppStackNavigator = initialRouteName => {
       VerifyOtpScreen: { screen: VerifyOtpScreen },
       TabScreen: { screen: TabScreen },
       UserTypeScreen: { screen: UserTypeScreen },
-      WalletScreen: { screen: WalletScreen },
+      AddMoneyScreen: { screen: AddMoneyScreen },
       NewsDetailScreen: { screen: NewsDetailScreen },
       ShareScreen: { screen: ShareScreen },
-      TutorialsScreen: { screen: TutorialsScreen }
+      TutorialsScreen: { screen: TutorialsScreen },
+      FavoritesScreen: { screen: FavoritesScreen }
     },
     {
       initialRouteName,
