@@ -7,34 +7,49 @@ import {
   Modal,
   TextInput
 } from "react-native";
+import { compose, withApollo } from "react-apollo";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { api } from "../libs/api";
 import styles from "../styles/AddMoneyScreen";
 import theme from "../libs/theme";
+import { processTransaction } from "../services";
+import IconSet from "../libs/icon_set";
 
-export default class AddMoneyScreen extends React.Component {
+class AddMoneyScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      message: null,
+      status: null,
       userId: 1,
-      mobile: "9426726815",
+      mobile: null,
       amount: null,
       showModal: false
     };
   }
 
-  handleNavigation = info => {
+  handleNavigation = async info => {
     const { url, loading, title } = info;
+    const { client } = this.props;
 
     if (!loading && url === api.paymentResponse) {
-      this.setState({ message: title, showModal: false });
+      const { success, transaction_id } = JSON.parse(title);
+
+      const transaction = await processTransaction(client, {
+        transaction_id,
+        success
+      });
+
+      this.setState({
+        status: success ? "success" : "failed",
+        showModal: false
+      });
     }
   };
 
   showPaymentGatewayModal = () => {
     const { userId, mobile, amount, showModal } = this.state;
+
     const url = `${
       api.paymentRequest
     }?amount=${amount}&userId=${userId}&mobile=${mobile}`;
@@ -45,15 +60,18 @@ export default class AddMoneyScreen extends React.Component {
         onRequestClose={() => this.setState({ showModal: false })}
       >
         <WebView
+          useWebKit
+          startInLoadingState
+          scalesPageToFit
           source={{ uri: url }}
-          onNavigationStateChange={state => this.handleNavigation(state)}
+          onNavigationStateChange={info => this.handleNavigation(info)}
         />
       </Modal>
     );
   };
 
   render() {
-    const { message, showModal, mobile, amount } = this.state;
+    const { status, showModal, mobile, amount } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -74,53 +92,75 @@ export default class AddMoneyScreen extends React.Component {
 
         {showModal && this.showPaymentGatewayModal()}
 
-        {!message && (
+        {!status && (
           <View
             style={{
               flex: 1,
               justifyContent: "center"
             }}
           >
-            <View>
-              <TextInput
-                value={mobile}
-                onChangeText={value => this.setState({ mobile: value })}
-                style={styles.textInput}
-                placeholder="Mobile Number"
-                keyboardType="numeric"
-              />
-            </View>
-
-            <View>
-              <TextInput
-                value={amount}
-                onChangeText={value => this.setState({ amount: value })}
-                style={styles.textInput}
-                placeholder={"Amount ( Multiple of \u20B9 1,000 )"}
-                keyboardType="numeric"
-              />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => this.setState({ showModal: true })}
-              style={styles.submitButton}
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignSelf: "center"
+              }}
             >
-              <Text style={styles.submitButtonText}>ADD MONEY</Text>
-            </TouchableOpacity>
+              <IconSet
+                type="Entypo"
+                name="wallet"
+                size={100}
+                style={{
+                  textAlign: "center",
+                  color: "#48A2F8"
+                }}
+              />
+            </View>
+
+            <View style={{ flex: 2, justifyContent: "center" }}>
+              <View>
+                <TextInput
+                  value={mobile}
+                  onChangeText={value => this.setState({ mobile: value })}
+                  style={styles.textInput}
+                  placeholder="Mobile Number"
+                  keyboardType="numeric"
+                />
+              </View>
+
+              <View>
+                <TextInput
+                  value={amount}
+                  onChangeText={value => this.setState({ amount: value })}
+                  style={styles.textInput}
+                  placeholder={"Amount ( Multiple of \u20B9 1,000 )"}
+                  keyboardType="numeric"
+                />
+              </View>
+
+              <TouchableOpacity
+                onPress={() => this.setState({ showModal: true })}
+                style={styles.submitButton}
+              >
+                <Text style={styles.submitButtonText}>ADD MONEY</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
 
-        {message && (
+        {status && (
           <View style={{ flex: 1, justifyContent: "center" }}>
             <Text
               style={{
                 textAlign: "center",
-                color: message === "success" ? "green" : "red",
+                color: status === "success" ? "green" : "red",
                 fontSize: 22,
                 fontFamily: theme.fonts.TitilliumWebSemiBold
               }}
             >
-              {message}
+              {status === "success"
+                ? "Transaction Successful !"
+                : "Transaction Failed !"}
             </Text>
           </View>
         )}
@@ -128,3 +168,5 @@ export default class AddMoneyScreen extends React.Component {
     );
   }
 }
+
+export default compose(withApollo)(AddMoneyScreen);

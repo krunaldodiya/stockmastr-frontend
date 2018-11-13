@@ -10,3 +10,5 @@ export * from "./graph/get_news";
 export * from "./graph/login";
 export * from "./graph/update_user";
 export * from "./graph/get_wallet";
+export * from "./graph/process_transaction";
+export * from "./graph/auth_user";

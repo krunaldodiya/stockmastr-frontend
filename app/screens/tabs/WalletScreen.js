@@ -11,6 +11,7 @@ import TopBar from "../../components/TopBar";
 import theme from "../../libs/theme";
 import { compose, withApollo } from "react-apollo";
 import { getWallet } from "../../services";
+const moment = require("moment");
 
 class WalletScreen extends React.Component {
   static navigationOptions = {
@@ -27,11 +28,13 @@ class WalletScreen extends React.Component {
   }
 
   async componentWillMount() {
-    const { client } = this.props;
+    const { client, navigation } = this.props;
 
-    const wallet = await getWallet(client, {});
+    navigation.addListener("willFocus", async () => {
+      const wallet = await getWallet(client, {});
 
-    this.setState({ loaded: true, wallet });
+      this.setState({ loaded: true, wallet });
+    });
   }
 
   render() {
@@ -124,16 +127,89 @@ class WalletScreen extends React.Component {
               <ScrollView>
                 {wallet.transactions.map(transaction => (
                   <View
+                    key={transaction.transaction_id}
                     style={{
-                      borderBottomWidth: 1,
-                      borderBottomColor: "gray",
+                      flexDirection: "row",
                       paddingVertical: 10
                     }}
                   >
-                    <Text>{transaction.transaction_type}</Text>
-                    <Text>{transaction.transaction_id}</Text>
-                    <Text>{transaction.amount}</Text>
-                    <Text>{transaction.status}</Text>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "column",
+                        borderLeftWidth: 2,
+                        borderLeftColor:
+                          transaction.status === "success" ? "green" : "red",
+                        paddingHorizontal: 10
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontFamily: theme.fonts.TitilliumWebSemiBold,
+                          fontSize: 12
+                        }}
+                      >
+                        {moment(transaction.created_at).format("Do MMM")} {""}
+                      </Text>
+
+                      <Text
+                        style={{
+                          fontFamily: theme.fonts.TitilliumWebSemiBold,
+                          fontSize: 16
+                        }}
+                      >
+                        {moment(transaction.created_at).format("YYYY")} {""}
+                      </Text>
+
+                      <Text
+                        style={{
+                          fontFamily: theme.fonts.TitilliumWebRegular,
+                          fontSize: 12,
+                          marginTop: 10,
+                          color: "#333"
+                        }}
+                      >
+                        {moment(transaction.created_at).format("hh:mm A")}
+                      </Text>
+                    </View>
+
+                    <View style={{ flex: 3 }}>
+                      <Text
+                        style={{
+                          fontFamily: theme.fonts.TitilliumWebSemiBold,
+                          fontSize: 16,
+                          marginBottom: 5
+                        }}
+                      >
+                        {transaction.meta.description}
+                      </Text>
+
+                      <Text
+                        style={{
+                          fontFamily: theme.fonts.TitilliumWebRegular,
+                          fontSize: 10,
+                          color: "gray"
+                        }}
+                      >
+                        {transaction.transaction_id}
+                      </Text>
+                    </View>
+
+                    <View style={{ flex: 1 }}>
+                      <Text
+                        style={{
+                          textAlign: "right",
+                          fontFamily: theme.fonts.TitilliumWebSemiBold,
+                          color:
+                            transaction.status === "success" ? "green" : "red"
+                        }}
+                      >
+                        {transaction.transaction_type === "deposit" ? "+" : "-"}{" "}
+                        {transaction.amount}
+                      </Text>
+                    </View>
+
+                    {/* <Text>{transaction.status}</Text> */}
                   </View>
                 ))}
               </ScrollView>

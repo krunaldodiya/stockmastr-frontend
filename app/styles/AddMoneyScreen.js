@@ -36,7 +36,7 @@ export default StyleSheet.create({
     borderColor: "#bbb",
     borderRadius: 10,
     marginHorizontal: 20,
-    marginBottom: 5,
+    marginBottom: 10,
     paddingLeft: 20
   }
 });

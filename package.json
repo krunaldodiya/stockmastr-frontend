@@ -41,6 +41,7 @@
     "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.18.0",
+    "rxjs": "^6.3.3",
     "subscriptions-transport-ws": "^0.9.15"
   },
   "devDependencies": {
