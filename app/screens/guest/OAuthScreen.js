@@ -60,8 +60,6 @@ class OAuthScreen extends React.Component {
         user = await createUser(client, { email, name });
       }
 
-      console.log(user);
-
       const token = await login(client, { email });
       const screen = await getInitialScreen();
 

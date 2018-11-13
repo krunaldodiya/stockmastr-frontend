@@ -104,20 +104,33 @@ class WalletScreen extends React.Component {
     if (status === "pending") return "orange";
   };
 
+  showLoader = () => (
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <ActivityIndicator size="small" color="#000" />
+    </View>
+  );
+
   showTransactions = wallet => {
     const { filter } = this.state;
-
-    if (!wallet.transactions.length) {
-      return (
-        <View style={{ marginTop: 5 }}>
-          <Text>No Transactions Yet.</Text>
-        </View>
-      );
-    }
 
     const transactions = wallet.transactions.filter(
       transaction => transaction["status"] === filter
     );
+
+    if (!transactions.length) {
+      return (
+        <View style={{ padding: 10 }}>
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: theme.fonts.TitilliumWebRegular
+            }}
+          >
+            No {filter !== "success" && filter} Transactions Yet.
+          </Text>
+        </View>
+      );
+    }
 
     return (
       <ScrollView>
@@ -219,90 +232,92 @@ class WalletScreen extends React.Component {
     );
   };
 
+  showTransactionBar = () => (
+    <View
+      style={{
+        marginBottom: 10,
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
+        flexDirection: "row",
+        justifyContent: "space-between"
+      }}
+    >
+      <View>
+        <Text
+          style={{
+            fontSize: 22,
+            fontFamily: theme.fonts.TitilliumWebSemiBold
+          }}
+        >
+          Transactions
+        </Text>
+      </View>
+
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={() => this.setState({ filter: "success" })}
+          style={{
+            height: 15,
+            width: 15,
+            backgroundColor: "green",
+            borderRadius: 30,
+            marginTop: 10,
+            marginLeft: 10
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => this.setState({ filter: "failed" })}
+          style={{
+            height: 15,
+            width: 15,
+            backgroundColor: "red",
+            borderRadius: 30,
+            marginTop: 10,
+            marginLeft: 10
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => this.setState({ filter: "pending" })}
+          style={{
+            height: 15,
+            width: 15,
+            backgroundColor: "orange",
+            borderRadius: 30,
+            marginTop: 10,
+            marginLeft: 10
+          }}
+        />
+      </View>
+    </View>
+  );
+
   render() {
     const { loaded, wallet } = this.state;
-
-    if (!loaded) {
-      return (
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <ActivityIndicator size="small" color="#000" />
-        </View>
-      );
-    }
 
     return (
       <View style={styles.container}>
         <TopBar />
 
-        <View style={{ flex: 1 }}>
-          {this.showTop(wallet)}
+        {!loaded && this.showLoader()}
 
-          <View
-            style={{
-              flex: 1
-            }}
-          >
-            <View
-              style={{
-                marginBottom: 10,
-                padding: 10,
-                borderBottomWidth: 1,
-                borderBottomColor: "#ccc",
-                flexDirection: "row",
-                justifyContent: "space-between"
-              }}
-            >
-              <View>
-                <Text
-                  style={{
-                    fontSize: 22,
-                    fontFamily: theme.fonts.TitilliumWebSemiBold
-                  }}
-                >
-                  Transactions
-                </Text>
+        {loaded && (
+          <View style={{ flex: 1 }}>
+            {this.showTop(wallet)}
+
+            {wallet && (
+              <View
+                style={{
+                  flex: 1
+                }}
+              >
+                {this.showTransactionBar()}
+
+                {this.showTransactions(wallet)}
               </View>
-
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
-                  onPress={() => this.setState({ filter: "success" })}
-                  style={{
-                    height: 15,
-                    width: 15,
-                    backgroundColor: "green",
-                    borderRadius: 30,
-                    marginTop: 10,
-                    marginLeft: 10
-                  }}
-                />
-                <TouchableOpacity
-                  onPress={() => this.setState({ filter: "failed" })}
-                  style={{
-                    height: 15,
-                    width: 15,
-                    backgroundColor: "red",
-                    borderRadius: 30,
-                    marginTop: 10,
-                    marginLeft: 10
-                  }}
-                />
-                <TouchableOpacity
-                  onPress={() => this.setState({ filter: "pending" })}
-                  style={{
-                    height: 15,
-                    width: 15,
-                    backgroundColor: "orange",
-                    borderRadius: 30,
-                    marginTop: 10,
-                    marginLeft: 10
-                  }}
-                />
-              </View>
-            </View>
-
-            {this.showTransactions(wallet)}
+            )}
           </View>
-        </View>
+        )}
       </View>
     );
   }
