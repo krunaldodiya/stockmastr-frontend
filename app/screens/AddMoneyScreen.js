@@ -5,14 +5,15 @@ import {
   Text,
   WebView,
   Modal,
-  TextInput
+  TextInput,
+  ActivityIndicator
 } from "react-native";
 import { compose, withApollo } from "react-apollo";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { api } from "../libs/api";
 import styles from "../styles/AddMoneyScreen";
 import theme from "../libs/theme";
-import { processTransaction } from "../services";
+import { processTransaction, getAuthUser } from "../services";
 import IconSet from "../libs/icon_set";
 
 class AddMoneyScreen extends React.Component {
@@ -20,12 +21,21 @@ class AddMoneyScreen extends React.Component {
     super(props);
 
     this.state = {
-      status: null,
-      userId: 1,
+      loaded: false,
+      authUser: null,
       mobile: null,
       amount: null,
-      showModal: false
+      showModal: false,
+      status: null
     };
+  }
+
+  async componentWillMount() {
+    const { client } = this.props;
+
+    const authUser = await getAuthUser(client, {});
+
+    this.setState({ authUser, mobile: authUser.mobile, loaded: true });
   }
 
   handleNavigation = async info => {
@@ -48,11 +58,11 @@ class AddMoneyScreen extends React.Component {
   };
 
   showPaymentGatewayModal = () => {
-    const { userId, mobile, amount, showModal } = this.state;
+    const { authUser, mobile, amount, showModal } = this.state;
 
-    const url = `${
-      api.paymentRequest
-    }?amount=${amount}&userId=${userId}&mobile=${mobile}`;
+    const url = `${api.paymentRequest}?amount=${amount}&userId=${
+      authUser.id
+    }&mobile=${mobile}`;
 
     return (
       <Modal
@@ -70,9 +80,19 @@ class AddMoneyScreen extends React.Component {
     );
   };
 
+  showLoader = () => (
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <ActivityIndicator size="small" color="#000" />
+    </View>
+  );
+
   render() {
-    const { status, showModal, mobile, amount } = this.state;
+    const { loaded, status, showModal, mobile, amount } = this.state;
     const { navigation } = this.props;
+
+    if (!loaded) {
+      return this.showLoader();
+    }
 
     return (
       <View style={{ flex: 1 }}>

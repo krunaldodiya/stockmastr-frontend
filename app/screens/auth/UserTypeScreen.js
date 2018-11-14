@@ -224,6 +224,7 @@ class UserTypeScreen extends React.Component {
             <ScrollView>
               {cities.map(city => (
                 <Text
+                  key={city.id}
                   autoCorrect={false}
                   style={{ color: "white", padding: 10 }}
                   onPress={() =>

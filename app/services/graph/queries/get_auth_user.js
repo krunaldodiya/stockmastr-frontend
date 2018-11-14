@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
-const AUTH_USER = gql`
+const GET_AUTH_USER = gql`
   query {
-    me {
+    authUser: me {
       id
       mobile
       name
@@ -14,4 +14,4 @@ const AUTH_USER = gql`
   }
 `;
 
-export { AUTH_USER };
+export { GET_AUTH_USER };

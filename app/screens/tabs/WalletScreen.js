@@ -22,7 +22,7 @@ class WalletScreen extends React.Component {
     super(props);
 
     this.state = {
-      loaded: false,
+      loaded: null,
       wallet: null,
       filter: "success"
     };
@@ -32,71 +32,11 @@ class WalletScreen extends React.Component {
     const { client, navigation } = this.props;
 
     navigation.addListener("willFocus", async () => {
+      this.setState({ loaded: false });
       const wallet = await getWallet(client, {});
-
-      this.setState({ loaded: true, wallet });
+      this.setState({ wallet, loaded: true });
     });
   }
-
-  showTop = wallet => {
-    const { navigation } = this.props;
-
-    return (
-      <View
-        style={{
-          padding: 20,
-          borderBottomWidth: 1,
-          borderBottomColor: "#ccc",
-          flexDirection: "row",
-          justifyContent: "space-between"
-        }}
-      >
-        <View style={{ flexDirection: "column" }}>
-          <Text
-            style={{
-              fontSize: 22,
-              fontFamily: theme.fonts.TitilliumWebSemiBold
-            }}
-          >
-            Amount
-          </Text>
-
-          <View style={{ height: 5 }} />
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily: theme.fonts.TitilliumWebRegular
-            }}
-          >
-            {"\u20B9"} {wallet.balance}
-          </Text>
-        </View>
-
-        <TouchableOpacity
-          onPress={() => navigation.push("AddMoneyScreen")}
-          style={{
-            backgroundColor: "#48A2F8",
-            justifyContent: "center",
-            height: 40,
-            width: 100,
-            borderRadius: 10,
-            marginTop: 10
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              fontSize: 12,
-              fontFamily: theme.fonts.TitilliumWebBold
-            }}
-          >
-            ADD MONEY
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   getColor = status => {
     if (status === "success") return "green";
@@ -107,6 +47,102 @@ class WalletScreen extends React.Component {
   showLoader = () => (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <ActivityIndicator size="small" color="#000" />
+    </View>
+  );
+
+  showAmountMenu = (wallet, navigation) => (
+    <View
+      style={{
+        padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
+        flexDirection: "row",
+        justifyContent: "space-between"
+      }}
+    >
+      <View style={{ flexDirection: "column" }}>
+        <Text
+          style={{
+            fontSize: 22,
+            fontFamily: theme.fonts.TitilliumWebSemiBold
+          }}
+        >
+          Amount
+        </Text>
+
+        <View style={{ height: 5 }} />
+        <Text
+          style={{
+            fontSize: 18,
+            fontFamily: theme.fonts.TitilliumWebRegular
+          }}
+        >
+          {"\u20B9"} {wallet.balance}
+        </Text>
+      </View>
+
+      <TouchableOpacity
+        onPress={() => navigation.push("AddMoneyScreen")}
+        style={{
+          backgroundColor: "#48A2F8",
+          justifyContent: "center",
+          height: 40,
+          width: 100,
+          borderRadius: 10,
+          marginTop: 10
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontSize: 12,
+            fontFamily: theme.fonts.TitilliumWebBold
+          }}
+        >
+          ADD MONEY
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  showTransactionBar = () => (
+    <View
+      style={{
+        marginBottom: 10,
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
+        flexDirection: "row",
+        justifyContent: "space-between"
+      }}
+    >
+      <View style={{ marginLeft: 10 }}>
+        <Text
+          style={{
+            fontSize: 22,
+            fontFamily: theme.fonts.TitilliumWebSemiBold
+          }}
+        >
+          Transactions
+        </Text>
+      </View>
+
+      <View style={{ flexDirection: "row", marginTop: 7 }}>
+        {["success", "failed", "pending"].map(status => (
+          <TouchableOpacity
+            key={status}
+            onPress={() => this.setState({ filter: status })}
+            style={{
+              height: 18,
+              width: 18,
+              marginRight: 15,
+              backgroundColor: this.getColor(status),
+              borderRadius: 30
+            }}
+          />
+        ))}
+      </View>
     </View>
   );
 
@@ -214,7 +250,7 @@ class WalletScreen extends React.Component {
               </Text>
             </View>
 
-            <View style={{ flex: 1, paddingRight: 10 }}>
+            <View style={{ flex: 1, paddingRight: 20 }}>
               <Text
                 style={{
                   textAlign: "right",
@@ -232,68 +268,9 @@ class WalletScreen extends React.Component {
     );
   };
 
-  showTransactionBar = () => (
-    <View
-      style={{
-        marginBottom: 10,
-        padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        flexDirection: "row",
-        justifyContent: "space-between"
-      }}
-    >
-      <View>
-        <Text
-          style={{
-            fontSize: 22,
-            fontFamily: theme.fonts.TitilliumWebSemiBold
-          }}
-        >
-          Transactions
-        </Text>
-      </View>
-
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity
-          onPress={() => this.setState({ filter: "success" })}
-          style={{
-            height: 15,
-            width: 15,
-            backgroundColor: "green",
-            borderRadius: 30,
-            marginTop: 10,
-            marginLeft: 10
-          }}
-        />
-        <TouchableOpacity
-          onPress={() => this.setState({ filter: "failed" })}
-          style={{
-            height: 15,
-            width: 15,
-            backgroundColor: "red",
-            borderRadius: 30,
-            marginTop: 10,
-            marginLeft: 10
-          }}
-        />
-        <TouchableOpacity
-          onPress={() => this.setState({ filter: "pending" })}
-          style={{
-            height: 15,
-            width: 15,
-            backgroundColor: "orange",
-            borderRadius: 30,
-            marginTop: 10,
-            marginLeft: 10
-          }}
-        />
-      </View>
-    </View>
-  );
-
   render() {
     const { loaded, wallet } = this.state;
+    const { navigation } = this.props;
 
     return (
       <View style={styles.container}>
@@ -303,19 +280,13 @@ class WalletScreen extends React.Component {
 
         {loaded && (
           <View style={{ flex: 1 }}>
-            {this.showTop(wallet)}
+            {this.showAmountMenu(wallet, navigation)}
 
-            {wallet && (
-              <View
-                style={{
-                  flex: 1
-                }}
-              >
-                {this.showTransactionBar()}
+            <View>
+              {this.showTransactionBar()}
 
-                {this.showTransactions(wallet)}
-              </View>
-            )}
+              {this.showTransactions(wallet)}
+            </View>
           </View>
         )}
       </View>
