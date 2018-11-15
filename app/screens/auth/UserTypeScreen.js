@@ -23,7 +23,8 @@ import {
   updateUser,
   resetAuthToken,
   resetNewUser,
-  validateEmail
+  validateEmail,
+  trim
 } from "../../services";
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
@@ -86,7 +87,7 @@ class UserTypeScreen extends React.Component {
       return Alert.alert("Oops", "Please, Provide your full name.");
     }
 
-    if (!email || !validateEmail(email)) {
+    if (!email || !validateEmail(trim(email))) {
       return Alert.alert("Oops", "Please, Provide a valid email address.");
     }
 
@@ -99,8 +100,8 @@ class UserTypeScreen extends React.Component {
     try {
       const user = await updateUser(client, {
         id,
-        name,
-        email,
+        name: trim(name),
+        email: trim(email),
         city: selectedLocation.name,
         state: selectedLocation.state,
         gender: selectedGender,

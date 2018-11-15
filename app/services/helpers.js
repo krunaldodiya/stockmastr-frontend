@@ -3,4 +3,8 @@ const validateEmail = email => {
   return re.test(String(email).toLowerCase());
 };
 
-export { validateEmail };
+const trim = str => {
+  return str.replace(/^\s+|\s+$/gm, "");
+};
+
+export { validateEmail, trim };
