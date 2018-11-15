@@ -83,11 +83,14 @@ class UserTypeScreen extends React.Component {
 
     const { client, navigation } = this.props;
 
+    const sanitizedEmail = trim(email);
+    const sanitizedName = trim(name);
+
     if (!name || name.length < 5) {
       return Alert.alert("Oops", "Please, Provide your full name.");
     }
 
-    if (!email || !validateEmail(trim(email))) {
+    if (!email || !validateEmail(sanitizedEmail)) {
       return Alert.alert("Oops", "Please, Provide a valid email address.");
     }
 
@@ -100,8 +103,8 @@ class UserTypeScreen extends React.Component {
     try {
       const user = await updateUser(client, {
         id,
-        name: trim(name),
-        email: trim(email),
+        name: sanitizedName,
+        email: sanitizedEmail,
         city: selectedLocation.name,
         state: selectedLocation.state,
         gender: selectedGender,

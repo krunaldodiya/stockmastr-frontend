@@ -30,6 +30,7 @@
     "react-native-autocomplete-input": "^3.5.0",
     "react-native-check-box": "^2.1.6",
     "react-native-confirmation-code-input": "^1.0.4",
+    "react-native-floating-action": "^1.13.0",
     "react-native-gesture-password": "^0.3.4",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-pin-view": "^2.0.1",

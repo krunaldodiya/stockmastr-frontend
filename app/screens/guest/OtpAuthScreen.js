@@ -69,7 +69,7 @@ class OtpAuthScreen extends React.Component {
         <View
           style={{
             alignItems: "center",
-            marginTop: 20
+            marginTop: 50
           }}
         >
           <Image style={{ width: 130, height: 130 }} source={phoneHand} />
