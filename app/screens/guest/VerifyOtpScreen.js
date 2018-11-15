@@ -35,27 +35,32 @@ class VerifyOtpScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const { email, otp } = props.navigation.state.params;
+    const { otp, mobile, user } = props.navigation.state.params;
 
     this.state = {
       spinner: false,
-      email,
-      otp: otp.toString(),
       verifyOtp: null,
+      otp: otp.toString(),
+      mobile,
+      user,
       time: 20,
       otpVerified: false
     };
   }
 
   componentDidMount() {
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       const { time } = this.state;
 
-      if (time === 0) clearInterval(interval);
+      if (time === 0) clearInterval(this.interval);
       if (time > 0) {
         this.setState({ time: time - 1 });
       }
     }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   onFinishCheckingCode = async isValid => {
@@ -63,43 +68,45 @@ class VerifyOtpScreen extends React.Component {
   };
 
   otpAuth = async () => {
-    const { otpVerified, email } = this.state;
+    const { otpVerified, mobile, user } = this.state;
     const { navigation, client } = this.props;
 
     if (otpVerified) {
       this.setState({ spinner: true });
 
-      let user = await checkUserExists(client, { email });
-      if (!user) {
-        user = await createUser(client, { email });
+      let authUser = user;
+      if (!authUser) {
+        authUser = await createUser(client, { mobile });
       }
 
-      const token = await login(client, { email });
+      const token = await login(client, { mobile });
       const screen = await getInitialScreen();
 
       this.setState({ spinner: false });
 
-      return token ? navigation.replace(screen, { user }) : false;
+      return token ? navigation.replace(screen, { user: authUser }) : false;
     }
+
+    return Alert.alert("Oops", "Invalid otp");
   };
 
   resendOtp = async () => {
-    const { email } = this.state;
+    const { mobile } = this.state;
 
     this.setState({ spinner: true });
 
     try {
-      const { data } = await sendOtp(email);
+      const { data } = await sendOtp(mobile);
 
       this.setState({ spinner: false, otp: data.otp.toString() });
-      return Alert.alert("Success", "Please, check your email");
+      return Alert.alert("Success", "Please, check your mobile");
     } catch (error) {
       this.setState({ spinner: false });
     }
   };
 
   render() {
-    const { email, otp, verifyOtp, time, otpVerified, spinner } = this.state;
+    const { mobile, otp, verifyOtp, time, otpVerified, spinner } = this.state;
 
     const { navigation } = this.props;
 
@@ -151,10 +158,11 @@ class VerifyOtpScreen extends React.Component {
               style={{
                 fontSize: 16,
                 color: "black",
-                fontFamily: theme.fonts.TitilliumWebSemiBold
+                fontFamily: theme.fonts.TitilliumWebSemiBold,
+                marginTop: 5
               }}
             >
-              {email}
+              {mobile}
             </Text>
           </View>
 
@@ -168,7 +176,9 @@ class VerifyOtpScreen extends React.Component {
               marginTop: 20
             }}
           >
-            <TouchableOpacity onPress={() => navigation.replace("OAuthScreen")}>
+            <TouchableOpacity
+              onPress={() => navigation.replace("OtpAuthScreen")}
+            >
               <Text
                 style={{
                   fontSize: 18,
@@ -177,7 +187,7 @@ class VerifyOtpScreen extends React.Component {
                   fontFamily: theme.fonts.TitilliumWebSemiBold
                 }}
               >
-                Not your email ?
+                Not your mobile ?
               </Text>
             </TouchableOpacity>
           </View>

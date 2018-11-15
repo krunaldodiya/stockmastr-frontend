@@ -1,8 +1,8 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const LOGIN = gql`
-  mutation($email: String) {
-    auth: login(email: $email) {
+  mutation($mobile: String) {
+    auth: login(mobile: $mobile) {
       token
       user {
         id

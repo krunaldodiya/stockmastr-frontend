@@ -11,8 +11,6 @@ const createUser = async (client, variables) => {
 
     return userData.data.user;
   } catch (e) {
-    console.log(e);
-
     bugsnag.notify(e);
   }
 };

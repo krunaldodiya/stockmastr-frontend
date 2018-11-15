@@ -11,8 +11,6 @@ const getWallet = async (client, variables) => {
 
     return walletData.data.wallet;
   } catch (e) {
-    console.log(e);
-
     bugsnag.notify(e);
   }
 };

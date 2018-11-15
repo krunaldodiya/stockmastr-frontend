@@ -60,7 +60,7 @@ I have read all the terms & conditions.
             <TouchableOpacity
               disabled={!agree}
               style={agree ? styles.submitButton : styles.submitButtonDisabled}
-              onPress={() => navigation.replace('OAuthScreen')}
+              onPress={() => navigation.replace('OtpAuthScreen')}
             >
               <Text style={agree ? styles.submitButtonText : styles.submitButtonTextDisabled}>
                 Agree & Continue

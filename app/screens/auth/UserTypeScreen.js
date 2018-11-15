@@ -19,7 +19,12 @@ import styles from "../../styles/UseTypeScreen";
 import theme from "../../libs/theme";
 import Switch from "../../components/Switch";
 
-import { updateUser, resetAuthToken, resetNewUser } from "../../services";
+import {
+  updateUser,
+  resetAuthToken,
+  resetNewUser,
+  validateEmail
+} from "../../services";
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
 
@@ -38,6 +43,7 @@ class UserTypeScreen extends React.Component {
       spinner: false,
       id: null,
       name: null,
+      email: null,
       selectedGender: "Male",
       selectedType: "Trader",
       cities: [],
@@ -64,36 +70,50 @@ class UserTypeScreen extends React.Component {
     return this.setState({ id, name });
   }
 
-  updateProfile = async () => {
+  createUser = async () => {
     const {
       id,
       selectedLocation,
       name,
+      email,
       selectedGender,
       selectedType
     } = this.state;
+
     const { client, navigation } = this.props;
 
-    if (name < 5) {
+    if (!name || name.length < 5) {
       return Alert.alert("Oops", "Please, Provide your full name.");
+    }
+
+    if (!email || !validateEmail(email)) {
+      return Alert.alert("Oops", "Please, Provide a valid email address.");
     }
 
     if (!selectedLocation.id) {
       return Alert.alert("Oops", "Please, select a city.");
     }
 
-    const user = await updateUser(client, {
-      id,
-      name,
-      city: selectedLocation.name,
-      state: selectedLocation.state,
-      gender: selectedGender,
-      type: selectedType,
-      profile_updated: true
-    });
+    this.setState({ spinner: true });
 
-    if (user) {
-      return navigation.replace("TabScreen", { user });
+    try {
+      const user = await updateUser(client, {
+        id,
+        name,
+        email,
+        city: selectedLocation.name,
+        state: selectedLocation.state,
+        gender: selectedGender,
+        type: selectedType,
+        profile_updated: true
+      });
+
+      if (user) {
+        this.setState({ spinner: false });
+        return navigation.replace("TabScreen", { user });
+      }
+    } catch (e) {
+      this.setState({ spinner: false, error: true });
     }
   };
 
@@ -126,7 +146,8 @@ class UserTypeScreen extends React.Component {
       selectedType,
       cities,
       selectedCity,
-      name
+      name,
+      email
     } = this.state;
 
     return (
@@ -179,7 +200,7 @@ class UserTypeScreen extends React.Component {
         >
           <View
             style={{
-              borderColor: error ? "red" : "white",
+              borderColor: error ? "red" : "#ededed",
               marginHorizontal: 30,
               marginTop: 10,
               borderWidth: 1,
@@ -205,7 +226,29 @@ class UserTypeScreen extends React.Component {
                 width: "100%",
                 borderWidth: 0,
                 borderBottomWidth: 1,
-                borderBottomColor: "white"
+                borderBottomColor: "#ededed"
+              }}
+            />
+
+            <TextInput
+              placeholder="Email Address"
+              placeholderTextColor="#ededed"
+              autoCorrect={false}
+              value={email}
+              onChangeText={input => this.setState({ email: input })}
+              style={{
+                color: "white",
+                paddingLeft: 10,
+                fontFamily: theme.fonts.TitilliumWebRegular
+              }}
+            />
+
+            <View
+              style={{
+                width: "100%",
+                borderWidth: 0,
+                borderBottomWidth: 1,
+                borderBottomColor: "#ededed"
               }}
             />
 
@@ -241,7 +284,7 @@ class UserTypeScreen extends React.Component {
             </ScrollView>
           </View>
 
-          <View style={{ marginTop: 60 }}>
+          <View style={{ marginTop: 30 }}>
             <Switch
               options={["Male", "Female"]}
               selected={selectedGender}
@@ -249,7 +292,7 @@ class UserTypeScreen extends React.Component {
             />
           </View>
 
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: 10 }}>
             <Switch
               options={["Trader", "Provider"]}
               selected={selectedType}
@@ -260,7 +303,7 @@ class UserTypeScreen extends React.Component {
           <View style={styles.submitButtonWrapper}>
             <TouchableOpacity
               style={styles.submitButton}
-              onPress={() => this.updateProfile()}
+              onPress={() => this.createUser()}
             >
               <Text style={styles.submitButtonText}>SUBMIT</Text>
             </TouchableOpacity>

@@ -2,6 +2,7 @@ export * from "./auth";
 export * from "./send_otp";
 export * from "./make_social_auth";
 export * from "./get_initial_screen";
+export * from "./helpers";
 
 // graph
 export * from "./graph/check_user_exists";

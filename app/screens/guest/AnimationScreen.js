@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 
 import { Icon } from 'react-native-vector-icons';
-import styles from '../../styles/OAuthScreen';
+import styles from '../../styles/OtpAuthScreen';
 import Animation from '../../components/Animation';
 
 class AnimationScreen extends React.Component {

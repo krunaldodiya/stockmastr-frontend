@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const CREATE_USER = gql`
-  mutation($email: String!, $name: String) {
-    user: createUser(email: $email, name: $name) {
+  mutation($mobile: String!, $name: String) {
+    user: createUser(mobile: $mobile, name: $name) {
       id
       name
       email

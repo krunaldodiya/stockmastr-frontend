@@ -9,7 +9,7 @@ import { client } from "./app/libs/apollo";
 // screens
 import NoNetworkScreen from "./app/screens/NoNetworkScreen";
 import GetStartedScreen from "./app/screens/guest/GetStartedScreen";
-import OAuthScreen from "./app/screens/guest/OAuthScreen";
+import OtpAuthScreen from "./app/screens/guest/OtpAuthScreen";
 import VerifyOtpScreen from "./app/screens/guest/VerifyOtpScreen";
 import TabScreen from "./app/screens/TabScreen";
 import UserTypeScreen from "./app/screens/auth/UserTypeScreen";
@@ -26,7 +26,7 @@ const createAppStackNavigator = initialRouteName => {
   const AppStackNavigator = createStackNavigator(
     {
       GetStartedScreen: { screen: GetStartedScreen },
-      OAuthScreen: { screen: OAuthScreen },
+      OtpAuthScreen: { screen: OtpAuthScreen },
       VerifyOtpScreen: { screen: VerifyOtpScreen },
       TabScreen: { screen: TabScreen },
       UserTypeScreen: { screen: UserTypeScreen },
