@@ -34,34 +34,34 @@ const AppTabNavigator = createBottomTabNavigator(
             type="Entypo"
             size={24}
             name="notification"
-            style={{ color: tintColor, marginRight: 20 }}
+            style={{ color: tintColor }}
           />
         )
       }
     },
-    Adding: {
-      screen: () => null,
-      navigationOptions: () => ({
-        tabBarIcon: (
-          <View
-            style={{
-              borderRadius: 60,
-              backgroundColor: "#48A2F8",
-              width: 75,
-              height: 75,
-              justifyContent: "center"
-            }}
-          >
-            <Icon
-              name="plus"
-              color="white"
-              size={24}
-              style={{ textAlign: "center" }}
-            />
-          </View>
-        )
-      })
-    },
+    // Adding: {
+    //   screen: () => null,
+    //   navigationOptions: () => ({
+    //     tabBarIcon: (
+    //       <View
+    //         style={{
+    //           borderRadius: 60,
+    //           backgroundColor: "#48A2F8",
+    //           width: 75,
+    //           height: 75,
+    //           justifyContent: "center"
+    //         }}
+    //       >
+    //         <Icon
+    //           name="plus"
+    //           color="white"
+    //           size={24}
+    //           style={{ textAlign: "center" }}
+    //         />
+    //       </View>
+    //     )
+    //   })
+    // },
     News: {
       screen: NewsScreen,
       navigationOptions: {
@@ -71,7 +71,7 @@ const AppTabNavigator = createBottomTabNavigator(
             type="Entypo"
             size={24}
             name="newsletter"
-            style={{ color: tintColor, marginLeft: 20 }}
+            style={{ color: tintColor }}
           />
         )
       }
