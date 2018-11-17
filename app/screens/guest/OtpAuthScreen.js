@@ -125,12 +125,12 @@ class OtpAuthScreen extends React.Component {
         >
           <TextInput
             placeholder={error ? error.errors.mobile[0] : "9876543210"}
-            placeholderTextColor={error ? "red" : "black"}
+            placeholderTextColor={error ? "#e74c3c" : "black"}
             keyboardType="number-pad"
             maxLength={10}
             onChangeText={mobile => this.setState({ mobile })}
             style={{
-              borderColor: error ? "red" : "black",
+              borderColor: error ? "#e74c3c" : "black",
               marginHorizontal: 30,
               marginTop: 10,
               borderWidth: 1,

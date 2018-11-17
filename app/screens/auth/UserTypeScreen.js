@@ -6,7 +6,8 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  Keyboard
 } from "react-native";
 import { compose, withApollo } from "react-apollo";
 // 3rd
@@ -34,14 +35,22 @@ class UserTypeScreen extends React.Component {
     super(props);
 
     const { navigation } = props;
+    const { user } = navigation.state.params;
 
     this.state = {
       error: false,
       spinner: false,
-      user: navigation.state.params.user,
       cities: [],
-      selectedLocation: null
+      user,
+      selectedLocation:
+        user.city && user.state ? `${user.city}, ${user.state}` : null
     };
+  }
+
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () =>
+      this.setState({ error: false })
+    );
   }
 
   createUserProfile = async () => {
@@ -49,51 +58,18 @@ class UserTypeScreen extends React.Component {
     const { navigation } = this.props;
 
     try {
+      this.setState({ spinner: true });
+
       const data = await graph(api.createUserProfile, {
         ...user,
         profile_updated: true
       });
 
-      console.log(data);
+      this.setState({ spinner: false });
+      return navigation.replace("TabScreen", { user: data.user });
     } catch ({ error }) {
       this.setState({ spinner: false, error });
     }
-
-    // if (!user.name) {
-    //   this.setState({ error: "Please, Provide your full name." });
-    // }
-
-    // if (!user.email) {
-    //   this.setState({ error: "Please, Provide a valid email address." });
-    // }
-
-    // if (!user.city || !user.state) {
-    //   this.setState({ error: "Please, select a city." });
-    // }
-
-    // const { client, navigation } = this.props;
-
-    // this.setState({ spinner: true });
-
-    // try {
-    //   const user = await updateUser(client, {
-    //     id,
-    //     name: sanitizedName,
-    //     email: sanitizedEmail,
-    //     city: selectedLocation.name,
-    //     state: selectedLocation.state,
-    //     gender: selectedGender,
-    //     type: selectedType,
-    //     profile_updated: true
-    //   });
-
-    //   if (user) {
-    //     this.setState({ spinner: false });
-    //     return navigation.replace("TabScreen", { user });
-    //   }
-    // } catch (e) {
-    //   this.setState({ spinner: false, error: true });
-    // }
   };
 
   updateUserData = (key, value) => {
@@ -168,7 +144,7 @@ class UserTypeScreen extends React.Component {
         >
           <View
             style={{
-              borderColor: error ? "red" : "#ededed",
+              borderColor: error ? "#e74c3c" : "#ededed",
               marginHorizontal: 30,
               marginTop: 10,
               borderWidth: 1,
@@ -177,8 +153,8 @@ class UserTypeScreen extends React.Component {
             }}
           >
             <TextInput
-              placeholder="Name"
-              placeholderTextColor="#ededed"
+              placeholder={error ? error.errors.name[0] : "Full Name"}
+              placeholderTextColor={error ? "#e74c3c" : "#ededed"}
               autoCorrect={false}
               value={user.name}
               onChangeText={name => this.updateUserData("name", name)}
@@ -194,13 +170,13 @@ class UserTypeScreen extends React.Component {
                 width: "100%",
                 borderWidth: 0,
                 borderBottomWidth: 1,
-                borderBottomColor: "#ededed"
+                borderBottomColor: error ? "#e74c3c" : "#ededed"
               }}
             />
 
             <TextInput
-              placeholder="Email Address"
-              placeholderTextColor="#ededed"
+              placeholder={error ? error.errors.email[0] : "Email Address"}
+              placeholderTextColor={error ? "#e74c3c" : "#ededed"}
               autoCorrect={false}
               value={user.email}
               onChangeText={email => this.updateUserData("email", email)}
@@ -216,7 +192,7 @@ class UserTypeScreen extends React.Component {
                 width: "100%",
                 borderWidth: 0,
                 borderBottomWidth: 1,
-                borderBottomColor: "#ededed"
+                borderBottomColor: error ? "#e74c3c" : "#ededed"
               }}
             />
 
@@ -226,8 +202,8 @@ class UserTypeScreen extends React.Component {
               <View style={{ flex: 1 }}>
                 <TextInput
                   ref={location => (this.location = location)}
-                  placeholder="Location"
-                  placeholderTextColor="#ededed"
+                  placeholder={error ? error.errors.city[0] : "Location"}
+                  placeholderTextColor={error ? "#e74c3c" : "#ededed"}
                   value={selectedLocation}
                   editable={!user.city}
                   clearButtonMode="always"
