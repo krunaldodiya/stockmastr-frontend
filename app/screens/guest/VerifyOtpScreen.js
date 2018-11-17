@@ -14,15 +14,10 @@ import { compose, withApollo } from "react-apollo";
 import Spinner from "react-native-loading-spinner-overlay";
 import styles from "../../styles/VerifyOtpScreen";
 // services
-import {
-  getInitialScreen,
-  checkUserExists,
-  createUser,
-  login,
-  sendOtp
-} from "../../services";
+import { graph, setAuthToken } from "../../services";
 // theme
 import theme from "../../libs/theme";
+import { api } from "../../libs/api";
 
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
@@ -35,14 +30,13 @@ class VerifyOtpScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const { otp, mobile, user } = props.navigation.state.params;
+    const { otp, mobile } = props.navigation.state.params;
 
     this.state = {
       spinner: false,
       verifyOtp: null,
       otp: otp.toString(),
       mobile,
-      user,
       time: 20,
       otpVerified: false
     };
@@ -68,38 +62,41 @@ class VerifyOtpScreen extends React.Component {
   };
 
   otpAuth = async () => {
-    const { otpVerified, mobile, user } = this.state;
-    const { navigation, client } = this.props;
+    const { otpVerified, mobile, otp } = this.state;
+    const { navigation } = this.props;
 
     if (otpVerified) {
-      this.setState({ spinner: true });
+      try {
+        this.setState({ spinner: true });
 
-      let authUser = user;
-      if (!authUser) {
-        authUser = await createUser(client, { mobile });
+        const { token, user } = await graph(api.verifyOtp, { mobile, otp });
+
+        if (token) await setAuthToken(token);
+
+        this.setState({ spinner: false });
+
+        return token ? navigation.replace("UserTypeScreen", { user }) : false;
+      } catch (error) {
+        this.setState({ spinner: false });
       }
-
-      const token = await login(client, { mobile });
-      const screen = await getInitialScreen();
-
-      this.setState({ spinner: false });
-
-      return token ? navigation.replace(screen, { user: authUser }) : false;
     }
 
-    return Alert.alert("Oops", "Invalid otp");
+    if (!otpVerified) {
+      Alert.alert("Oops", "Invalid OTP");
+    }
   };
 
   resendOtp = async () => {
     const { mobile } = this.state;
 
-    this.setState({ spinner: true });
-
     try {
-      const { data } = await sendOtp(mobile);
+      this.setState({ spinner: true });
+
+      const { data } = await graph(api.requestOtp, { mobile });
 
       this.setState({ spinner: false, otp: data.otp.toString() });
-      return Alert.alert("Success", "Please, check your mobile");
+
+      return Alert.alert("Success", "Otp sent successfully");
     } catch (error) {
       this.setState({ spinner: false });
     }

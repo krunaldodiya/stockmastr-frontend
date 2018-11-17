@@ -1,18 +1,12 @@
-import { getAuthToken, getNewUser } from "./auth";
-import bugsnag from "./bugsnag";
+import { graph } from "./api/graph";
+import { api } from "../libs/api";
 
 const getInitialScreen = async () => {
   try {
-    const authToken = await getAuthToken();
-    const isNewUser = await getNewUser();
-
-    if (!authToken) {
-      return "GetStartedScreen";
-    }
-
-    return JSON.parse(isNewUser) === false ? "UserTypeScreen" : "TabScreen";
-  } catch (e) {
-    bugsnag.notify(e);
+    const authUser = await graph(api.me, {});
+    return authUser.profile_updated ? "TabScreen" : "GetStartedScreen";
+  } catch (error) {
+    return "GetStartedScreen";
   }
 };
 

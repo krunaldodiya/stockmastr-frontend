@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
 import { compose, withApollo } from "react-apollo";
 // 3rd
@@ -13,9 +14,10 @@ import Spinner from "react-native-loading-spinner-overlay";
 // style
 import styles from "../../styles/OtpAuthScreen";
 // services
-import { sendOtp } from "../../services";
+import { graph } from "../../services";
 // theme
 import theme from "../../libs/theme";
+import { api } from "../../libs/api";
 
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
@@ -35,18 +37,26 @@ class OtpAuthScreen extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener("keyboardDidShow", () =>
+      this.setState({ error: false })
+    );
+  }
+
   sendOtp = async () => {
     const { mobile } = this.state;
     const { navigation } = this.props;
 
-    this.setState({ spinner: true });
-
     try {
-      const { data } = await sendOtp(mobile);
+      this.setState({ spinner: true });
+
+      const data = await graph(api.requestOtp, { mobile });
+
       this.setState({ spinner: false });
+
       return data ? navigation.replace("VerifyOtpScreen", data) : false;
-    } catch (error) {
-      this.setState({ spinner: false, error: true });
+    } catch ({ error }) {
+      this.setState({ spinner: false, error });
     }
   };
 
@@ -114,11 +124,11 @@ class OtpAuthScreen extends React.Component {
           }}
         >
           <TextInput
-            placeholder="9876543210"
-            placeholderTextColor="#000"
+            placeholder={error ? error.errors.mobile[0] : "9876543210"}
+            placeholderTextColor={error ? "red" : "black"}
             keyboardType="number-pad"
             maxLength={10}
-            onChangeText={mobile => this.setState({ mobile, error: false })}
+            onChangeText={mobile => this.setState({ mobile })}
             style={{
               borderColor: error ? "red" : "black",
               marginHorizontal: 30,

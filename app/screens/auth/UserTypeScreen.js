@@ -6,8 +6,7 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  ScrollView,
-  Alert
+  ScrollView
 } from "react-native";
 import { compose, withApollo } from "react-apollo";
 // 3rd
@@ -18,14 +17,9 @@ import styles from "../../styles/UseTypeScreen";
 // theme
 import theme from "../../libs/theme";
 import Switch from "../../components/Switch";
-
-import {
-  updateUser,
-  resetAuthToken,
-  resetNewUser,
-  validateEmail,
-  trim
-} from "../../services";
+import IconSet from "../../libs/icon_set";
+import { graph } from "../../services";
+import { api } from "../../libs/api";
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
 
@@ -39,103 +33,82 @@ class UserTypeScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    const { navigation } = props;
+
     this.state = {
       error: false,
       spinner: false,
-      id: null,
-      name: null,
-      email: null,
-      selectedGender: "Male",
-      selectedType: "Trader",
+      user: navigation.state.params.user,
       cities: [],
-      selectedCity: null,
-      selectedLocation: {
-        id: null,
-        name: null,
-        state: null
-      }
+      selectedLocation: null
     };
   }
 
-  async componentWillMount() {
+  createUserProfile = async () => {
+    const { user } = this.state;
     const { navigation } = this.props;
 
-    if (!navigation.state.params) {
-      await resetAuthToken();
-      await resetNewUser();
-
-      return navigation.replace("GetStartedScreen");
-    }
-
-    const { id, name } = navigation.state.params.user;
-    return this.setState({ id, name });
-  }
-
-  createUser = async () => {
-    const {
-      id,
-      selectedLocation,
-      name,
-      email,
-      selectedGender,
-      selectedType
-    } = this.state;
-
-    const { client, navigation } = this.props;
-
-    const sanitizedEmail = trim(email);
-    const sanitizedName = trim(name);
-
-    if (!name || name.length < 5) {
-      return Alert.alert("Oops", "Please, Provide your full name.");
-    }
-
-    if (!email || !validateEmail(sanitizedEmail)) {
-      return Alert.alert("Oops", "Please, Provide a valid email address.");
-    }
-
-    if (!selectedLocation.id) {
-      return Alert.alert("Oops", "Please, select a city.");
-    }
-
-    this.setState({ spinner: true });
-
     try {
-      const user = await updateUser(client, {
-        id,
-        name: sanitizedName,
-        email: sanitizedEmail,
-        city: selectedLocation.name,
-        state: selectedLocation.state,
-        gender: selectedGender,
-        type: selectedType,
+      const data = await graph(api.createUserProfile, {
+        ...user,
         profile_updated: true
       });
 
-      if (user) {
-        this.setState({ spinner: false });
-        return navigation.replace("TabScreen", { user });
-      }
-    } catch (e) {
-      this.setState({ spinner: false, error: true });
+      console.log(data);
+    } catch ({ error }) {
+      this.setState({ spinner: false, error });
     }
+
+    // if (!user.name) {
+    //   this.setState({ error: "Please, Provide your full name." });
+    // }
+
+    // if (!user.email) {
+    //   this.setState({ error: "Please, Provide a valid email address." });
+    // }
+
+    // if (!user.city || !user.state) {
+    //   this.setState({ error: "Please, select a city." });
+    // }
+
+    // const { client, navigation } = this.props;
+
+    // this.setState({ spinner: true });
+
+    // try {
+    //   const user = await updateUser(client, {
+    //     id,
+    //     name: sanitizedName,
+    //     email: sanitizedEmail,
+    //     city: selectedLocation.name,
+    //     state: selectedLocation.state,
+    //     gender: selectedGender,
+    //     type: selectedType,
+    //     profile_updated: true
+    //   });
+
+    //   if (user) {
+    //     this.setState({ spinner: false });
+    //     return navigation.replace("TabScreen", { user });
+    //   }
+    // } catch (e) {
+    //   this.setState({ spinner: false, error: true });
+    // }
   };
 
-  setSelectedGender = selectedGender => {
-    this.setState({ selectedGender });
-  };
+  updateUserData = (key, value) => {
+    const { user } = this.state;
+    user[key] = value;
 
-  setSelectedType = selectedType => {
-    this.setState({ selectedType });
+    this.setState({ user });
   };
 
   handleTextChange = keywords => {
-    this.setState({ selectedCity: keywords });
+    this.setState({ selectedLocation: keywords });
 
     if (keywords.length > 2) {
       const data = citiesList.filter(city => {
-        const regex = new RegExp(`^${keywords}`, "gi");
-        return city.name.match(regex);
+        return city.name.match(new RegExp(`^${keywords}`, "gi"));
       });
 
       this.setState({ cities: data });
@@ -143,16 +116,7 @@ class UserTypeScreen extends React.Component {
   };
 
   render() {
-    const {
-      error,
-      spinner,
-      selectedGender,
-      selectedType,
-      cities,
-      selectedCity,
-      name,
-      email
-    } = this.state;
+    const { error, spinner, cities, user, selectedLocation } = this.state;
 
     return (
       <KeyboardAvoidingView
@@ -216,8 +180,8 @@ class UserTypeScreen extends React.Component {
               placeholder="Name"
               placeholderTextColor="#ededed"
               autoCorrect={false}
-              value={name}
-              onChangeText={input => this.setState({ name: input })}
+              value={user.name}
+              onChangeText={name => this.updateUserData("name", name)}
               style={{
                 color: "white",
                 paddingLeft: 10,
@@ -238,8 +202,8 @@ class UserTypeScreen extends React.Component {
               placeholder="Email Address"
               placeholderTextColor="#ededed"
               autoCorrect={false}
-              value={email}
-              onChangeText={input => this.setState({ email: input })}
+              value={user.email}
+              onChangeText={email => this.updateUserData("email", email)}
               style={{
                 color: "white",
                 paddingLeft: 10,
@@ -256,17 +220,48 @@ class UserTypeScreen extends React.Component {
               }}
             />
 
-            <TextInput
-              placeholder="Location"
-              placeholderTextColor="#ededed"
-              value={selectedCity}
-              onChangeText={keywords => this.handleTextChange(keywords)}
-              style={{
-                color: "white",
-                paddingLeft: 10,
-                fontFamily: theme.fonts.TitilliumWebRegular
-              }}
-            />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <View style={{ flex: 1 }}>
+                <TextInput
+                  ref={location => (this.location = location)}
+                  placeholder="Location"
+                  placeholderTextColor="#ededed"
+                  value={selectedLocation}
+                  editable={!user.city}
+                  clearButtonMode="always"
+                  onChangeText={keywords => this.handleTextChange(keywords)}
+                  style={{
+                    color: "white",
+                    paddingLeft: 10,
+                    fontFamily: theme.fonts.TitilliumWebRegular
+                  }}
+                />
+              </View>
+
+              {user.city && (
+                <TouchableOpacity
+                  style={{ paddingRight: 10, justifyContent: "center" }}
+                  onPress={() => {
+                    this.setState({
+                      selectedLocation: null,
+                      user: { ...user, city: null, state: null }
+                    });
+
+                    this.location.focus();
+                  }}
+                >
+                  <IconSet
+                    type="MaterialIcons"
+                    name="cancel"
+                    size={22}
+                    color="whitesmoke"
+                    style={styles.actionIcon}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
 
             <ScrollView>
               {cities.map(city => (
@@ -277,8 +272,12 @@ class UserTypeScreen extends React.Component {
                   onPress={() =>
                     this.setState({
                       cities: [],
-                      selectedCity: `${city.name}, ${city.state}`,
-                      selectedLocation: city
+                      selectedLocation: `${city.name}, ${city.state}`,
+                      user: {
+                        ...user,
+                        city: city.name,
+                        state: city.state
+                      }
                     })
                   }
                 >
@@ -291,23 +290,23 @@ class UserTypeScreen extends React.Component {
           <View style={{ marginTop: 30 }}>
             <Switch
               options={["Male", "Female"]}
-              selected={selectedGender}
-              onChange={this.setSelectedGender}
+              selected={user.gender}
+              onChange={gender => this.updateUserData("gender", gender)}
             />
           </View>
 
           <View style={{ marginTop: 10 }}>
             <Switch
               options={["Trader", "Provider"]}
-              selected={selectedType}
-              onChange={this.setSelectedType}
+              selected={user.type}
+              onChange={type => this.updateUserData("type", type)}
             />
           </View>
 
           <View style={styles.submitButtonWrapper}>
             <TouchableOpacity
               style={styles.submitButton}
-              onPress={() => this.createUser()}
+              onPress={() => this.createUserProfile()}
             >
               <Text style={styles.submitButtonText}>SUBMIT</Text>
             </TouchableOpacity>

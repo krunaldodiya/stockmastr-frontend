@@ -10,7 +10,7 @@ import Swiper from "react-native-swiper";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { compose, withApollo } from "react-apollo";
 import theme from "../../libs/theme";
-import styles from "../../styles/HomeTab";
+import styles from "../../styles/HomeScreen";
 import { getNews } from "../../services/graph/get_news";
 
 import TopBar from "../../components/TopBar";
@@ -19,6 +19,7 @@ import IconSet from "../../libs/icon_set";
 
 const actions = [
   {
+    key: 1,
     name: "channel",
     render: () => (
       <View style={styles.actionWrapper}>
@@ -37,6 +38,7 @@ const actions = [
     )
   },
   {
+    key: 2,
     name: "call",
     render: () => (
       <View style={styles.actionWrapper}>

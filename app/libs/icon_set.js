@@ -29,9 +29,9 @@ export default props => {
         />
       );
 
-    case "FontAwesome":
+    case "Entypo":
       return (
-        <FontAwesome
+        <Entypo
           name={props.name}
           size={props.size}
           color={props.color}
@@ -62,9 +62,108 @@ export default props => {
         />
       );
 
-    case "Entypo":
+    case "FontAwesome":
       return (
-        <Entypo
+        <FontAwesome
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "FontAwesome5":
+      return (
+        <FontAwesome5
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "FontAwesome5Pro":
+      return (
+        <FontAwesome5Pro
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "Foundation":
+      return (
+        <Foundation
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "Ionicons":
+      return (
+        <Ionicons
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "MaterialIcons":
+      return (
+        <MaterialIcons
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "MaterialCommunityIcons":
+      return (
+        <MaterialCommunityIcons
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "Octicons":
+      return (
+        <Octicons
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "Zocial":
+      return (
+        <Zocial
+          name={props.name}
+          size={props.size}
+          color={props.color}
+          style={props.style}
+          onPress={props.onPress}
+        />
+      );
+
+    case "SimpleLineIcons":
+      return (
+        <SimpleLineIcons
           name={props.name}
           size={props.size}
           color={props.color}

@@ -29,14 +29,15 @@ channel_subscriptions
 channels
 ----------------------------
     id - primary key  
-    type
+    type  regular or premium
+    segment  intraday or swing
     title  
     description  
     image  
     owner_id  
     created_at  
     updated_at  
-    posts
+    posts 
     channel_subscriptions: [ChannelSubscription!]!
 
 
