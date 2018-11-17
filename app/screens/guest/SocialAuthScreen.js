@@ -7,7 +7,6 @@ import {
   TextInput,
   KeyboardAvoidingView
 } from "react-native";
-import { compose, withApollo } from "react-apollo";
 // 3rd
 import Spinner from "react-native-loading-spinner-overlay";
 // style
@@ -230,4 +229,4 @@ class SocialAuthScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(SocialAuthScreen);
+export default SocialAuthScreen;

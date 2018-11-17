@@ -7,11 +7,11 @@ import {
   FlatList,
   ActivityIndicator
 } from "react-native";
-import { compose, withApollo } from "react-apollo";
 import styles from "../../styles/NewsTab";
-import { getNews } from "../../services/graph/get_news";
+import { graph } from "../../services";
 import theme from "../../libs/theme";
 import TopBar from "../../components/TopBar";
+import { api } from "../../libs/api";
 
 class NewsScreen extends React.Component {
   static navigationOptions = {
@@ -23,10 +23,11 @@ class NewsScreen extends React.Component {
 
     this.state = {
       loaded: false,
-      page: 0,
       refreshing: false,
-      hasMore: true,
-      news: []
+      newsList: [],
+      page: 1,
+      limit: 20,
+      lastPage: null
     };
   }
 
@@ -40,90 +41,85 @@ class NewsScreen extends React.Component {
     return navigation.push("NewsDetailScreen", { news });
   };
 
-  renderItem = data => {
-    const { item } = data;
-
-    return (
-      <TouchableOpacity onPress={() => this.showNews(item)}>
-        <View
-          style={{
-            backgroundColor: "whitesmoke",
-            margin: 5,
-            flexDirection: "row"
-          }}
-        >
-          <View
-            style={{ marginLeft: 5, marginRight: 10, justifyContent: "center" }}
-          >
-            <Image
-              source={{ uri: item.image_url }}
-              style={{ width: 100, height: 100 }}
-              resizeMode="cover"
-            />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text
-              numberOfLines={1}
-              style={{
-                margin: 5,
-                fontFamily: theme.fonts.TitilliumWebSemiBold,
-                fontSize: 18
-              }}
-            >
-              {item.title}
-            </Text>
-            <Text
-              numberOfLines={2}
-              style={{
-                margin: 5,
-                fontFamily: theme.fonts.TitilliumWebRegular,
-                fontSize: 14
-              }}
-            >
-              {item.description}
-            </Text>
-
-            <Text
-              style={{
-                margin: 5,
-                fontFamily: theme.fonts.TitilliumWebLight,
-                fontSize: 12
-              }}
-            >
-              {item.published_at}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
   loadNews = async () => {
-    const { client } = this.props;
-    const { news, page } = this.state;
-    const skip = page * 10;
+    const { newsList, limit, page } = this.state;
 
-    const newsData = await getNews(client, { skip, take: 10, type: "all" });
-    const allNews = [...news, ...newsData];
+    const { news } = await graph(api.allNews, { limit, page });
+    const allNews = [...newsList, ...news.data];
 
     this.setState({
-      news: allNews,
-      refreshing: false,
       loaded: true,
-      hasMore: newsData.length
+      refreshing: false,
+      newsList: allNews,
+      lastPage: news.last_page
     });
   };
 
   loadMore = async () => {
-    const { page, hasMore } = this.state;
+    const { page, lastPage } = this.state;
 
-    if (hasMore) {
+    if (lastPage > page) {
       this.setState({ page: page + 1, refreshing: true }, this.loadNews);
     }
   };
 
+  renderItem = ({ item }) => (
+    <TouchableOpacity onPress={() => this.showNews(item)}>
+      <View
+        style={{
+          backgroundColor: "white",
+          borderBottomWidth: 1,
+          borderBottomColor: "#ccc",
+          flexDirection: "row"
+        }}
+      >
+        <View
+          style={{ marginLeft: 5, marginRight: 10, justifyContent: "center" }}
+        >
+          <Image
+            source={{ uri: item.image_url }}
+            style={{ width: 100, height: 100 }}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text
+            numberOfLines={1}
+            style={{
+              margin: 5,
+              fontFamily: theme.fonts.TitilliumWebSemiBold,
+              fontSize: 18
+            }}
+          >
+            {item.title}
+          </Text>
+          <Text
+            numberOfLines={2}
+            style={{
+              margin: 5,
+              fontFamily: theme.fonts.TitilliumWebRegular,
+              fontSize: 14
+            }}
+          >
+            {item.description}
+          </Text>
+
+          <Text
+            style={{
+              margin: 5,
+              fontFamily: theme.fonts.TitilliumWebLight,
+              fontSize: 12
+            }}
+          >
+            {item.published_at}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
   render() {
-    const { loaded, news, refreshing, hasMore } = this.state;
+    const { loaded, newsList, refreshing, page, lastPage } = this.state;
 
     return (
       <View style={styles.container}>
@@ -138,25 +134,38 @@ class NewsScreen extends React.Component {
         {loaded && (
           <FlatList
             extraData={this.state}
-            data={news}
+            data={newsList}
             keyExtractor={(_, index) => index.toString()}
             renderItem={data => this.renderItem(data)}
             onEndReached={this.loadMore}
             onEndReachedThreshold={20}
             refreshing={refreshing}
-          />
-        )}
+            ListFooterComponent={() => {
+              if (!refreshing && page === lastPage) {
+                return (
+                  <View style={{ justifyContent: "center", padding: 10 }}>
+                    <Text
+                      style={{ fontFamily: theme.fonts.TitilliumWebRegular }}
+                    >
+                      No more data
+                    </Text>
+                  </View>
+                );
+              }
 
-        {!hasMore && (
-          <View style={{ justifyContent: "center", padding: 10 }}>
-            <Text style={{ fontFamily: theme.fonts.TitilliumWebRegular }}>
-              No more data
-            </Text>
-          </View>
+              return (
+                <View style={{ justifyContent: "center", padding: 10 }}>
+                  <Text style={{ fontFamily: theme.fonts.TitilliumWebRegular }}>
+                    Loading...
+                  </Text>
+                </View>
+              );
+            }}
+          />
         )}
       </View>
     );
   }
 }
 
-export default compose(withApollo)(NewsScreen);
+export default NewsScreen;

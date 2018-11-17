@@ -9,7 +9,6 @@ import {
   ScrollView,
   Keyboard
 } from "react-native";
-import { compose, withApollo } from "react-apollo";
 // 3rd
 import Spinner from "react-native-loading-spinner-overlay";
 // style
@@ -293,4 +292,4 @@ class UserTypeScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(UserTypeScreen);
+export default UserTypeScreen;

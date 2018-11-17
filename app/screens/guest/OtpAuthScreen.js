@@ -8,7 +8,6 @@ import {
   KeyboardAvoidingView,
   Keyboard
 } from "react-native";
-import { compose, withApollo } from "react-apollo";
 // 3rd
 import Spinner from "react-native-loading-spinner-overlay";
 // style
@@ -154,4 +153,4 @@ class OtpAuthScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(OtpAuthScreen);
+export default OtpAuthScreen;

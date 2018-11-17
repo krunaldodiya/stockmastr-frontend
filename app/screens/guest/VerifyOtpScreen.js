@@ -10,7 +10,6 @@ import {
 // 3rd
 // style
 import CodeInput from "react-native-confirmation-code-input";
-import { compose, withApollo } from "react-apollo";
 import Spinner from "react-native-loading-spinner-overlay";
 import styles from "../../styles/VerifyOtpScreen";
 // services
@@ -285,4 +284,4 @@ class VerifyOtpScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(VerifyOtpScreen);
+export default VerifyOtpScreen;

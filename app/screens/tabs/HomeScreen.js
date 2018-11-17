@@ -8,14 +8,14 @@ import {
 } from "react-native";
 import Swiper from "react-native-swiper";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { compose, withApollo } from "react-apollo";
 import theme from "../../libs/theme";
 import styles from "../../styles/HomeScreen";
-import { getNews } from "../../services/graph/get_news";
+import { graph } from "../../services";
 
 import TopBar from "../../components/TopBar";
 import { FloatingAction } from "react-native-floating-action";
 import IconSet from "../../libs/icon_set";
+import { api } from "../../libs/api";
 
 const actions = [
   {
@@ -78,9 +78,7 @@ class HomeScreen extends React.Component {
   }
 
   async componentWillMount() {
-    const { client } = this.props;
-
-    const news = await getNews(client, { skip: 0, take: 5, type: "top" });
+    const { news } = await graph(api.latestNews, { limit: 5 });
 
     this.setState({ news, loaded: true });
   }
@@ -259,4 +257,4 @@ class HomeScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(HomeScreen);
+export default HomeScreen;

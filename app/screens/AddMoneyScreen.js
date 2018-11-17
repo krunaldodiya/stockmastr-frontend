@@ -8,7 +8,6 @@ import {
   TextInput,
   ActivityIndicator
 } from "react-native";
-import { compose, withApollo } from "react-apollo";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { api } from "../libs/api";
 import styles from "../styles/AddMoneyScreen";
@@ -189,4 +188,4 @@ class AddMoneyScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(AddMoneyScreen);
+export default AddMoneyScreen;

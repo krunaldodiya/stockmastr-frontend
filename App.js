@@ -1,10 +1,6 @@
 import React from "react";
 import { StatusBar, NetInfo, View } from "react-native";
-import { ApolloProvider } from "react-apollo";
 import { createStackNavigator } from "react-navigation";
-
-// libs
-import { client } from "./app/libs/apollo";
 
 // screens
 import NoNetworkScreen from "./app/screens/NoNetworkScreen";
@@ -81,7 +77,7 @@ export default class App extends React.Component {
     const ready = connectionInfo && screen;
 
     return (
-      <ApolloProvider client={client}>
+      <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
         {ready && (
@@ -90,7 +86,7 @@ export default class App extends React.Component {
             {connectionInfo.type !== "none" && createAppStackNavigator(screen)}
           </View>
         )}
-      </ApolloProvider>
+      </View>
     );
   }
 }

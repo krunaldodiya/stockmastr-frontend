@@ -9,7 +9,6 @@ import {
 import styles from "../../styles/WalletTab";
 import TopBar from "../../components/TopBar";
 import theme from "../../libs/theme";
-import { compose, withApollo } from "react-apollo";
 import { getWallet } from "../../services";
 const moment = require("moment");
 
@@ -294,4 +293,4 @@ class WalletScreen extends React.Component {
   }
 }
 
-export default compose(withApollo)(WalletScreen);
+export default WalletScreen;
