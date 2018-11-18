@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { api } from "../libs/api";
 import styles from "../styles/AddMoneyScreen";
 import theme from "../libs/theme";
-import { processTransaction, getAuthUser } from "../services";
+import { processTransaction } from "../services";
 import IconSet from "../libs/icon_set";
 
 class AddMoneyScreen extends React.Component {
@@ -30,24 +30,23 @@ class AddMoneyScreen extends React.Component {
   }
 
   async componentWillMount() {
-    const { client } = this.props;
-
-    const authUser = await getAuthUser(client, {});
+    const { authUser } = this.props.navigation.state.params;
 
     this.setState({ authUser, mobile: authUser.mobile, loaded: true });
   }
 
   handleNavigation = async info => {
     const { url, loading, title } = info;
-    const { client } = this.props;
 
     if (!loading && url === api.paymentResponse) {
       const { success, transaction_id } = JSON.parse(title);
 
-      const transaction = await processTransaction(client, {
+      const transaction = await graph(api.processOrder, {
         transaction_id,
         success
       });
+
+      console.log(transaction);
 
       this.setState({
         status: success ? "success" : "failed",

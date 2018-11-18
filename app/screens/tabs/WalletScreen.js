@@ -9,7 +9,8 @@ import {
 import styles from "../../styles/WalletTab";
 import TopBar from "../../components/TopBar";
 import theme from "../../libs/theme";
-import { getWallet } from "../../services";
+import { graph } from "../../services";
+import { api } from "../../libs/api";
 const moment = require("moment");
 
 class WalletScreen extends React.Component {
@@ -22,19 +23,16 @@ class WalletScreen extends React.Component {
 
     this.state = {
       loaded: null,
-      wallet: null,
+      authUser: null,
       filter: "success"
     };
   }
 
   async componentWillMount() {
-    const { client, navigation } = this.props;
+    this.setState({ loaded: false });
+    const { user } = await graph(api.me, {});
 
-    navigation.addListener("willFocus", async () => {
-      this.setState({ loaded: false });
-      const wallet = await getWallet(client, {});
-      this.setState({ wallet, loaded: true });
-    });
+    this.setState({ authUser: user, loaded: true });
   }
 
   getColor = status => {
@@ -49,61 +47,65 @@ class WalletScreen extends React.Component {
     </View>
   );
 
-  showAmountMenu = (wallet, navigation) => (
-    <View
-      style={{
-        padding: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        flexDirection: "row",
-        justifyContent: "space-between"
-      }}
-    >
-      <View style={{ flexDirection: "column" }}>
-        <Text
-          style={{
-            fontSize: 22,
-            fontFamily: theme.fonts.TitilliumWebSemiBold
-          }}
-        >
-          Amount
-        </Text>
+  showAmountMenu = (authUser, navigation) => {
+    const { wallet } = authUser;
 
-        <View style={{ height: 5 }} />
-        <Text
-          style={{
-            fontSize: 18,
-            fontFamily: theme.fonts.TitilliumWebRegular
-          }}
-        >
-          {"\u20B9"} {wallet.balance}
-        </Text>
-      </View>
-
-      <TouchableOpacity
-        onPress={() => navigation.push("AddMoneyScreen")}
+    return (
+      <View
         style={{
-          backgroundColor: "#48A2F8",
-          justifyContent: "center",
-          height: 40,
-          width: 100,
-          borderRadius: 10,
-          marginTop: 10
+          padding: 20,
+          borderBottomWidth: 1,
+          borderBottomColor: "#ccc",
+          flexDirection: "row",
+          justifyContent: "space-between"
         }}
       >
-        <Text
+        <View style={{ flexDirection: "column" }}>
+          <Text
+            style={{
+              fontSize: 22,
+              fontFamily: theme.fonts.TitilliumWebSemiBold
+            }}
+          >
+            Amount
+          </Text>
+
+          <View style={{ height: 5 }} />
+          <Text
+            style={{
+              fontSize: 18,
+              fontFamily: theme.fonts.TitilliumWebRegular
+            }}
+          >
+            {"\u20B9"} {wallet.balance}
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => navigation.push("AddMoneyScreen", { authUser })}
           style={{
-            textAlign: "center",
-            color: "white",
-            fontSize: 12,
-            fontFamily: theme.fonts.TitilliumWebBold
+            backgroundColor: "#48A2F8",
+            justifyContent: "center",
+            height: 40,
+            width: 100,
+            borderRadius: 10,
+            marginTop: 10
           }}
         >
-          ADD MONEY
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontSize: 12,
+              fontFamily: theme.fonts.TitilliumWebBold
+            }}
+          >
+            ADD MONEY
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   showTransactionBar = () => (
     <View
@@ -145,7 +147,8 @@ class WalletScreen extends React.Component {
     </View>
   );
 
-  showTransactions = wallet => {
+  showTransactions = authUser => {
+    const { wallet } = authUser;
     const { filter } = this.state;
 
     const transactions = wallet.transactions.filter(
@@ -154,7 +157,7 @@ class WalletScreen extends React.Component {
 
     if (!transactions.length) {
       return (
-        <View style={{ padding: 10 }}>
+        <View style={{ paddingTop: 10, paddingLeft: 20 }}>
           <Text
             style={{
               fontSize: 14,
@@ -268,7 +271,7 @@ class WalletScreen extends React.Component {
   };
 
   render() {
-    const { loaded, wallet } = this.state;
+    const { loaded, authUser } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -279,12 +282,12 @@ class WalletScreen extends React.Component {
 
         {loaded && (
           <View style={{ flex: 1 }}>
-            {this.showAmountMenu(wallet, navigation)}
+            {this.showAmountMenu(authUser, navigation)}
 
             <View>
               {this.showTransactionBar()}
 
-              {this.showTransactions(wallet)}
+              {this.showTransactions(authUser)}
             </View>
           </View>
         )}

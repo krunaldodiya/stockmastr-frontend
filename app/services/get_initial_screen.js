@@ -3,8 +3,8 @@ import { api } from "../libs/api";
 
 const getInitialScreen = async () => {
   try {
-    const authUser = await graph(api.me, {});
-    return authUser.profile_updated ? "TabScreen" : "GetStartedScreen";
+    const { user } = await graph(api.me, {});
+    return user.profile_updated ? "TabScreen" : "GetStartedScreen";
   } catch (error) {
     return "GetStartedScreen";
   }

@@ -17,6 +17,7 @@ import FavoritesScreen from "./app/screens/FavoritesScreen";
 
 // libs
 import { getInitialScreen } from "./app/services/get_initial_screen";
+// import { getAuthToken } from "./app/services";
 
 const createAppStackNavigator = initialRouteName => {
   const AppStackNavigator = createStackNavigator(
@@ -64,6 +65,7 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     const screen = await getInitialScreen();
+    // const token = await getAuthToken();
 
     this.setState({ screen });
   }
