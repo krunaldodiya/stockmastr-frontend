@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { api } from "../libs/api";
 import styles from "../styles/AddMoneyScreen";
 import theme from "../libs/theme";
-import { processTransaction } from "../services";
+import { graph } from "../services";
 import IconSet from "../libs/icon_set";
 
 class AddMoneyScreen extends React.Component {

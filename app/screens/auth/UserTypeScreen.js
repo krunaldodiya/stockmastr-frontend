@@ -13,7 +13,6 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 // style
 import styles from "../../styles/UseTypeScreen";
-// services
 // theme
 import theme from "../../libs/theme";
 import Switch from "../../components/Switch";
@@ -152,7 +151,9 @@ class UserTypeScreen extends React.Component {
             }}
           >
             <TextInput
-              placeholder={error ? error.errors.name[0] : "Full Name"}
+              placeholder={
+                error && error.errors.name ? error.errors.name[0] : "Full Name"
+              }
               placeholderTextColor={error ? "#e74c3c" : "#ededed"}
               autoCorrect={false}
               value={user.name}
@@ -174,7 +175,11 @@ class UserTypeScreen extends React.Component {
             />
 
             <TextInput
-              placeholder={error ? error.errors.email[0] : "Email Address"}
+              placeholder={
+                error && error.errors.email
+                  ? error.errors.email[0]
+                  : "Email Address"
+              }
               placeholderTextColor={error ? "#e74c3c" : "#ededed"}
               autoCorrect={false}
               value={user.email}
@@ -201,7 +206,11 @@ class UserTypeScreen extends React.Component {
               <View style={{ flex: 1 }}>
                 <TextInput
                   ref={location => (this.location = location)}
-                  placeholder={error ? error.errors.city[0] : "Location"}
+                  placeholder={
+                    error && error.errors.city
+                      ? error.errors.city[0]
+                      : "Location"
+                  }
                   placeholderTextColor={error ? "#e74c3c" : "#ededed"}
                   value={selectedLocation}
                   editable={!user.city}
@@ -238,7 +247,10 @@ class UserTypeScreen extends React.Component {
               )}
             </View>
 
-            <ScrollView>
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1 }}
+              keyboardShouldPersistTaps="handled"
+            >
               {cities.map(city => (
                 <Text
                   key={city.id}

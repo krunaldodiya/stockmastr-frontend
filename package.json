@@ -28,7 +28,6 @@
     "react": "16.6.0-alpha.8af6728",
     "react-apollo": "^2.2.4",
     "react-native": "0.57.4",
-    "react-native-autocomplete-input": "^3.5.0",
     "react-native-check-box": "^2.1.6",
     "react-native-confirmation-code-input": "^1.0.4",
     "react-native-floating-action": "^1.13.0",
