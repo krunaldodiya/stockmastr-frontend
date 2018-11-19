@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { api } from "../libs/api";
 import styles from "../styles/AddMoneyScreen";
 import theme from "../libs/theme";
-import { graph } from "../services";
+import { graph, getAuthToken } from "../services";
 import IconSet from "../libs/icon_set";
 
 class AddMoneyScreen extends React.Component {
@@ -38,7 +38,7 @@ class AddMoneyScreen extends React.Component {
   handleNavigation = async info => {
     const { url, loading, title } = info;
 
-    if (!loading && url === api.paymentResponse) {
+    if (!loading && url === api.orderResponse) {
       const { success, transaction_id } = JSON.parse(title);
 
       const transaction = await graph(api.processOrder, {
@@ -58,7 +58,7 @@ class AddMoneyScreen extends React.Component {
   showPaymentGatewayModal = () => {
     const { authUser, mobile, amount, showModal } = this.state;
 
-    const url = `${api.paymentRequest}?amount=${amount}&userId=${
+    const url = `${api.createOrder}?amount=${amount}&userId=${
       authUser.id
     }&mobile=${mobile}`;
 

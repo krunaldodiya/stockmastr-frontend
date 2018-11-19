@@ -5,9 +5,9 @@ const api = {
   createUserProfile: `${httpUrl}/api/users/profile/create`,
   requestOtp: `${httpUrl}/api/auth/request-otp`,
   verifyOtp: `${httpUrl}/api/auth/verify-otp`,
-  paymentRequest: `${httpUrl}/api/payments/request`,
-  paymentResponse: `${httpUrl}/api/payments/response`,
-  processOrder: `${httpUrl}/api/payments/process`,
+  createOrder: `${httpUrl}/api/payments/create-order`,
+  processOrder: `${httpUrl}/api/payments/process-order`,
+  orderResponse: `${httpUrl}/api/payments/order-response`,
   latestNews: `${httpUrl}/api/news/latest`,
   allNews: `${httpUrl}/api/news/all`,
   wallet: `${httpUrl}/api/wallet/info`

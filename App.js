@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, NetInfo, View } from "react-native";
+import { StatusBar, NetInfo, View, ActivityIndicator } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
 // screens
@@ -58,34 +58,45 @@ export default class App extends React.Component {
     NetInfo.addEventListener("connectionChange", connectionInfo =>
       this.handleConnectionChanged(connectionInfo)
     );
-    const connectionInfo = await NetInfo.getConnectionInfo();
 
+    const connectionInfo = await NetInfo.getConnectionInfo();
     this.handleConnectionChanged(connectionInfo);
   }
 
   async componentDidMount() {
     const screen = await getInitialScreen();
     // const token = await getAuthToken();
+    // console.log(token);
 
     this.setState({ screen });
   }
 
-  async handleConnectionChanged(connectionInfo) {
+  handleConnectionChanged = async connectionInfo => {
     this.setState({ connectionInfo });
-  }
+  };
+
+  showLoader = () => (
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <ActivityIndicator size="small" color="#000" />
+    </View>
+  );
 
   render() {
     const { connectionInfo, screen } = this.state;
-    const ready = connectionInfo && screen;
 
     return (
       <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
-        {ready && (
+        {connectionInfo && (
           <View style={{ flex: 1 }}>
             {connectionInfo.type === "none" && <NoNetworkScreen />}
-            {connectionInfo.type !== "none" && createAppStackNavigator(screen)}
+
+            {connectionInfo.type !== "none" && (
+              <View style={{ flex: 1 }}>
+                {screen ? createAppStackNavigator(screen) : this.showLoader()}
+              </View>
+            )}
           </View>
         )}
       </View>

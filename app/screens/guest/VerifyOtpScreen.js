@@ -75,7 +75,7 @@ class VerifyOtpScreen extends React.Component {
         this.setState({ spinner: false });
 
         return navigation.replace(
-          user.profile_updated ? "TabScreen" : "GetStartedScreen",
+          user.profile_updated ? "TabScreen" : "UserTypeScreen",
           { user }
         );
       } catch (error) {
