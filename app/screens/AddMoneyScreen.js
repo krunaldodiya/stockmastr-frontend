@@ -46,10 +46,8 @@ class AddMoneyScreen extends React.Component {
         success
       });
 
-      console.log(transaction);
-
       this.setState({
-        status: success ? "success" : "failed",
+        status: transaction.status,
         showModal: false
       });
     }

@@ -11,6 +11,7 @@ import TopBar from "../../components/TopBar";
 import theme from "../../libs/theme";
 import { graph } from "../../services";
 import { api } from "../../libs/api";
+import pusher from "../../libs/pusher";
 const moment = require("moment");
 
 class WalletScreen extends React.Component {
@@ -29,6 +30,14 @@ class WalletScreen extends React.Component {
   }
 
   async componentWillMount() {
+    const socket = await pusher();
+    const channel = socket.subscribe("update-order-status");
+    channel.bind("App\\Events\\UpdateOrderStatus", data => {
+      console.log("hello from pusher", data);
+    });
+  }
+
+  async componentDidMount() {
     this.setState({ loaded: false });
     const { user } = await graph(api.me, {});
 
