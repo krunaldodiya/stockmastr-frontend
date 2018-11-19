@@ -31,22 +31,16 @@ class WalletScreen extends React.Component {
   }
 
   async componentWillMount() {
-    const { authUser } = this.state;
-
-    const socket = await pusher();
-    const channel = socket.subscribe("order-status-updated");
-    channel.bind("App\\Events\\UpdateOrderStatus", ({ transaction }) => {
-      this.setState({
-        authUser: { ...authUser, wallet: transaction.wallet }
-      });
-    });
-  }
-
-  async componentDidMount() {
     this.setState({ loaded: false });
     const { user } = await graph(api.me, {});
-
     this.setState({ authUser: user, loaded: true });
+
+    const socket = await pusher();
+    const channel = socket.subscribe(`order-status-updated.${user.id}`);
+
+    channel.bind("App\\Events\\UpdateOrderStatus", data => {
+      this.setState({ authUser: data.user });
+    });
   }
 
   getColor = status => {

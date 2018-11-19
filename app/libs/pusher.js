@@ -6,8 +6,11 @@ export default async () => {
 
   return new Pusher("d43d6b672fb63f49b4b6", {
     cluster: "mt1",
+    encrypted: true,
     auth: {
       headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + authToken
       }
     }
