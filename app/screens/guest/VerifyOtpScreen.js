@@ -36,7 +36,7 @@ class VerifyOtpScreen extends React.Component {
       verifyOtp: null,
       otp: otp.toString(),
       mobile,
-      time: 5,
+      time: 10,
       otpVerified: false
     };
   }
@@ -101,7 +101,7 @@ class VerifyOtpScreen extends React.Component {
       const data = await graph(api.requestOtp, { mobile });
 
       this.setState(
-        { spinner: false, otp: data.otp.toString(), time: 5 },
+        { spinner: false, otp: data.otp.toString(), time: 10 },
         () => {
           this.startTimer();
         }

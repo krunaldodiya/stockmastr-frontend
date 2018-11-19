@@ -39,7 +39,6 @@ export default class FavoritesScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { numbers, pin } = this.state;
 
     return (
       <View style={styles.container}>
