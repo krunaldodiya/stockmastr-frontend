@@ -36,12 +36,16 @@ class VerifyOtpScreen extends React.Component {
       verifyOtp: null,
       otp: otp.toString(),
       mobile,
-      time: 20,
+      time: 5,
       otpVerified: false
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.startTimer();
+  }
+
+  startTimer = async () => {
     this.interval = setInterval(() => {
       const { time } = this.state;
 
@@ -50,7 +54,7 @@ class VerifyOtpScreen extends React.Component {
         this.setState({ time: time - 1 });
       }
     }, 1000);
-  }
+  };
 
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -94,11 +98,16 @@ class VerifyOtpScreen extends React.Component {
     try {
       this.setState({ spinner: true });
 
-      const { data } = await graph(api.requestOtp, { mobile });
+      const data = await graph(api.requestOtp, { mobile });
 
-      this.setState({ spinner: false, otp: data.otp.toString() });
+      this.setState(
+        { spinner: false, otp: data.otp.toString(), time: 5 },
+        () => {
+          this.startTimer();
+        }
+      );
 
-      return Alert.alert("Success", "Otp sent successfully");
+      return Alert.alert("Success", "Otp Sent!");
     } catch (error) {
       this.setState({ spinner: false });
     }
