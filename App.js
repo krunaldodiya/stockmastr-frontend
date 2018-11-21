@@ -65,20 +65,22 @@ export default class App extends React.Component {
     const { connectionInfo, screen } = this.state;
 
     return (
-      <StoreProvider style={{ flex: 1 }}>
-        <StatusBar backgroundColor="#3498db" barStyle="light-content" />
+      <StoreProvider>
+        <View style={{ flex: 1 }}>
+          <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
-        {connectionInfo && (
-          <View style={{ flex: 1 }}>
-            {connectionInfo.type === "none" && <NoNetwork />}
+          {connectionInfo && (
+            <View style={{ flex: 1 }}>
+              {connectionInfo.type === "none" && <NoNetwork />}
 
-            {connectionInfo.type !== "none" && (
-              <View style={{ flex: 1 }}>
-                {screen ? createAppStackNavigator(screen) : this.showLoader()}
-              </View>
-            )}
-          </View>
-        )}
+              {connectionInfo.type !== "none" && (
+                <View style={{ flex: 1 }}>
+                  {screen ? createAppStackNavigator(screen) : this.showLoader()}
+                </View>
+              )}
+            </View>
+          )}
+        </View>
       </StoreProvider>
     );
   }

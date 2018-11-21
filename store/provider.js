@@ -19,10 +19,8 @@ const store = createStore(
   applyMiddleware(...middlewares)
 );
 
-const StoreProvider = ({ style, children }) => (
-  <Provider style={style} store={store}>
-    {children}
-  </Provider>
+const StoreProvider = props => (
+  <Provider store={store}>{props.children}</Provider>
 );
 
 export { StoreProvider };
