@@ -1,22 +1,21 @@
 import React from "react";
-import { StatusBar, NetInfo, View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, NetInfo, StatusBar, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
-
-// screens
-import NoNetworkScreen from "./app/screens/NoNetworkScreen";
+import AddMoneyScreen from "./app/screens/AddMoneyScreen";
+import UserTypeScreen from "./app/screens/auth/UserTypeScreen";
+import FavoritesScreen from "./app/screens/FavoritesScreen";
 import GetStartedScreen from "./app/screens/guest/GetStartedScreen";
 import OtpAuthScreen from "./app/screens/guest/OtpAuthScreen";
 import VerifyOtpScreen from "./app/screens/guest/VerifyOtpScreen";
-import TabScreen from "./app/screens/TabScreen";
-import UserTypeScreen from "./app/screens/auth/UserTypeScreen";
-import AddMoneyScreen from "./app/screens/AddMoneyScreen";
 import NewsDetailScreen from "./app/screens/NewsDetailScreen";
+// screens
+import NoNetworkScreen from "./app/screens/NoNetworkScreen";
 import ShareScreen from "./app/screens/ShareScreen";
+import TabScreen from "./app/screens/TabScreen";
 import TutorialsScreen from "./app/screens/TutorialsScreen";
-import FavoritesScreen from "./app/screens/FavoritesScreen";
-
 // libs
 import { getInitialScreen } from "./app/services/get_initial_screen";
+
 // import { getAuthToken } from "./app/services";
 
 const createAppStackNavigator = initialRouteName => {
@@ -63,16 +62,14 @@ export default class App extends React.Component {
     this.handleConnectionChanged(connectionInfo);
   }
 
-  async componentDidMount() {
-    const screen = await getInitialScreen();
-    // const token = await getAuthToken();
-    // console.log(token);
-
-    this.setState({ screen });
-  }
-
   handleConnectionChanged = async connectionInfo => {
     this.setState({ connectionInfo });
+
+    if (connectionInfo.type !== "none") {
+      const screen = await getInitialScreen();
+
+      this.setState({ screen });
+    }
   };
 
   showLoader = () => (
