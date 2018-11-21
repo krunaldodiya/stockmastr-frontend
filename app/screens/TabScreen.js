@@ -1,7 +1,5 @@
 import React from "react";
-import { View } from "react-native";
 import { createBottomTabNavigator } from "react-navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
 import HomeScreen from "./tabs/HomeScreen";
 import NotificationsScreen from "./tabs/NotificationsScreen";
 import NewsScreen from "./tabs/NewsScreen";
@@ -39,29 +37,6 @@ const AppTabNavigator = createBottomTabNavigator(
         )
       }
     },
-    // Adding: {
-    //   screen: () => null,
-    //   navigationOptions: () => ({
-    //     tabBarIcon: (
-    //       <View
-    //         style={{
-    //           borderRadius: 60,
-    //           backgroundColor: "#48A2F8",
-    //           width: 75,
-    //           height: 75,
-    //           justifyContent: "center"
-    //         }}
-    //       >
-    //         <Icon
-    //           name="plus"
-    //           color="white"
-    //           size={24}
-    //           style={{ textAlign: "center" }}
-    //         />
-    //       </View>
-    //     )
-    //   })
-    // },
     News: {
       screen: NewsScreen,
       navigationOptions: {

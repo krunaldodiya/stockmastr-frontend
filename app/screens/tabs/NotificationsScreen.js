@@ -1,7 +1,9 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import styles from "../../styles/NotificationsTab";
 import TopBar from "../../components/TopBar";
+
+import { connect } from "react-redux";
 
 class NotificationsScreen extends React.Component {
   static navigationOptions = {
@@ -16,20 +18,52 @@ class NotificationsScreen extends React.Component {
     };
   }
 
+  componentWillMount() {
+    console.log(this.props);
+  }
+
   render() {
     const { loaded } = this.state;
-    const { navigation } = this.props;
+    const { home, hello } = this.props;
 
     return (
       <View style={styles.container}>
         <TopBar />
 
         <View style={{ padding: 20 }}>
-          <Text>notifications</Text>
+          <View style={{ marginBottom: 10 }}>
+            <Text>{home.name}</Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              return hello({
+                type: "LOADING",
+                payload: { name: "krunal" }
+              });
+            }}
+          >
+            <Text>PRESS ME</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
 }
 
-export default NotificationsScreen;
+const mapStateToProps = state => {
+  return {
+    home: state.home
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    hello: payload => dispatch(payload)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationsScreen);
