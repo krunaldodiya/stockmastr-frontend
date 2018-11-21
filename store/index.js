@@ -1,5 +1,19 @@
-import { StoreProvider } from "./provider";
+// Redux
+import { createStore, applyMiddleware } from "redux";
 
-import { mapper } from "./mapper";
+// Reducer
+import rootReducer from "./reducers";
 
-export { StoreProvider, mapper };
+// middlewares
+import middlewares from "./middlewares";
+
+// initial state
+const initialState = {};
+
+const store = createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(...middlewares)
+);
+
+export { store };

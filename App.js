@@ -5,15 +5,12 @@ import { createStackNavigator } from "react-navigation";
 // libs
 import { getInitialScreen } from "./app/services/get_initial_screen";
 
-// store
-import { StoreProvider } from "./store";
-
-// component
-import NoNetwork from "./app/styles/NoNetwork";
-
-// routes
+import NoNetwork from "./app/components/NoNetwork";
 
 import { routes } from "./routes";
+import { store } from "./store";
+
+import { Provider } from "react-redux";
 
 const createAppStackNavigator = initialRouteName => {
   const AppStackNavigator = createStackNavigator(routes, {
@@ -26,7 +23,7 @@ const createAppStackNavigator = initialRouteName => {
   return <AppStackNavigator />;
 };
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -65,7 +62,7 @@ export default class App extends React.Component {
     const { connectionInfo, screen } = this.state;
 
     return (
-      <StoreProvider>
+      <Provider store={store}>
         <View style={{ flex: 1 }}>
           <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
@@ -81,7 +78,9 @@ export default class App extends React.Component {
             </View>
           )}
         </View>
-      </StoreProvider>
+      </Provider>
     );
   }
 }
+
+export default App;

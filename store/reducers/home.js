@@ -1,5 +1,3 @@
-import { types } from "../dispatchers/say_hello/action_type";
-
 const initialState = {
   name: "Aryan"
 };
@@ -13,15 +11,7 @@ const getHandler = (state, action) => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case types.LOADING: {
-      return getHandler(state, action);
-    }
-
-    case types.SUCCESS: {
-      return getHandler(state, action);
-    }
-
-    case types.ERROR: {
+    case "LOADING": {
       return getHandler(state, action);
     }
 
