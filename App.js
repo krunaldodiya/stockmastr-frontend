@@ -1,44 +1,27 @@
 import React from "react";
 import { ActivityIndicator, NetInfo, StatusBar, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import AddMoneyScreen from "./app/screens/AddMoneyScreen";
-import UserTypeScreen from "./app/screens/auth/UserTypeScreen";
-import FavoritesScreen from "./app/screens/FavoritesScreen";
-import GetStartedScreen from "./app/screens/guest/GetStartedScreen";
-import OtpAuthScreen from "./app/screens/guest/OtpAuthScreen";
-import VerifyOtpScreen from "./app/screens/guest/VerifyOtpScreen";
-import NewsDetailScreen from "./app/screens/NewsDetailScreen";
-// screens
-import NoNetworkScreen from "./app/screens/NoNetworkScreen";
-import ShareScreen from "./app/screens/ShareScreen";
-import TabScreen from "./app/screens/TabScreen";
-import TutorialsScreen from "./app/screens/TutorialsScreen";
+
 // libs
 import { getInitialScreen } from "./app/services/get_initial_screen";
 
-// import { getAuthToken } from "./app/services";
+// store
+import { StoreProvider } from "./store";
+
+// component
+import NoNetwork from "./app/styles/NoNetwork";
+
+// routes
+
+import { routes } from "./routes";
 
 const createAppStackNavigator = initialRouteName => {
-  const AppStackNavigator = createStackNavigator(
-    {
-      GetStartedScreen: { screen: GetStartedScreen },
-      OtpAuthScreen: { screen: OtpAuthScreen },
-      VerifyOtpScreen: { screen: VerifyOtpScreen },
-      TabScreen: { screen: TabScreen },
-      UserTypeScreen: { screen: UserTypeScreen },
-      AddMoneyScreen: { screen: AddMoneyScreen },
-      NewsDetailScreen: { screen: NewsDetailScreen },
-      ShareScreen: { screen: ShareScreen },
-      TutorialsScreen: { screen: TutorialsScreen },
-      FavoritesScreen: { screen: FavoritesScreen }
-    },
-    {
-      initialRouteName,
-      navigationOptions: {
-        header: null
-      }
+  const AppStackNavigator = createStackNavigator(routes, {
+    initialRouteName,
+    navigationOptions: {
+      header: null
     }
-  );
+  });
 
   return <AppStackNavigator />;
 };
@@ -82,12 +65,12 @@ export default class App extends React.Component {
     const { connectionInfo, screen } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <StoreProvider style={{ flex: 1 }}>
         <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
         {connectionInfo && (
           <View style={{ flex: 1 }}>
-            {connectionInfo.type === "none" && <NoNetworkScreen />}
+            {connectionInfo.type === "none" && <NoNetwork />}
 
             {connectionInfo.type !== "none" && (
               <View style={{ flex: 1 }}>
@@ -96,7 +79,7 @@ export default class App extends React.Component {
             )}
           </View>
         )}
-      </View>
+      </StoreProvider>
     );
   }
 }
