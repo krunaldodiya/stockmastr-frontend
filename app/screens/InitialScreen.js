@@ -2,14 +2,14 @@ import React from "react";
 import { ActivityIndicator, NetInfo, StatusBar, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
-// libs
-// import { getInitialScreen } from "../services/get_initial_screen";
-
 import NoNetwork from "../components/NoNetwork";
 
 import { routes } from "../routes";
 
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+import { handleNetworkChange } from "../store/actions";
 
 const createAppStackNavigator = initialRouteName => {
   const AppStackNavigator = createStackNavigator(routes, {
@@ -33,22 +33,9 @@ class App extends React.Component {
 
   async componentWillMount() {
     NetInfo.addEventListener("connectionChange", netInfo => {
-      return this.props.handleNetworkChange({
-        type: "NETWORK_STATE_CHANGE",
-        payload: { connection: netInfo }
-      });
+      return this.props.handleNetworkChange(netInfo);
     });
   }
-
-  // handleConnectionChanged = async connectionInfo => {
-  //   this.setState({ connectionInfo });
-
-  //   if (connectionInfo.type !== "none") {
-  //     const screen = await getInitialScreen();
-
-  //     this.setState({ screen });
-  //   }
-  // };
 
   showLoader = () => (
     <View style={{ flex: 1, justifyContent: "center" }}>
@@ -56,21 +43,35 @@ class App extends React.Component {
     </View>
   );
 
+  getInitialRouteName = auth => {
+    const { loaded, authUser } = auth;
+
+    return loaded && authUser
+      ? authUser.profile_updated
+        ? "TabScreen"
+        : "GetStartedScreen"
+      : "GetStartedScreen";
+  };
+
   render() {
-    const { screen } = this.state;
-    const { network } = this.props;
+    const { network, auth } = this.props;
+    const { connection } = network;
+
+    const initialRouteName = this.getInitialRouteName(auth);
 
     return (
       <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="#3498db" barStyle="light-content" />
 
-        {network.connection && (
+        {connection && (
           <View style={{ flex: 1 }}>
-            {network.connection.type === "none" && <NoNetwork />}
+            {connection.type === "none" && <NoNetwork />}
 
-            {network.connection.type !== "none" && (
+            {connection.type !== "none" && (
               <View style={{ flex: 1 }}>
-                {screen ? createAppStackNavigator(screen) : this.showLoader()}
+                {auth.loading
+                  ? this.showLoader()
+                  : createAppStackNavigator(initialRouteName)}
               </View>
             )}
           </View>
@@ -82,14 +83,18 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    auth: state.auth,
     network: state.network
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    handleNetworkChange: payload => dispatch(payload)
-  };
+  return bindActionCreators(
+    {
+      handleNetworkChange
+    },
+    dispatch
+  );
 };
 
 export default connect(

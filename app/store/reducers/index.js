@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 
 // reducers
-import homeReducer from "./home";
-import networkReducer from "./network";
+import home from "./home";
+import auth from "./auth";
+import network from "./network";
 
 export default combineReducers({
-  home: homeReducer,
-  network: networkReducer
+  home,
+  auth,
+  network
 });

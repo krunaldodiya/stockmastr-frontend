@@ -10,16 +10,16 @@ import TabScreen from "./screens/TabScreen";
 import TutorialsScreen from "./screens/TutorialsScreen";
 
 const routes = {
-  GetStartedScreen: { screen: GetStartedScreen },
-  OtpAuthScreen: { screen: OtpAuthScreen },
-  VerifyOtpScreen: { screen: VerifyOtpScreen },
-  TabScreen: { screen: TabScreen },
-  UserTypeScreen: { screen: UserTypeScreen },
-  AddMoneyScreen: { screen: AddMoneyScreen },
-  NewsDetailScreen: { screen: NewsDetailScreen },
-  ShareScreen: { screen: ShareScreen },
-  TutorialsScreen: { screen: TutorialsScreen },
-  FavoritesScreen: { screen: FavoritesScreen }
+    GetStartedScreen: {screen: GetStartedScreen},
+    OtpAuthScreen: {screen: OtpAuthScreen},
+    VerifyOtpScreen: {screen: VerifyOtpScreen},
+    TabScreen: {screen: TabScreen},
+    UserTypeScreen: {screen: UserTypeScreen},
+    AddMoneyScreen: {screen: AddMoneyScreen},
+    NewsDetailScreen: {screen: NewsDetailScreen},
+    ShareScreen: {screen: ShareScreen},
+    TutorialsScreen: {screen: TutorialsScreen},
+    FavoritesScreen: {screen: FavoritesScreen}
 };
 
-export { routes };
+export {routes};

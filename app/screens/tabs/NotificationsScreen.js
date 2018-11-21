@@ -18,10 +18,6 @@ class NotificationsScreen extends React.Component {
     };
   }
 
-  componentWillMount() {
-    console.log(this.props);
-  }
-
   render() {
     const { loaded } = this.state;
     const { home, hello } = this.props;
