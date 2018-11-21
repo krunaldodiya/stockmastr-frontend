@@ -1,4 +1,4 @@
-import { types } from "../dispatcher/say_hello/action_type";
+import { types } from "../dispatchers/say_hello/action_type";
 
 const initialState = {
   name: "Aryan"

@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { dispatcher } from "./dispatcher";
+import { dispatcher } from "./dispatchers";
 
 const mapper = (Component, mapState = [], mapDispatch = []) => {
   const mapStateToProps = state => {
