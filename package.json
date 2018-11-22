@@ -30,6 +30,7 @@
     "react-navigation": "^2.18.0",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",
+    "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "subscriptions-transport-ws": "^0.9.15"

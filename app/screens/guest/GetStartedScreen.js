@@ -3,8 +3,9 @@ import {
   View, Text, ScrollView, Image, TouchableOpacity,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
+import PropTypes from 'prop-types';
 import styles from '../../styles/GetStartedScreen';
-import { api } from '../../libs/api';
+
 
 const contract = require('../../../assets/images/contract.png');
 
@@ -51,9 +52,7 @@ TERMS & CONDITIONS
               onClick={() => this.setState({ agree: !agree })}
             />
 
-            <Text style={styles.agreeText}>
-I have read all the terms & conditions.
-            </Text>
+            <Text style={styles.agreeText}>I have read all the terms & conditions.</Text>
           </View>
 
           <View style={styles.submitButtonWrapper}>
@@ -72,5 +71,9 @@ I have read all the terms & conditions.
     );
   }
 }
+
+GetStartedScreen.propTypes = {
+  test: PropTypes.string,
+};
 
 export default GetStartedScreen;

@@ -2,14 +2,13 @@ import React from "react";
 import { ActivityIndicator, NetInfo, StatusBar, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
-import NoNetwork from "../components/NoNetwork";
-
-import { routes } from "../routes";
-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { handleNetworkChange } from "../store/actions";
+import NoNetwork from "../components/NoNetwork";
+
+import { routes } from "../routes";
+import { handleNetworkChange } from "../store/actions/handle_network";
 
 const createAppStackNavigator = initialRouteName => {
   const AppStackNavigator = createStackNavigator(routes, {
@@ -22,15 +21,7 @@ const createAppStackNavigator = initialRouteName => {
   return <AppStackNavigator />;
 };
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      screen: null
-    };
-  }
-
+class InitialScreen extends React.Component {
   async componentWillMount() {
     NetInfo.addEventListener("connectionChange", netInfo => {
       return this.props.handleNetworkChange(netInfo);
@@ -46,11 +37,15 @@ class App extends React.Component {
   getInitialRouteName = auth => {
     const { loaded, authUser } = auth;
 
-    return loaded && authUser
-      ? authUser.profile_updated
-        ? "TabScreen"
-        : "GetStartedScreen"
-      : "GetStartedScreen";
+    let screen;
+
+    if (loaded && authUser) {
+      screen = authUser.profile_updated ? "TabScreen" : "GetStartedScreen";
+    } else {
+      screen = "GetStartedScreen";
+    }
+
+    return screen;
   };
 
   render() {
@@ -81,23 +76,16 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    auth: state.auth,
-    network: state.network
-  };
-};
+const mapStateToProps = state => ({
+  auth: state.auth,
+  network: state.network
+});
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      handleNetworkChange
-    },
-    dispatch
-  );
+  return bindActionCreators({ handleNetworkChange }, dispatch);
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(InitialScreen);

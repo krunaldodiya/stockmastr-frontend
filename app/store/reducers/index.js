@@ -5,8 +5,10 @@ import home from "./home";
 import auth from "./auth";
 import network from "./network";
 
-export default combineReducers({
+const rootReducer = combineReducers({
   home,
   auth,
   network
 });
+
+export { rootReducer };

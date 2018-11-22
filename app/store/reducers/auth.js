@@ -16,7 +16,8 @@ export default (state = initialState, action) => {
     case GET_AUTH_USER: {
       return {
         ...state,
-        ...action.payload
+        loading: true,
+        loaded: false
       };
     }
 

@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
     case NETWORK_STATE_CHANGE: {
       return {
         ...state,
-        ...action.payload
+        connection: action.payload
       };
     }
 
