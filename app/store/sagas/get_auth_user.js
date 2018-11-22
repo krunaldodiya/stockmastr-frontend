@@ -9,23 +9,19 @@ import {
 import { api } from "../../libs/api";
 import { makeRequest } from "../../services";
 
-function* getAuthUser(action) {
+function* getAuthUser(payload) {
   try {
     const { user } = yield call(makeRequest, api.me, {});
 
-    console.log("user", user);
-
-    // yield put({
-    //   type: GET_AUTH_USER_SUCCESS,
-    //   payload: { user, loading: false, loaded: true }
-    // });
+    yield put({
+      type: GET_AUTH_USER_SUCCESS,
+      payload: { user, loading: false, loaded: true }
+    });
   } catch (error) {
-    console.log(error);
-
-    // yield put({
-    //   type: GET_AUTH_USER_FAIL,
-    //   payload: { error, loading: false, loaded: false }
-    // });
+    yield put({
+      type: GET_AUTH_USER_FAIL,
+      payload: { error: error.response.data, loading: false, loaded: false }
+    });
   }
 }
 
