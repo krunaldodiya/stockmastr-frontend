@@ -11,12 +11,18 @@ import {
 // style
 import CodeInput from "react-native-confirmation-code-input";
 import Spinner from "react-native-loading-spinner-overlay";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import styles from "../../styles/VerifyOtpScreen";
+
 // services
 import { graph, setAuthToken } from "../../services";
 // theme
 import theme from "../../libs/theme";
 import { api } from "../../libs/api";
+import { handleOtpInput } from "../../store/actions";
 
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
@@ -29,13 +35,8 @@ class VerifyOtpScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const { otp, mobile } = props.navigation.state.params;
-
     this.state = {
-      spinner: false,
       verifyOtp: null,
-      otp: otp.toString(),
-      mobile,
       time: 10,
       otpVerified: false
     };
@@ -66,7 +67,7 @@ class VerifyOtpScreen extends React.Component {
 
   otpAuth = async () => {
     const { otpVerified, mobile, otp } = this.state;
-    const { navigation } = this.props;
+    const { guest, navigation } = this.props;
 
     if (otpVerified) {
       try {
@@ -102,9 +103,7 @@ class VerifyOtpScreen extends React.Component {
 
       this.setState(
         { spinner: false, otp: data.otp.toString(), time: 10 },
-        () => {
-          this.startTimer();
-        }
+        this.startTimer
       );
 
       return Alert.alert("Success", "Otp Sent!");
@@ -114,9 +113,10 @@ class VerifyOtpScreen extends React.Component {
   };
 
   render() {
-    const { mobile, otp, verifyOtp, time, otpVerified, spinner } = this.state;
+    const { time, verifyOtp, otpVerified } = this.state;
 
-    const { navigation } = this.props;
+    const { guest, navigation } = this.props;
+    const { loading, mobile, otp } = guest;
 
     return (
       <KeyboardAvoidingView
@@ -125,7 +125,7 @@ class VerifyOtpScreen extends React.Component {
         style={styles.container}
       >
         <Spinner
-          visible={spinner}
+          visible={loading}
           textContent="Loading..."
           textStyle={styles.spinner}
           overlayColor="rgba(0,0,0,0.8)"
@@ -206,7 +206,7 @@ class VerifyOtpScreen extends React.Component {
             ref={verifyOtp}
             keyboardType="numeric"
             className="border-b"
-            compareWithCode={otp}
+            compareWithCode={otp.toString()}
             codeLength={4}
             space={5}
             size={50}
@@ -296,4 +296,15 @@ class VerifyOtpScreen extends React.Component {
   }
 }
 
-export default VerifyOtpScreen;
+const mapStateToProps = state => ({
+  guest: state.guest
+});
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ handleOtpInput: handleOtpInput }, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyOtpScreen);
