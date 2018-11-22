@@ -9,18 +9,18 @@ import {
 import { api } from "../../libs/api";
 import { makeRequest } from "../../services";
 
-function* getAuthUser(payload) {
+function* getAuthUser() {
   try {
-    const { user } = yield call(makeRequest, api.me, {});
+    const data = yield call(makeRequest, api.me, {});
 
     yield put({
       type: GET_AUTH_USER_SUCCESS,
-      payload: { user, loading: false, loaded: true }
+      payload: data
     });
   } catch (error) {
     yield put({
       type: GET_AUTH_USER_FAIL,
-      payload: { error: error.response.data, loading: false, loaded: false }
+      payload: { errors: error.response.data }
     });
   }
 }

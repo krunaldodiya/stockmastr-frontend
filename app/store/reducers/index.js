@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 
 // reducers
-import home from "./home";
+import guest from "./guest";
 import auth from "./auth";
 import network from "./network";
 
 const rootReducer = combineReducers({
-  home,
+  guest,
   auth,
   network
 });

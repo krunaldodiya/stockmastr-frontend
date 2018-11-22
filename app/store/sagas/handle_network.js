@@ -4,9 +4,9 @@ import { NETWORK_STATE_CHANGE } from "../actions/handle_network";
 import { getAuthUser } from "../actions/get_auth_user";
 
 function* networkStateChange() {
-  const { user } = yield select(state => state.auth);
+  const { auth, network } = yield select(state => state);
 
-  if (user == null) {
+  if (network.connection.type !== "none" && auth.user == null) {
     yield put(getAuthUser());
   }
 }

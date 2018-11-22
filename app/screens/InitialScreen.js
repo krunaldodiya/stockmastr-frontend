@@ -82,7 +82,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ handleNetworkChange }, dispatch);
+  return bindActionCreators(
+    { handleNetworkChange: handleNetworkChange },
+    dispatch
+  );
 };
 
 export default connect(

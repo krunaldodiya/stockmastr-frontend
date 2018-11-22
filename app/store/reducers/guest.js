@@ -1,11 +1,13 @@
 import {
-  GET_AUTH_USER,
-  GET_AUTH_USER_SUCCESS,
-  GET_AUTH_USER_FAIL
+  HANDLE_OTP_INPUT,
+  REQUEST_OTP,
+  REQUEST_OTP_SUCCESS,
+  REQUEST_OTP_FAIL
 } from "../actions";
 
 const initialState = {
-  authUser: null,
+  mobile: null,
+  otp: null,
   errors: null,
   loading: false,
   loaded: false
@@ -13,7 +15,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_AUTH_USER: {
+    case HANDLE_OTP_INPUT: {
+      return {
+        ...state,
+        ...action.payload,
+        errors: null
+      };
+    }
+
+    case REQUEST_OTP: {
       return {
         ...state,
         loading: true,
@@ -21,19 +31,19 @@ export default (state = initialState, action) => {
       };
     }
 
-    case GET_AUTH_USER_SUCCESS: {
+    case REQUEST_OTP_SUCCESS: {
       return {
         ...state,
-        errors: action.payload.errors,
+        otp: action.payload.otp,
         loading: false,
         loaded: true
       };
     }
 
-    case GET_AUTH_USER_FAIL: {
+    case REQUEST_OTP_FAIL: {
       return {
         ...state,
-        authUser: action.payload.user,
+        errors: action.payload.errors,
         loading: false,
         loaded: false
       };
