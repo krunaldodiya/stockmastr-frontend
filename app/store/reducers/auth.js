@@ -22,8 +22,6 @@ export default (state = initialState, action) => {
     }
 
     case GET_AUTH_USER_SUCCESS: {
-      console.log(action);
-
       return {
         ...state,
         authUser: action.payload.user,
