@@ -63,7 +63,6 @@ export default (state = initialState, action) => {
     case VERIFY_OTP_SUCCESS: {
       return {
         ...state,
-        otp: action.payload.otp,
         loading: false,
         loaded: true
       };
@@ -72,7 +71,6 @@ export default (state = initialState, action) => {
     case VERIFY_OTP_FAIL: {
       return {
         ...state,
-        errors: action.payload.errors,
         loading: false,
         loaded: false
       };

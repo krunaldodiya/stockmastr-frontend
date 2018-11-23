@@ -1,39 +1,43 @@
-import { Alert } from "react-native";
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import {
   VERIFY_OTP,
   VERIFY_OTP_SUCCESS,
-  VERIFY_OTP_FAIL
-} from "../actions/verify_otp";
+  VERIFY_OTP_FAIL,
+  GET_AUTH_USER_SUCCESS
+} from "../actions";
 
 import { api } from "../../libs/api";
-import { makeRequest } from "../../services";
+import { makeRequest, setAuthToken } from "../../services";
 
 function* verifyOtp(action) {
-  yield console.tron.log(action);
+  const { navigation, mobile, otp } = action.payload;
 
-  // const { mobile, navigation, mode } = action.payload;
+  try {
+    const { data } = yield call(makeRequest, api.verifyOtp, {
+      mobile,
+      otp
+    });
 
-  // try {
-  //   const { data } = yield call(makeRequest, api.verifyOtp, { mobile });
+    const { user, token } = data;
 
-  //   yield put({
-  //     type: VERIFY_OTP_SUCCESS,
-  //     payload: { otp: data.otp }
-  //   });
+    yield call(setAuthToken, token);
 
-  //   if (mode === "resend") {
-  //     Alert.alert("Success", "Otp Sent!");
-  //   } else {
-  //     navigation.replace("VerifyOtpScreen");
-  //   }
-  // } catch (error) {
-  //   yield put({
-  //     type: VERIFY_OTP_FAIL,
-  //     payload: { errors: error.response.data }
-  //   });
-  // }
+    yield put({
+      type: GET_AUTH_USER_SUCCESS,
+      payload: { user }
+    });
+
+    yield put({ type: VERIFY_OTP_SUCCESS });
+
+    const screen = user.profile_updated ? "TabScreen" : "UserTypeScreen";
+    navigation.replace(screen, data);
+  } catch (error) {
+    yield put({
+      type: VERIFY_OTP_FAIL,
+      payload: { errors: error.response.data }
+    });
+  }
 }
 
 function* verifyOtpWatcher() {

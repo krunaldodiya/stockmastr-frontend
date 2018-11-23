@@ -65,34 +65,6 @@ class VerifyOtpScreen extends React.Component {
     this.setState({ otpVerified: isValid });
   };
 
-  // otpAuth = async () => {
-  //   const { otpVerified, mobile, otp } = this.state;
-  //   const { guest, navigation } = this.props;
-
-  //   if (otpVerified) {
-  //     try {
-  //       this.setState({ spinner: true });
-
-  //       const { token, user } = await graph(api.verifyOtp, { mobile, otp });
-
-  //       if (token) await setAuthToken(token);
-
-  //       this.setState({ spinner: false });
-
-  //       return navigation.replace(
-  //         user.profile_updated ? "TabScreen" : "UserTypeScreen",
-  //         { user }
-  //       );
-  //     } catch (error) {
-  //       this.setState({ spinner: false });
-  //     }
-  //   }
-
-  //   if (!otpVerified) {
-  //     Alert.alert("Oops", "Invalid OTP");
-  //   }
-  // };
-
   render() {
     const { time, verifyOtp, otpVerified } = this.state;
     const { guest, navigation } = this.props;
@@ -259,7 +231,7 @@ class VerifyOtpScreen extends React.Component {
               style={
                 otpVerified ? styles.submitButton : styles.submitButtonDisabled
               }
-              onPress={() => this.props.verifyOtp()}
+              onPress={() => this.props.verifyOtp({ mobile, otp, navigation })}
             >
               <Text
                 style={

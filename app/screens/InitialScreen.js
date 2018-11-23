@@ -50,6 +50,9 @@ class InitialScreen extends React.Component {
 
   render() {
     const { network, auth } = this.props;
+
+    console.log(auth);
+
     const { connection } = network;
 
     const initialRouteName = this.getInitialRouteName(auth);

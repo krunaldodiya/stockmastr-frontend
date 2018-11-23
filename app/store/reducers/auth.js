@@ -22,9 +22,11 @@ export default (state = initialState, action) => {
     }
 
     case GET_AUTH_USER_SUCCESS: {
+      console.log(action);
+
       return {
         ...state,
-        errors: action.payload.errors,
+        authUser: action.payload.user,
         loading: false,
         loaded: true
       };
@@ -33,7 +35,7 @@ export default (state = initialState, action) => {
     case GET_AUTH_USER_FAIL: {
       return {
         ...state,
-        authUser: action.payload.user,
+        errors: action.payload.errors,
         loading: false,
         loaded: false
       };
