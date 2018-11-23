@@ -10,7 +10,7 @@ import {
 // 3rd
 import Spinner from "react-native-loading-spinner-overlay";
 // style
-import styles from "../../styles/OtpAuthScreen";
+import styles from "../../styles/RequestOtpScreen";
 // services
 import {
   login,

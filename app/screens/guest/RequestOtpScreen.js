@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 // style
-import styles from "../../styles/OtpAuthScreen";
+import styles from "../../styles/RequestOtpScreen";
 // theme
 import theme from "../../libs/theme";
 import { handleOtpInput, requestOtp } from "../../store/actions";
@@ -22,13 +22,13 @@ import { handleOtpInput, requestOtp } from "../../store/actions";
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
 
-class OtpAuthScreen extends React.Component {
+class RequestOtpScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
 
   render() {
-    const { guest, handleOtpInput, requestOtp, navigation } = this.props;
+    const { guest, navigation } = this.props;
     const { mobile, loading, errors } = guest;
 
     return (
@@ -97,7 +97,9 @@ class OtpAuthScreen extends React.Component {
             keyboardType="number-pad"
             maxLength={10}
             value={mobile}
-            onChangeText={number => handleOtpInput({ mobile: number })}
+            onChangeText={number => {
+              this.props.handleOtpInput({ mobile: number });
+            }}
             style={{
               borderColor: errors ? "#e74c3c" : "black",
               marginHorizontal: 30,
@@ -112,7 +114,9 @@ class OtpAuthScreen extends React.Component {
           <View style={styles.submitButtonWrapper}>
             <TouchableOpacity
               style={styles.submitButton}
-              onPress={() => requestOtp({ mobile, navigation })}
+              onPress={() =>
+                this.props.requestOtp({ mobile, navigation, mode: "request" })
+              }
             >
               <Text style={styles.submitButtonText}>SEND OTP</Text>
             </TouchableOpacity>
@@ -137,4 +141,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OtpAuthScreen);
+)(RequestOtpScreen);

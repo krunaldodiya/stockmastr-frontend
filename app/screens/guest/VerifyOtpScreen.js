@@ -22,7 +22,7 @@ import { graph, setAuthToken } from "../../services";
 // theme
 import theme from "../../libs/theme";
 import { api } from "../../libs/api";
-import { handleOtpInput } from "../../store/actions";
+import { handleOtpInput, requestOtp, verifyOtp } from "../../store/actions";
 
 // images
 const phoneHand = require("../../../assets/images/phone-hand.png");
@@ -65,56 +65,36 @@ class VerifyOtpScreen extends React.Component {
     this.setState({ otpVerified: isValid });
   };
 
-  otpAuth = async () => {
-    const { otpVerified, mobile, otp } = this.state;
-    const { guest, navigation } = this.props;
+  // otpAuth = async () => {
+  //   const { otpVerified, mobile, otp } = this.state;
+  //   const { guest, navigation } = this.props;
 
-    if (otpVerified) {
-      try {
-        this.setState({ spinner: true });
+  //   if (otpVerified) {
+  //     try {
+  //       this.setState({ spinner: true });
 
-        const { token, user } = await graph(api.verifyOtp, { mobile, otp });
+  //       const { token, user } = await graph(api.verifyOtp, { mobile, otp });
 
-        if (token) await setAuthToken(token);
+  //       if (token) await setAuthToken(token);
 
-        this.setState({ spinner: false });
+  //       this.setState({ spinner: false });
 
-        return navigation.replace(
-          user.profile_updated ? "TabScreen" : "UserTypeScreen",
-          { user }
-        );
-      } catch (error) {
-        this.setState({ spinner: false });
-      }
-    }
+  //       return navigation.replace(
+  //         user.profile_updated ? "TabScreen" : "UserTypeScreen",
+  //         { user }
+  //       );
+  //     } catch (error) {
+  //       this.setState({ spinner: false });
+  //     }
+  //   }
 
-    if (!otpVerified) {
-      Alert.alert("Oops", "Invalid OTP");
-    }
-  };
-
-  resendOtp = async () => {
-    const { mobile } = this.state;
-
-    try {
-      this.setState({ spinner: true });
-
-      const data = await graph(api.requestOtp, { mobile });
-
-      this.setState(
-        { spinner: false, otp: data.otp.toString(), time: 10 },
-        this.startTimer
-      );
-
-      return Alert.alert("Success", "Otp Sent!");
-    } catch (error) {
-      this.setState({ spinner: false });
-    }
-  };
+  //   if (!otpVerified) {
+  //     Alert.alert("Oops", "Invalid OTP");
+  //   }
+  // };
 
   render() {
     const { time, verifyOtp, otpVerified } = this.state;
-
     const { guest, navigation } = this.props;
     const { loading, mobile, otp } = guest;
 
@@ -185,7 +165,7 @@ class VerifyOtpScreen extends React.Component {
             }}
           >
             <TouchableOpacity
-              onPress={() => navigation.replace("OtpAuthScreen")}
+              onPress={() => navigation.replace("RequestOtpScreen")}
             >
               <Text
                 style={{
@@ -226,7 +206,9 @@ class VerifyOtpScreen extends React.Component {
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity
               disabled={time > 0}
-              onPress={() => this.resendOtp()}
+              onPress={() => {
+                this.props.requestOtp({ mobile, navigation, mode: "resend" });
+              }}
             >
               <Text
                 style={{
@@ -277,7 +259,7 @@ class VerifyOtpScreen extends React.Component {
               style={
                 otpVerified ? styles.submitButton : styles.submitButtonDisabled
               }
-              onPress={() => this.otpAuth()}
+              onPress={() => this.props.verifyOtp()}
             >
               <Text
                 style={
@@ -301,7 +283,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ handleOtpInput: handleOtpInput }, dispatch);
+  return bindActionCreators(
+    {
+      handleOtpInput: handleOtpInput,
+      requestOtp: requestOtp,
+      verifyOtp: verifyOtp
+    },
+    dispatch
+  );
 };
 
 export default connect(

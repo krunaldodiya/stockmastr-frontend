@@ -54,7 +54,7 @@ class GetStartedScreen extends React.Component {
             <TouchableOpacity
               disabled={!agree}
               style={agree ? styles.submitButton : styles.submitButtonDisabled}
-              onPress={() => navigation.replace("OtpAuthScreen")}
+              onPress={() => navigation.replace("RequestOtpScreen")}
             >
               <Text
                 style={

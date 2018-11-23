@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React from "react";
+import { View, TouchableOpacity } from "react-native";
 
-import { Icon } from 'react-native-vector-icons';
-import styles from '../../styles/OtpAuthScreen';
-import Animation from '../../components/Animation';
+import { Icon } from "react-native-vector-icons";
+import styles from "../../styles/RequestOtpScreen";
+import Animation from "../../components/Animation";
 
 class AnimationScreen extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
@@ -15,7 +15,7 @@ class AnimationScreen extends React.Component {
 
     this.state = {
       favorite: false,
-      showAnimation: false,
+      showAnimation: false
     };
   }
 
@@ -24,20 +24,20 @@ class AnimationScreen extends React.Component {
 
     if (favorite === false) {
       this.setState({
-        showAnimation: true,
+        showAnimation: true
       });
 
       setTimeout(() => {
         this.setState({
           favorite: favorite !== true,
-          showAnimation: false,
+          showAnimation: false
         });
       }, 1500);
     }
 
     if (favorite === true) {
       this.setState({
-        favorite: false,
+        favorite: false
       });
     }
   };
@@ -50,30 +50,28 @@ class AnimationScreen extends React.Component {
         <View
           style={{
             flex: 1,
-            backgroundColor: 'white',
-            padding: 10,
+            backgroundColor: "white",
+            padding: 10
           }}
         >
           {!showAnimation && (
             <TouchableOpacity
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 150,
-                left: 165,
+                left: 165
               }}
               onPress={() => this.showAnimation()}
             >
               <Icon
-                name={favorite ? 'heart' : 'heart-o'}
-                color={favorite ? 'red' : 'black'}
+                name={favorite ? "heart" : "heart-o"}
+                color={favorite ? "red" : "black"}
                 size={32}
               />
             </TouchableOpacity>
           )}
 
-          <View style={{ flex: 1 }}>
-            {showAnimation && <Animation />}
-          </View>
+          <View style={{ flex: 1 }}>{showAnimation && <Animation />}</View>
         </View>
       </View>
     );

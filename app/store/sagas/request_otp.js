@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import {
@@ -10,7 +11,7 @@ import { api } from "../../libs/api";
 import { makeRequest } from "../../services";
 
 function* requestOtp(action) {
-  const { mobile, navigation } = action.payload;
+  const { mobile, navigation, mode } = action.payload;
 
   try {
     const { data } = yield call(makeRequest, api.requestOtp, { mobile });
@@ -20,7 +21,11 @@ function* requestOtp(action) {
       payload: { otp: data.otp }
     });
 
-    navigation.replace("VerifyOtpScreen");
+    if (mode === "resend") {
+      Alert.alert("Success", "Otp Sent!");
+    } else {
+      navigation.replace("VerifyOtpScreen");
+    }
   } catch (error) {
     yield put({
       type: REQUEST_OTP_FAIL,
