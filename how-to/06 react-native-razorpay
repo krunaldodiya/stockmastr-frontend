@@ -1,7 +1,0 @@
-npm i react-native-razorpay --save
-react-native link react-native-razorpay
-
-1) android (work out of the box)
-2) ios (work out of the box) 
-
-https://github.com/razorpay/react-native-razorpay/wiki/Manual-Installation

@@ -1,5 +1,3 @@
-import "./app/libs/reactotron";
-
 import { AppRegistry } from "react-native";
 
 import App from "./App";

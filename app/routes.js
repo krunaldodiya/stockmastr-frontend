@@ -1,13 +1,13 @@
-import AddMoneyScreen from "./screens/AddMoneyScreen";
-import UserTypeScreen from "./screens/auth/UserTypeScreen";
-import FavoritesScreen from "./screens/FavoritesScreen";
-import GetStartedScreen from "./screens/guest/GetStartedScreen";
-import RequestOtpScreen from "./screens/guest/RequestOtpScreen";
-import VerifyOtpScreen from "./screens/guest/VerifyOtpScreen";
-import NewsDetailScreen from "./screens/NewsDetailScreen";
-import ShareScreen from "./screens/ShareScreen";
-import TabScreen from "./screens/TabScreen";
-import TutorialsScreen from "./screens/TutorialsScreen";
+import AddMoneyScreen from "./containers/AddMoneyScreen";
+import UserTypeScreen from "./containers/auth/UserTypeScreen";
+import FavoritesScreen from "./containers/FavoritesScreen";
+import GetStartedScreen from "./containers/guest/GetStartedScreen";
+import RequestOtpScreen from "./containers/guest/RequestOtpScreen";
+import VerifyOtpScreen from "./containers/guest/VerifyOtpScreen";
+import NewsDetailScreen from "./containers/NewsDetailScreen";
+import ShareScreen from "./containers/ShareScreen";
+import TabScreen from "./containers/TabScreen";
+import TutorialsScreen from "./containers/TutorialsScreen";
 
 const routes = {
   GetStartedScreen: { screen: GetStartedScreen },
