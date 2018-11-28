@@ -6,6 +6,7 @@ import GetStartedScreen from "../../containers/GetStartedScreen";
 import NoNetworkScreen from "../../containers/NoNetworkScreen";
 import SplashScreen from "../../containers/SplashScreen";
 import TabsScreen from "../../containers/TabsScreen";
+import RequestOtpScreen from "../../containers/RequestOtpScreen";
 
 const getAppNavigator = (network, auth) => {
   const { connection } = network;
@@ -19,6 +20,7 @@ const getAppNavigator = (network, auth) => {
       NoNetworkScreen: { screen: NoNetworkScreen },
       SplashScreen: { screen: SplashScreen },
       TabsScreen: { screen: TabsScreen },
+      RequestOtpScreen: { screen: RequestOtpScreen },
     },
     {
       initialRouteName,

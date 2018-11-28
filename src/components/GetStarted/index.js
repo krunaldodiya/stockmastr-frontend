@@ -39,9 +39,9 @@ class GetStartedScreen extends React.Component {
     return (
       <Container style={styles.container}>
         <TermsHeader />
-        <TermsContent terms={terms} />
+        <TermsContent {...this.props} terms={terms} />
         <TermsCheckBox acceptTerms={this.acceptTerms} agree={agree} />
-        <TermsButton agree={agree} />
+        <TermsButton {...this.props} agree={agree} />
       </Container>
     );
   }
