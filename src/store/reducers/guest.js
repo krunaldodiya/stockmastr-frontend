@@ -12,6 +12,7 @@ import {
 const initialState = {
   mobile: null,
   otp: null,
+  clientOtp: null,
   agree: false,
   errors: null,
   loading: false,

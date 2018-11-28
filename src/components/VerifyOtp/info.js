@@ -2,12 +2,12 @@ import { View, Text } from "native-base";
 import React from "react";
 import styles from "./styles";
 
-const TopImage = () => (
+const TopImage = ({ mobile }) => (
   <View style={styles.infoWrapper}>
-    <Text style={styles.infoHeading}>REQUEST OTP</Text>
-    <Text style={styles.infoParagraph}>
-      Please, Enter your mobile to receive verification code
+    <Text style={styles.infoHeading}>
+      Please, Enter verification code send to &nbsp;
     </Text>
+    <Text style={styles.infoParagraph}>{mobile}</Text>
   </View>
 );
 
