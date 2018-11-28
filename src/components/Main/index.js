@@ -10,9 +10,9 @@ import RequestOtpScreen from "../../containers/RequestOtpScreen";
 
 const getAppNavigator = (network, auth) => {
   const { connection } = network;
-  const { loaded, authUser } = auth;
+  const { loading, authUser } = auth;
 
-  const initialRouteName = getInitialScreen(connection, loaded, authUser);
+  const initialRouteName = getInitialScreen(connection, loading, authUser);
 
   return createStackNavigator(
     {
@@ -20,7 +20,7 @@ const getAppNavigator = (network, auth) => {
       NoNetworkScreen: { screen: NoNetworkScreen },
       SplashScreen: { screen: SplashScreen },
       TabsScreen: { screen: TabsScreen },
-      RequestOtpScreen: { screen: RequestOtpScreen },
+      RequestOtpScreen: { screen: RequestOtpScreen }
     },
     {
       initialRouteName,
@@ -31,12 +31,12 @@ const getAppNavigator = (network, auth) => {
   );
 };
 
-const getInitialScreen = (connection, loaded, authUser) => {
-  if (!connection || connection.type === "none") {
+const getInitialScreen = (connection, loading, authUser) => {
+  if (!loading && (!connection || connection.type === "none")) {
     return "NoNetworkScreen";
   }
 
-  if (!loaded) {
+  if (loading) {
     return "SplashScreen";
   }
 
