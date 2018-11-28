@@ -1,21 +1,20 @@
 import React from "react";
-
-// redux
 import { Provider } from "react-redux";
-import { store } from "./app/store";
+import MainScreen from "./src/containers/MainScreen";
+import { store } from "./src/store";
 
-// native base
-import getTheme from "./native-base-theme/components";
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-// component
-import InitialScreen from "./app/containers/InitialScreen";
-
-const App = () => (
-  <Provider store={store}>
-    <StyleProvider style={getTheme()}>
-      <InitialScreen />
-    </StyleProvider>
-  </Provider>
-);
+  render() {
+    return (
+      <Provider store={store}>
+        <MainScreen />
+      </Provider>
+    );
+  }
+}
 
 export default App;
