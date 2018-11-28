@@ -1,14 +1,12 @@
 import { call, put, takeEvery } from "redux-saga/effects";
-
-import {
-  VERIFY_OTP,
-  VERIFY_OTP_SUCCESS,
-  VERIFY_OTP_FAIL,
-  GET_AUTH_USER_SUCCESS
-} from "../actions";
-
 import { api } from "../../libs/api";
 import { makeRequest, setAuthToken } from "../../services";
+import {
+  GET_AUTH_USER_SUCCESS,
+  VERIFY_OTP,
+  VERIFY_OTP_FAIL,
+  VERIFY_OTP_SUCCESS
+} from "../actions";
 
 function* verifyOtp(action) {
   const { navigation, mobile, otp } = action.payload;

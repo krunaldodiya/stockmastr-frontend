@@ -23,7 +23,7 @@ export default StyleSheet.create({
     fontSize: 18
   },
   termsBody: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 20
   },
   agreeWrapper: {
     flexDirection: "row",
@@ -60,5 +60,13 @@ export default StyleSheet.create({
     textAlign: "center",
     fontFamily: theme.fonts.TitilliumWebSemiBold,
     color: "#ccc"
+  },
+  checkBox: agree => {
+    return {
+      marginTop: 1,
+      alignItems: "center",
+      borderColor: agree ? "black" : "white",
+      backgroundColor: agree ? "black" : "white"
+    };
   }
 });

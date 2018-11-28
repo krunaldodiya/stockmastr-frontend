@@ -1,12 +1,17 @@
+import { Icon, Text, View } from "native-base";
 import React from "react";
-import { View, Text } from "react-native";
-import { Icon } from "native-base";
 import styles from "./styles";
 
 const NoNetwork = () => (
   <View style={styles.container}>
     <View style={styles.header}>
-      <Icon type="FontAwesome" name="signal" color="black" size={24} style={styles.icon} />
+      <Icon
+        type="FontAwesome"
+        name="signal"
+        color="black"
+        size={24}
+        style={styles.icon}
+      />
 
       <Text style={styles.signal}>Oops, No Network !</Text>
     </View>

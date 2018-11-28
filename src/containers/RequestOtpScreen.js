@@ -3,11 +3,14 @@ import { bindActionCreators } from "redux";
 import RequestOtp from "../components/RequestOtp";
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  guest: state.guest
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators(
+    { handleOtpInput: handleOtpInput, requestOtp: requestOtp },
+    dispatch
+  );
 };
 
 export default connect(

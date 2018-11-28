@@ -1,11 +1,22 @@
+import { Container, Content } from "native-base";
 import React from "react";
-import { Text, View } from "react-native";
+// component
+import Loader from "../../components/shared/Loader";
+import RequestOtpForm from "./form";
+import TopImage from "./image";
+import Info from "./info";
+// styles
 import styles from "./styles";
 
-const RequestOtp = () => (
-  <View style={styles.container}>
-    <Text>hello</Text>
-  </View>
+const RequestOtp = props => (
+  <Container style={styles.container}>
+    <Content>
+      <Loader loading={props.loading} />
+      <TopImage />
+      <Info />
+      <RequestOtpForm />
+    </Content>
+  </Container>
 );
 
 export default RequestOtp;

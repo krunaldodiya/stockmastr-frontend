@@ -2,6 +2,7 @@ import axios from "axios";
 import { Container } from "native-base";
 import React from "react";
 import styles from "./styles";
+// components
 import TermsButton from "./terms_button";
 import TermsCheckBox from "./terms_check_box";
 import TermsContent from "./terms_content";
@@ -16,32 +17,25 @@ class GetStartedScreen extends React.Component {
     super(props);
 
     this.state = {
-      agree: false,
       terms: ""
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios.get("http://192.168.2.200:8000/terms?lite").then(({ data }) => {
       this.setState({ terms: data });
     });
   }
 
-  acceptTerms = () => {
-    const { agree } = this.state;
-
-    this.setState({ agree: !agree });
-  };
-
   render() {
-    const { agree, terms } = this.state;
+    const { terms } = this.state;
 
     return (
       <Container style={styles.container}>
         <TermsHeader />
         <TermsContent {...this.props} terms={terms} />
-        <TermsCheckBox acceptTerms={this.acceptTerms} agree={agree} />
-        <TermsButton {...this.props} agree={agree} />
+        <TermsCheckBox {...this.props} />
+        <TermsButton {...this.props} />
       </Container>
     );
   }

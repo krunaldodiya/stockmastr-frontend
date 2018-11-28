@@ -1,21 +1,17 @@
+import { CheckBox, Text, View } from "native-base";
 import React from "react";
 import styles from "./styles";
-import { CheckBox, View, Text } from "native-base";
 
 const TermsCheckBox = props => {
-  const { agree, acceptTerms } = props;
+  const { guest, toggleTermsAgreement } = props;
+  const { agree } = guest;
 
   return (
     <View style={styles.agreeWrapper}>
       <CheckBox
         checked={agree ? true : false}
-        onPress={() => acceptTerms()}
-        style={{
-          marginTop: 1,
-          alignItems: "center",
-          borderColor: agree ? "black" : "white",
-          backgroundColor: agree ? "black" : "white"
-        }}
+        onPress={() => toggleTermsAgreement()}
+        style={styles.checkBox(agree)}
       />
 
       <Text style={styles.agreeText}>

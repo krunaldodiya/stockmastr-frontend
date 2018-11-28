@@ -4,21 +4,18 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 // screens
 import GetStartedScreen from "../../containers/GetStartedScreen";
 import NoNetworkScreen from "../../containers/NoNetworkScreen";
+import RequestOtpScreen from "../../containers/RequestOtpScreen";
 import SplashScreen from "../../containers/SplashScreen";
 import TabsScreen from "../../containers/TabsScreen";
-import RequestOtpScreen from "../../containers/RequestOtpScreen";
 
 const getAppNavigator = (network, auth) => {
-  const { connection } = network;
-  const { loading, authUser } = auth;
-
-  const initialRouteName = getInitialScreen(connection, loading, authUser);
+  const initialRouteName = getInitialScreen(network, auth);
 
   return createStackNavigator(
     {
+      SplashScreen: { screen: SplashScreen },
       GetStartedScreen: { screen: GetStartedScreen },
       NoNetworkScreen: { screen: NoNetworkScreen },
-      SplashScreen: { screen: SplashScreen },
       TabsScreen: { screen: TabsScreen },
       RequestOtpScreen: { screen: RequestOtpScreen }
     },
@@ -31,8 +28,11 @@ const getAppNavigator = (network, auth) => {
   );
 };
 
-const getInitialScreen = (connection, loading, authUser) => {
-  if (!loading && (!connection || connection.type === "none")) {
+const getInitialScreen = (network, auth) => {
+  const { connection } = network;
+  const { loading, loaded, authUser } = auth;
+
+  if (connection && connection.type === "none") {
     return "NoNetworkScreen";
   }
 
@@ -40,11 +40,11 @@ const getInitialScreen = (connection, loading, authUser) => {
     return "SplashScreen";
   }
 
-  if (!authUser) {
-    return "GetStartedScreen";
+  if (loaded) {
+    return authUser && authUser.profile_updated
+      ? "TabsScreen"
+      : "GetStartedScreen";
   }
-
-  return authUser.profile_updated ? "TabsScreen" : "GetStartedScreen";
 };
 
 export default class Main extends React.Component {
