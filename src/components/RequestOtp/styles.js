@@ -53,7 +53,7 @@ export default StyleSheet.create({
     };
   },
   submitButtonWrapper: {
-    marginTop: 30,
+    marginTop: 40,
     alignSelf: "center",
     borderBottomWidth: 0
   },

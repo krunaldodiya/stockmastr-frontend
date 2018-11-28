@@ -1,5 +1,5 @@
-import { Container, Content } from "native-base";
 import React from "react";
+import { KeyboardAvoidingView } from "react-native";
 // component
 import Loader from "../../components/shared/Loader";
 import RequestOtpForm from "./form";
@@ -9,14 +9,12 @@ import Info from "./info";
 import styles from "./styles";
 
 const RequestOtp = props => (
-  <Container style={styles.container}>
-    <Content>
-      <Loader loading={props.guest.loading} />
-      <TopImage />
-      <Info />
-      <RequestOtpForm {...props} />
-    </Content>
-  </Container>
+  <KeyboardAvoidingView behavior="position" enabled style={styles.container}>
+    <Loader loading={props.guest.loading} />
+    <TopImage />
+    <Info />
+    <RequestOtpForm {...props} />
+  </KeyboardAvoidingView>
 );
 
 export default RequestOtp;
