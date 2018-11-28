@@ -25,10 +25,15 @@ export default StyleSheet.create({
   termsBody: {
     paddingHorizontal: 20
   },
+  formWrapper: {
+    flexDirection: "column",
+    paddingVertical: 30
+  },
   agreeWrapper: {
     flexDirection: "row",
     marginTop: 10,
-    marginLeft: 10
+    marginLeft: 10,
+    borderBottomWidth: 0
   },
   agreeText: {
     marginLeft: 20,
@@ -36,10 +41,9 @@ export default StyleSheet.create({
     fontFamily: theme.fonts.TitilliumWebSemiBold
   },
   submitButtonWrapper: {
-    justifyContent: "flex-end",
+    marginTop: 30,
     alignSelf: "center",
-    marginBottom: 20,
-    padding: 20
+    borderBottomWidth: 0
   },
   submitButton: {
     paddingHorizontal: 10,

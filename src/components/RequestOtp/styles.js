@@ -6,35 +6,19 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#68b2e3"
   },
-  submitButtonWrapper: {
-    justifyContent: "flex-end",
-    alignSelf: "center",
-    marginTop: 50
-  },
-  submitButton: {
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: "#000"
-  },
-  submitButtonText: {
-    textAlign: "center",
-    fontFamily: theme.fonts.TitilliumWebSemiBold,
-    color: "white"
-  },
   topImageWrapper: {
     alignItems: "center",
-    marginTop: 50
+    padding: 50,
+    backgroundColor: "#006feb",    
   },
   topImage: {
-    width: 130,
-    height: 130
+    width: 120,
+    height: 120
   },
   infoWrapper: {
     flexDirection: "column",
-    justifyContent: "space-evenly",
     alignItems: "center",
-    marginTop: 30
+    padding: 30,
   },
   infoHeading: {
     fontSize: 26,
@@ -52,18 +36,40 @@ export default StyleSheet.create({
   },
   formWrapper: {
     flexDirection: "column",
-    marginTop: 50
+    padding: 30,
   },
-  inputWrapper: {},
+  inputWrapper: {
+    borderBottomWidth: 0,
+  },
   input: errors => {
     return {
       borderColor: errors ? "#e74c3c" : "black",
-      marginHorizontal: 30,
+      marginHorizontal: 20,
       marginTop: 10,
       borderWidth: 1,
       borderRadius: 10,
       paddingLeft: 20,
       fontFamily: theme.fonts.TitilliumWebRegular
     };
+  },
+  submitButtonWrapper: {
+    marginTop: 30,
+    alignSelf: "center",
+    borderBottomWidth: 0
+  },
+  submitButton: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#000"
+  },
+  submitButtonDisabled: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#000"
+  },
+  submitButtonText: {
+    textAlign: "center",
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
+    color: "white"
   }
 });

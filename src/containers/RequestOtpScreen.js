@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import RequestOtp from "../components/RequestOtp";
+import { handleOtpInput, requestOtp } from "../store/actions";
 
 const mapStateToProps = state => ({
   guest: state.guest

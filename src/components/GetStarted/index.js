@@ -1,10 +1,9 @@
 import axios from "axios";
 import { Container } from "native-base";
 import React from "react";
-import styles from "./styles";
 // components
-import TermsButton from "./terms_button";
-import TermsCheckBox from "./terms_check_box";
+import TermsForm from "./form";
+import styles from "./styles";
 import TermsContent from "./terms_content";
 import TermsHeader from "./terms_header";
 
@@ -34,8 +33,7 @@ class GetStartedScreen extends React.Component {
       <Container style={styles.container}>
         <TermsHeader />
         <TermsContent {...this.props} terms={terms} />
-        <TermsCheckBox {...this.props} />
-        <TermsButton {...this.props} />
+        <TermsForm {...this.props} />
       </Container>
     );
   }

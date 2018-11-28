@@ -11,10 +11,10 @@ import styles from "./styles";
 const RequestOtp = props => (
   <Container style={styles.container}>
     <Content>
-      <Loader loading={props.loading} />
+      <Loader loading={props.guest.loading} />
       <TopImage />
       <Info />
-      <RequestOtpForm />
+      <RequestOtpForm {...props} />
     </Content>
   </Container>
 );

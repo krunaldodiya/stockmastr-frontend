@@ -1,4 +1,13 @@
-import { HANDLE_OTP_INPUT, REQUEST_OTP, REQUEST_OTP_FAIL, REQUEST_OTP_SUCCESS, TOGGLE_TERMS_AGREEMENT, VERIFY_OTP, VERIFY_OTP_FAIL, VERIFY_OTP_SUCCESS } from "../actions";
+import {
+  HANDLE_OTP_INPUT,
+  REQUEST_OTP,
+  REQUEST_OTP_FAIL,
+  REQUEST_OTP_SUCCESS,
+  TOGGLE_TERMS_AGREEMENT,
+  VERIFY_OTP,
+  VERIFY_OTP_FAIL,
+  VERIFY_OTP_SUCCESS
+} from "../actions";
 
 const initialState = {
   mobile: null,
@@ -40,6 +49,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         errors: action.payload.errors,
+        mobile: null,
         loading: false,
         loaded: true
       };
