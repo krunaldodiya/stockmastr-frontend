@@ -5,9 +5,10 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import GetStartedScreen from "../../containers/GetStartedScreen";
 import NoNetworkScreen from "../../containers/NoNetworkScreen";
 import RequestOtpScreen from "../../containers/RequestOtpScreen";
-import VerifyOtpScreen from "../../containers/VerifyOtpScreen";
 import SplashScreen from "../../containers/SplashScreen";
 import TabsScreen from "../../containers/TabsScreen";
+import UserTypeScreen from "../../containers/UserTypeScreen";
+import VerifyOtpScreen from "../../containers/VerifyOtpScreen";
 
 const getAppNavigator = (network, auth) => {
   const initialRouteName = getInitialScreen(network, auth);
@@ -20,6 +21,7 @@ const getAppNavigator = (network, auth) => {
       TabsScreen: { screen: TabsScreen },
       RequestOtpScreen: { screen: RequestOtpScreen },
       VerifyOtpScreen: { screen: VerifyOtpScreen },
+      UserTypeScreen: { screen: UserTypeScreen }
     },
     {
       initialRouteName,
@@ -43,9 +45,11 @@ const getInitialScreen = (network, auth) => {
   }
 
   if (loaded) {
-    return authUser && authUser.profile_updated
-      ? "TabsScreen"
-      : "GetStartedScreen";
+    if (authUser) {
+      return authUser.profile_updated ? "TabsScreen" : "UserTypeScreen";
+    }
+
+    return "GetStartedScreen";
   }
 };
 

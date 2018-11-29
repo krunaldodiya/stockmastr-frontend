@@ -5,6 +5,7 @@ const api = {
   createOrder: `${httpUrl}/payments/create-order`,
   processOrder: `${httpUrl}/payments/process-order`,
   orderResponse: `${httpUrl}/payments/order-response`,
+  terms: `${httpUrl}/terms`,
   // api
   me: `${httpUrl}/api/users/me`,
   createUserProfile: `${httpUrl}/api/users/profile/create`,

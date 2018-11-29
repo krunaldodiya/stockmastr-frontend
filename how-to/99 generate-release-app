@@ -1,24 +1,24 @@
 name [Krunal Dodiya]
 organization unit [KD]
-organization [SocialStock]
+organization [StockMastr]
 city [Ahmedabad]
 state [Gujarat]
 country [IN]
 
-alias socialstock
-password socialstock@1987
-appId com.socialstock
+alias stockmastr
+password stockmastr@1987
+appId com.stockmastr
 
-keytool -genkey -v -keystore socialstock.keystore -alias socialstock -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore stockmastr.keystore -alias stockmastr -keyalg RSA -keysize 2048 -validity 10000
 -------
-Place the socialstock.keystore file under the android/app directory in your project folder.
+Place the stockmastr.keystore file under the android/app directory in your project folder.
 
 Edit the file ~/.gradle/gradle.properties or android/gradle.properties, and add the following (replace ***** with the correct keystore password, alias and key password),
 -------
-MYAPP_RELEASE_STORE_FILE=socialstock.keystore
-MYAPP_RELEASE_KEY_ALIAS=socialstock
-MYAPP_RELEASE_STORE_PASSWORD=socialstock@1987
-MYAPP_RELEASE_KEY_PASSWORD=socialstock@1987
+MYAPP_RELEASE_STORE_FILE=stockmastr.keystore
+MYAPP_RELEASE_KEY_ALIAS=stockmastr
+MYAPP_RELEASE_STORE_PASSWORD=stockmastr@1987
+MYAPP_RELEASE_KEY_PASSWORD=stockmastr@1987
 
 Edit the file android/app/build.gradle in your project folder, and add the signing config,
 ------------

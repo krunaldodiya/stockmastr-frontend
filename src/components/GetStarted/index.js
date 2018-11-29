@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Container } from "native-base";
 import React from "react";
+import { api } from "../../libs/api";
 // components
 import TermsForm from "./form";
 import styles from "./styles";
@@ -21,7 +22,7 @@ class GetStartedScreen extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("http://192.168.2.200:8000/terms?lite").then(({ data }) => {
+    axios.get(`${api.terms}?lite`).then(({ data }) => {
       this.setState({ terms: data });
     });
   }

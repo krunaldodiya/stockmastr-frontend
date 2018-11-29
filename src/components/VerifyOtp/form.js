@@ -8,7 +8,7 @@ const onFinishCheckingCode = isValid => {
 };
 
 const VerifyOtpForm = props => {
-  const { guest, navigation, verifyOtp } = props;
+  const { guest, verifyOtp } = props;
   const { mobile, loading, otp, clientOtp } = guest;
 
   return (
@@ -35,7 +35,7 @@ const VerifyOtpForm = props => {
           small
           disabled={loading}
           style={styles.submitButton}
-          onPress={() => verifyOtp({ mobile, otp, navigation })}
+          onPress={() => verifyOtp({ mobile, otp })}
         >
           <Text style={styles.submitButtonText}>VERIFY OTP</Text>
         </Button>
