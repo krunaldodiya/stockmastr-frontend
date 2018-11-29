@@ -1,5 +1,6 @@
 import {
   HANDLE_OTP_INPUT,
+  OTP_VERIFIED,
   REQUEST_OTP,
   REQUEST_OTP_FAIL,
   REQUEST_OTP_SUCCESS,
@@ -13,6 +14,7 @@ const initialState = {
   mobile: null,
   otp: null,
   clientOtp: null,
+  otpVerified: false,
   agree: false,
   errors: null,
   loading: false,
@@ -69,6 +71,13 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         loaded: true
+      };
+    }
+
+    case OTP_VERIFIED: {
+      return {
+        ...state,
+        otpVerified: action.payload.isValid
       };
     }
 

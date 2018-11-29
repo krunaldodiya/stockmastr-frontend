@@ -1,15 +1,27 @@
 import { Button, Form, Item, Text } from "native-base";
 import React from "react";
+import { Alert } from "react-native";
 import CodeInput from "react-native-confirmation-code-input";
 import styles from "./styles";
 
-const onFinishCheckingCode = isValid => {
-  console.log(isValid);
+const checkOtp = (isValid, otpVerified) => {
+  return otpVerified({ isValid });
+};
+
+const checkVerification = props => {
+  const { guest, verifyOtp } = props;
+  const { mobile, otp, otpVerified } = guest;
+
+  if (otpVerified) {
+    return verifyOtp({ mobile, otp });
+  }
+
+  return Alert.alert("Oops!", "Invalid OTP");
 };
 
 const VerifyOtpForm = props => {
-  const { guest, verifyOtp } = props;
-  const { mobile, loading, otp, clientOtp } = guest;
+  const { guest, otpVerified } = props;
+  const { loading, otp, clientOtp } = guest;
 
   return (
     <Form style={styles.formWrapper}>
@@ -25,7 +37,8 @@ const VerifyOtpForm = props => {
           autoFocus
           inputPosition="center"
           codeInputStyle={{ fontSize: 30 }}
-          onFulfill={isValid => onFinishCheckingCode(isValid)}
+          onChange={() => checkOtp(false, otpVerified)}
+          onFulfill={isValid => checkOtp(isValid, otpVerified)}
         />
       </Item>
 
@@ -35,7 +48,7 @@ const VerifyOtpForm = props => {
           small
           disabled={loading}
           style={styles.submitButton}
-          onPress={() => verifyOtp({ mobile, otp })}
+          onPress={() => checkVerification(props)}
         >
           <Text style={styles.submitButtonText}>VERIFY OTP</Text>
         </Button>
