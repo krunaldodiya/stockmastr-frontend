@@ -5,7 +5,6 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import GetStartedScreen from "../../containers/GetStartedScreen";
 import NoNetworkScreen from "../../containers/NoNetworkScreen";
 import RequestOtpScreen from "../../containers/RequestOtpScreen";
-import SplashScreen from "../../containers/SplashScreen";
 import TabsScreen from "../../containers/TabsScreen";
 import UserTypeScreen from "../../containers/UserTypeScreen";
 import VerifyOtpScreen from "../../containers/VerifyOtpScreen";
@@ -15,7 +14,6 @@ const getAppNavigator = (network, auth) => {
 
   return createStackNavigator(
     {
-      SplashScreen: { screen: SplashScreen },
       GetStartedScreen: { screen: GetStartedScreen },
       NoNetworkScreen: { screen: NoNetworkScreen },
       TabsScreen: { screen: TabsScreen },
