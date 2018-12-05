@@ -3,6 +3,7 @@ package com.socialstock;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import cl.json.RNSharePackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
             new RNGestureHandlerPackage(),
             new RNSharePackage(),
             new LottiePackage()
