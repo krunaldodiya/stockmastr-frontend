@@ -4,12 +4,13 @@ import theme from "../../libs/theme";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#d80402"
+    backgroundColor: "#E5E5E5"
   },
   termsWrapper: {
     flexDirection: "row",
     alignSelf: "flex-start",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#d80402"
   },
   termsIcon: {
     width: 32,
