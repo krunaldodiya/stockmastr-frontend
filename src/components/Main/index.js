@@ -34,17 +34,17 @@ const getAppNavigator = (network, auth) => {
 
 const getInitialScreen = (network, auth) => {
   const { connection } = network;
-  const { authInitialized, loaded, authUser } = auth;
+  const { authInitialized, authUser } = auth;
 
   if (connection && connection.type === "none") {
     return "NoNetworkScreen";
   }
 
-  if (!(authInitialized && loaded)) {
+  if (!authInitialized) {
     return "SplashScreen";
   }
 
-  if (authInitialized && loaded) {
+  if (authInitialized) {
     if (authUser) {
       return authUser.profile_updated ? "TabsScreen" : "UserTypeScreen";
     }
