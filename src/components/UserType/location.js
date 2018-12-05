@@ -6,8 +6,7 @@ import styles from "./styles";
 
 const Location = props => {
   const {
-    authUser,
-    errors,
+    auth,
     cities,
     selectedLocation,
     handleLocationChange,
@@ -15,6 +14,7 @@ const Location = props => {
     handleLocationSelect
   } = props;
 
+  const { authUser, errors } = auth;
   const { city, state } = authUser;
 
   return (
@@ -24,7 +24,7 @@ const Location = props => {
           ref={c => (this.location = c)}
           editable={!(city && state)}
           placeholder={
-            errors
+            errors && (errors.errors.city || errors.errors.state)
               ? errors.errors.city[0] || errors.errors.state[0]
               : "Select a Location"
           }

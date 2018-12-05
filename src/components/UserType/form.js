@@ -10,12 +10,13 @@ class UserTypeForm extends React.Component {
   constructor(props) {
     super(props);
 
-    const { city, state } = props.auth.authUser;
+    const { authUser } = props.auth;
+    const { city, state } = authUser;
 
     this.state = {
       cities: [],
       selectedLocation: city && state ? `${city}, ${state}` : null,
-      authUser: props.auth.authUser
+      authUser
     };
   }
 
@@ -62,7 +63,7 @@ class UserTypeForm extends React.Component {
   };
 
   render() {
-    const { auth, createUserProfile } = this.props;
+    const { auth, navigation, createUserProfile } = this.props;
     const { errors, loading } = auth;
     const { cities, selectedLocation, authUser } = this.state;
 
@@ -71,7 +72,11 @@ class UserTypeForm extends React.Component {
         <View style={styles.inputGroup(errors)}>
           <Item style={styles.inputWrapper}>
             <Input
-              placeholder={errors ? errors.errors.name[0] : "Full Name"}
+              placeholder={
+                errors && errors.errors.name
+                  ? errors.errors.name[0]
+                  : "Full Name"
+              }
               placeholderTextColor={errors ? "#e74c3c" : "#000"}
               autoCorrect={false}
               value={authUser.name}
@@ -82,7 +87,11 @@ class UserTypeForm extends React.Component {
 
           <Item style={styles.inputWrapper}>
             <Input
-              placeholder={errors ? errors.errors.email[0] : "Email Address"}
+              placeholder={
+                errors && errors.errors.email
+                  ? errors.errors.email[0]
+                  : "Email Address"
+              }
               placeholderTextColor={errors ? "#e74c3c" : "#000"}
               autoCorrect={false}
               value={authUser.email}
@@ -93,8 +102,7 @@ class UserTypeForm extends React.Component {
 
           <Item style={styles.inputWrapper}>
             <Location
-              authUser={authUser}
-              errors={errors}
+              {...this.props}
               cities={cities}
               selectedLocation={selectedLocation}
               handleLocationChange={this.handleLocationChange}
@@ -131,7 +139,8 @@ class UserTypeForm extends React.Component {
               style={styles.submitButton}
               onPress={() =>
                 createUserProfile({
-                  authUser: { ...authUser, profile_updated: true }
+                  authUser: { ...authUser, profile_updated: true },
+                  navigation
                 })
               }
             >

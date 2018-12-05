@@ -9,6 +9,7 @@ import {
 
 const initialState = {
   authUser: null,
+  authInitialized: null,
   errors: null,
   loading: false,
   loaded: false
@@ -19,6 +20,7 @@ export default (state = initialState, action) => {
     case GET_AUTH_USER: {
       return {
         ...state,
+        authInitialized: false,
         loading: true,
         loaded: false
       };
@@ -28,6 +30,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         authUser: action.payload.authUser,
+        authInitialized: true,
         loading: false,
         loaded: true
       };
@@ -37,6 +40,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         errors: action.payload.errors,
+        authInitialized: true,
         loading: false,
         loaded: true
       };
