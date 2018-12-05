@@ -1,5 +1,5 @@
 import React from "react";
-import { NetInfo } from "react-native";
+import { View, NetInfo, StatusBar } from "react-native";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 // screens
 import GetStartedScreen from "../../containers/GetStartedScreen";
@@ -34,23 +34,17 @@ const getAppNavigator = (network, auth) => {
 
 const getInitialScreen = (network, auth) => {
   const { connection } = network;
-  const { authInitialized, authUser } = auth;
+  const { authUser } = auth;
 
   if (connection && connection.type === "none") {
     return "NoNetworkScreen";
   }
 
-  if (!authInitialized) {
-    return "SplashScreen";
+  if (authUser) {
+    return authUser.profile_updated ? "TabsScreen" : "UserTypeScreen";
   }
 
-  if (authInitialized) {
-    if (authUser) {
-      return authUser.profile_updated ? "TabsScreen" : "UserTypeScreen";
-    }
-
-    return "GetStartedScreen";
-  }
+  return "GetStartedScreen";
 };
 
 export default class Main extends React.Component {
@@ -58,14 +52,24 @@ export default class Main extends React.Component {
     NetInfo.addEventListener("connectionChange", netInfo => {
       return this.props.handleNetworkChange(netInfo);
     });
+
+    setTimeout(() => {
+      this.setState({ hideSplash: true });
+    }, 1000);
   }
 
   render() {
     const { network, auth } = this.props;
+    const { authInitialized } = auth;
 
     const AppNavigator = getAppNavigator(network, auth);
     const AppContainer = createAppContainer(AppNavigator);
 
-    return <AppContainer />;
+    return (
+      <View style={{ flex: 1 }}>
+        <StatusBar backgroundColor="#d80402" />
+        {authInitialized && <AppContainer />}
+      </View>
+    );
   }
 }
