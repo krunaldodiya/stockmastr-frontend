@@ -19,37 +19,50 @@ class UserTypeForm extends React.Component {
     };
   }
 
-  handleLocationChange = keywords => {
-    this.setState({ selectedLocation: keywords });
+  handleLocationChange = selectedLocation => {
+    this.setState({ selectedLocation });
 
-    if (keywords.length > 2) {
-      const data = citiesList.filter(city => {
-        return city.name.match(new RegExp(`^${keywords}`, "gi"));
+    if (selectedLocation.length > 2) {
+      const filteredCities = citiesList.filter(city => {
+        return city.name.match(new RegExp(`^${selectedLocation}`, "gi"));
       });
 
-      this.setState({ cities: data });
+      this.setState({ cities: filteredCities });
     }
   };
 
   handleLocationClear = () => {
+    const authUser = { ...this.state.authUser, city: null, state: null };
+
     this.setState({
       selectedLocation: null,
-      city: null,
-      state: null
+      authUser
     });
   };
 
   handleLocationSelect = city => {
+    const authUser = {
+      ...this.state.authUser,
+      city: city.name,
+      state: city.state
+    };
+
     this.setState({
       cities: [],
       selectedLocation: `${city.name}, ${city.state}`,
-      city: city.name,
-      state: city.state
+      authUser
     });
   };
 
+  updateUserData = (key, value) => {
+    const authUser = { ...this.state.authUser };
+    authUser[key] = value;
+
+    this.setState({ authUser });
+  };
+
   render() {
-    const { auth, navigation, requestOtp } = this.props;
+    const { auth, createUserProfile } = this.props;
     const { errors, loading } = auth;
     const { cities, selectedLocation, authUser } = this.state;
 
@@ -106,7 +119,7 @@ class UserTypeForm extends React.Component {
               {...this.props}
               options={["Trader", "Provider"]}
               selected={authUser.type}
-              onChange={gender => this.updateUserData("gender", gender)}
+              onChange={type => this.updateUserData("type", type)}
             />
           </Item>
 
@@ -117,7 +130,9 @@ class UserTypeForm extends React.Component {
               disabled={loading}
               style={styles.submitButton}
               onPress={() =>
-                requestOtp({ mobile, navigation, mode: "request" })
+                createUserProfile({
+                  authUser: { ...authUser, profile_updated: true }
+                })
               }
             >
               <Text style={styles.submitButtonText}>SUBMIT</Text>
