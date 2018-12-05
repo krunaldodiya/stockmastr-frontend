@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Wallet from "../components/Wallet";
+import Wallet from "../components/Tabs/Wallet";
 
 const mapStateToProps = state => ({
   auth: state.auth

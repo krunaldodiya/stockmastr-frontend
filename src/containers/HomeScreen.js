@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Home from "../components/Home";
+import Home from "../components/Tabs/Home";
 
 const mapStateToProps = state => ({
   auth: state.auth

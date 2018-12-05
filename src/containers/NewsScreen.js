@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import News from "../components/News";
+import News from "../components/Tabs/News";
 
 const mapStateToProps = state => ({
   auth: state.auth

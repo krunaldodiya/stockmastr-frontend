@@ -7,21 +7,22 @@ import {
   CREATE_USER_PROFILE_SUCCESS
 } from "../actions/create_user_profile";
 
-function* createUserProfile() {
+function* createUserProfile(action) {
   try {
-    const { data } = yield call(makeRequest, api.me, {});
+    console.log(action);
 
-    const { user } = data;
+    // const { data } = yield call(makeRequest, api.me, {});
+    // const { user } = data;
 
-    yield put({
-      type: CREATE_USER_PROFILE_SUCCESS,
-      payload: { user }
-    });
+    // yield put({
+    //   type: CREATE_USER_PROFILE_SUCCESS,
+    //   payload: { user }
+    // });
   } catch (error) {
-    yield put({
-      type: CREATE_USER_PROFILE_FAIL,
-      payload: { errors: error.response.data }
-    });
+    // yield put({
+    //   type: CREATE_USER_PROFILE_FAIL,
+    //   payload: { errors: error.response.data }
+    // });
   }
 }
 

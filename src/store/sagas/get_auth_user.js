@@ -12,12 +12,11 @@ import { makeRequest } from "../../services";
 function* getAuthUser() {
   try {
     const { data } = yield call(makeRequest, api.me, {});
-
     const { user } = data;
 
     yield put({
       type: GET_AUTH_USER_SUCCESS,
-      payload: { user }
+      payload: { authUser: user }
     });
   } catch (error) {
     yield put({
