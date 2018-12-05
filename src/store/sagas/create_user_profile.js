@@ -16,7 +16,7 @@ function* createUserProfile(action) {
 
     yield put({
       type: CREATE_USER_PROFILE_SUCCESS,
-      payload: { user }
+      payload: { authUser: user }
     });
 
     navigation.replace("TabScreen", { user: data.user });

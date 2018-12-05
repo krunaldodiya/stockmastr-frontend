@@ -20,7 +20,7 @@ function* verifyOtp(action) {
 
     yield put({
       type: GET_AUTH_USER_SUCCESS,
-      payload: { user }
+      payload: { authUser: user }
     });
   } catch (error) {
     yield put({

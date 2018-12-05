@@ -30,6 +30,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         authUser: action.payload.authUser,
+        errors: null,
         authInitialized: true,
         loading: false,
         loaded: true
@@ -39,6 +40,7 @@ export default (state = initialState, action) => {
     case GET_AUTH_USER_FAIL: {
       return {
         ...state,
+        authUser: null,
         errors: action.payload.errors,
         authInitialized: true,
         loading: false,
@@ -58,6 +60,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         authUser: action.payload.authUser,
+        errors: null,
         loading: false,
         loaded: true
       };
@@ -66,6 +69,7 @@ export default (state = initialState, action) => {
     case CREATE_USER_PROFILE_FAIL: {
       return {
         ...state,
+        authUser: null,
         errors: action.payload.errors,
         loading: false,
         loaded: true
