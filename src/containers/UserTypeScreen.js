@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import UserType from "../components/UserType";
 
 const mapStateToProps = state => ({
-  guest: state.guest
+  auth: state.auth
 });
 
 const mapDispatchToProps = dispatch => {
