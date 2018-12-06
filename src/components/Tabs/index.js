@@ -1,6 +1,7 @@
-import { Icon } from "native-base";
+import { Icon, Text, View, Button } from "native-base";
 import React from "react";
-import { createBottomTabNavigator } from "react-navigation";
+import Drawer from "react-native-drawer";
+import { createAppContainer, createBottomTabNavigator } from "react-navigation";
 import HomeScreen from "../../containers/HomeScreen";
 import NewsScreen from "../../containers/NewsScreen";
 import NotificationsScreen from "../../containers/NotificationsScreen";
@@ -78,4 +79,41 @@ const AppTabNavigator = createBottomTabNavigator(
   }
 );
 
-export default AppTabNavigator;
+const ControlPanel = () => {
+  return (
+    <View style={{ padding: 10 }}>
+      <Text style={{ color: "#fff" }}>hello</Text>
+    </View>
+  );
+};
+
+const drawerStyles = {
+  drawer: {
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
+    backgroundColor: "#ff1744"
+  }
+};
+
+class Tabs extends React.Component {
+  render() {
+    const AppContainer = createAppContainer(AppTabNavigator);
+    const { drawer } = this.props;
+
+    return (
+      <Drawer
+        open={drawer.open}
+        tapToClose={true}
+        type="overlay"
+        content={<ControlPanel />}
+        openDrawerOffset={0.25}
+        styles={drawerStyles}
+      >
+        <AppContainer />
+      </Drawer>
+    );
+  }
+}
+
+export default Tabs;

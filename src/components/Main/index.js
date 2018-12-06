@@ -65,7 +65,8 @@ export default class Main extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar backgroundColor="#d80402" />
+        <StatusBar backgroundColor="#d80402" barStyle="light-content" />
+
         {authInitialized && <AppContainer />}
       </View>
     );

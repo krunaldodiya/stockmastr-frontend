@@ -3,7 +3,8 @@ import { bindActionCreators } from "redux";
 import Tabs from "../components/Tabs";
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  drawer: state.drawer
 });
 
 const mapDispatchToProps = dispatch => {
