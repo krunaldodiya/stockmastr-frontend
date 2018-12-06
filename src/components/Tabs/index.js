@@ -99,11 +99,12 @@ const drawerStyles = {
 class Tabs extends React.Component {
   render() {
     const AppContainer = createAppContainer(AppTabNavigator);
-    const { drawer } = this.props;
+    const { drawer, toggleDrawer } = this.props;
 
     return (
       <Drawer
         open={drawer.open}
+        onClose={() => toggleDrawer()}
         tapToClose={true}
         type="overlay"
         content={<ControlPanel />}

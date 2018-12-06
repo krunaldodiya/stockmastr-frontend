@@ -3,11 +3,17 @@ import { bindActionCreators } from "redux";
 import Notifications from "../components/Tabs/Notifications";
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  drawer: state.drawer
 });
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({}, dispatch);
+  return bindActionCreators(
+    {
+      toggleDrawer: toggleDrawer
+    },
+    dispatch
+  );
 };
 
 export default connect(

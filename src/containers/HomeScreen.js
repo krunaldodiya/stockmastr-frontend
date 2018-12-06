@@ -4,7 +4,8 @@ import Home from "../components/Tabs/Home";
 import { toggleDrawer } from "../store/actions";
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  drawer: state.drawer
 });
 
 const mapDispatchToProps = dispatch => {

@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./styles";
 import TopBar from "../../shared/TopBar";
 
-const Home = props => {
+const Home = props => {  
   return (
     <View style={styles.container}>
       <TopBar {...props} />
