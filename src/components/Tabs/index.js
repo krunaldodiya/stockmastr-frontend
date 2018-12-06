@@ -99,7 +99,7 @@ const drawerStyles = {
 class Tabs extends React.Component {
   componentDidMount() {
     const { news, loadNews } = this.props;
-    
+
     if (news.loading || news.news.length) {
       return false;
     }
@@ -120,6 +120,9 @@ class Tabs extends React.Component {
         content={<ControlPanel />}
         openDrawerOffset={0.25}
         styles={drawerStyles}
+        tweenHandler={ratio => ({
+          main: { opacity: (1.5 - ratio) / 1.5 }
+        })}
       >
         <AppContainer />
       </Drawer>
