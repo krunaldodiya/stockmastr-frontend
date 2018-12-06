@@ -22,11 +22,11 @@ const TopBar = props => {
       </View>
 
       <View style={{ flex: props.drawer.open ? 2 : 1 }}>
-        <TouchableOpacity onPress={() => props.toggleDrawer()}>
+        <TouchableOpacity onPress={() => console.log("test")}>
           <Icon
-            type="Feather"
+            type="MaterialIcons"
             color="black"
-            name={props.drawer.open ? "menu" : "search"}
+            name={props.drawer.open ? "close" : "search"}
             style={{ fontSize: 28, textAlign: "center" }}
           />
         </TouchableOpacity>

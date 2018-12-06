@@ -1,13 +1,19 @@
-import { Text, View } from "native-base";
+import { Container } from "native-base";
 import React from "react";
-import styles from "./styles";
 import TopBar from "../../shared/TopBar";
+import BottomActionMenu from "./bottom_action_menu";
+import GridMenu from "./grid_menu";
+import NewsSlider from "./news";
+import styles from "./styles";
 
-const Home = props => {  
+const Home = props => {
   return (
-    <View style={styles.container}>
+    <Container style={styles.container}>
       <TopBar {...props} />
-    </View>
+      <NewsSlider {...props} />
+      <GridMenu {...props} />
+      <BottomActionMenu {...props} />
+    </Container>
   );
 };
 

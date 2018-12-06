@@ -5,7 +5,8 @@ import { toggleDrawer } from "../store/actions";
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  drawer: state.drawer
+  drawer: state.drawer,
+  news: { ...state.news, latest: state.news.news.slice(0, 5) }
 });
 
 const mapDispatchToProps = dispatch => {

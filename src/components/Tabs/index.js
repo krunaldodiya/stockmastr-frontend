@@ -97,6 +97,16 @@ const drawerStyles = {
 };
 
 class Tabs extends React.Component {
+  componentDidMount() {
+    const { news, loadNews } = this.props;
+    
+    if (news.loading || news.news.length) {
+      return false;
+    }
+
+    loadNews();
+  }
+
   render() {
     const AppContainer = createAppContainer(AppTabNavigator);
     const { drawer, toggleDrawer } = this.props;
