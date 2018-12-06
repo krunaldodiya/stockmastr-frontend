@@ -77,7 +77,7 @@ const NewsSlider = props => {
                     marginTop: 5
                   }}
                 >
-                  {data.published_at}
+                  {data.published_at_readable}
                 </Text>
               </View>
             </ImageBackground>
