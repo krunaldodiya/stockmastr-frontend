@@ -1,11 +1,16 @@
-import { Text, View } from "native-base";
+import { Container, View, Text } from "native-base";
 import React from "react";
+import TopBar from "../../shared/TopBar";
 import styles from "./styles";
 
-const Home = () => (
-  <View style={styles.container}>
-    <Text>hello</Text>
-  </View>
+const Notifications = props => (
+  <Container style={styles.container}>
+    <TopBar {...props} />
+
+    <View style={{ padding: 20 }}>
+      <Text>Notifications</Text>
+    </View>
+  </Container>
 );
 
-export default Home;
+export default Notifications;

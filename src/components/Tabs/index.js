@@ -1,11 +1,13 @@
-import { Icon, Text, View, Button } from "native-base";
+import { Icon, Text, View } from "native-base";
 import React from "react";
-import Drawer from "react-native-drawer";
+import { Dimensions } from "react-native";
+import SideMenu from "react-native-side-menu";
 import { createAppContainer, createBottomTabNavigator } from "react-navigation";
 import HomeScreen from "../../containers/HomeScreen";
 import NewsScreen from "../../containers/NewsScreen";
 import NotificationsScreen from "../../containers/NotificationsScreen";
 import WalletScreen from "../../containers/WalletScreen";
+import theme from "../../libs/theme";
 
 const AppTabNavigator = createBottomTabNavigator(
   {
@@ -79,22 +81,38 @@ const AppTabNavigator = createBottomTabNavigator(
   }
 );
 
-const ControlPanel = () => {
-  return (
-    <View style={{ padding: 10 }}>
-      <Text style={{ color: "#fff" }}>hello</Text>
-    </View>
-  );
-};
-
-const drawerStyles = {
-  drawer: {
-    shadowColor: "#000000",
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
-    backgroundColor: "#ff1744"
+class Menu extends React.Component {
+  render() {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#fefefe",
+          borderRightWidth: 1,
+          borderRightColor: "#e6e6e6"
+        }}
+      >
+        <View
+          style={{
+            padding: 10,
+            borderBottomWidth: 1,
+            borderBottomColor: "#e6e6e6"
+          }}
+        >
+          <Text
+            style={{
+              color: "#000",
+              fontFamily: theme.fonts.TitilliumWebSemiBold,
+              fontSize: 20
+            }}
+          >
+            Menu
+          </Text>
+        </View>
+      </View>
+    );
   }
-};
+}
 
 class Tabs extends React.Component {
   componentDidMount() {
@@ -107,25 +125,25 @@ class Tabs extends React.Component {
     loadNews();
   }
 
+  change = (drawer, toggleDrawer) => {
+    if (drawer.isOpen) {
+      toggleDrawer({ isOpen: false });
+    }
+  };
+
   render() {
     const AppContainer = createAppContainer(AppTabNavigator);
     const { drawer, toggleDrawer } = this.props;
 
     return (
-      <Drawer
-        open={drawer.open}
-        onClose={() => toggleDrawer()}
-        tapToClose={true}
-        type="overlay"
-        content={<ControlPanel />}
-        openDrawerOffset={0.25}
-        styles={drawerStyles}
-        tweenHandler={ratio => ({
-          main: { opacity: (1.5 - ratio) / 1.5 }
-        })}
+      <SideMenu
+        menu={<Menu />}
+        openMenuOffset={Dimensions.get("window").width * 0.75}
+        isOpen={drawer.isOpen}
+        onChange={() => this.change(drawer, toggleDrawer)}
       >
         <AppContainer />
-      </Drawer>
+      </SideMenu>
     );
   }
 }

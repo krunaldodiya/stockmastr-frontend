@@ -5,7 +5,7 @@ import Swiper from "react-native-swiper";
 import theme from "../../../libs/theme";
 
 const NewsSlider = props => {
-  const { news } = props;
+  const { news, navigation } = props;
   const { latest, loading, loaded } = news;
 
   return (
@@ -54,7 +54,7 @@ const NewsSlider = props => {
 
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.push("NewsDetailScreen", { news: data })
+                    navigation.navigate("NewsDetailScreen", { news: data })
                   }
                 >
                   <Text

@@ -1,7 +1,7 @@
 import { TOGGLE_DRAWER } from "../actions";
 
 const initialState = {
-  open: false
+  isOpen: false
 };
 
 export default (state = initialState, action) => {
@@ -9,8 +9,7 @@ export default (state = initialState, action) => {
     case TOGGLE_DRAWER: {
       return {
         ...state,
-        ...action.payload,
-        open: !state.open
+        isOpen: action.payload.isOpen
       };
     }
 

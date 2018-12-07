@@ -1,11 +1,12 @@
-import { Text, View } from "native-base";
+import { Container } from "native-base";
 import React from "react";
+import TopBar from "../../shared/TopBar";
 import styles from "./styles";
 
-const Home = () => (
-  <View style={styles.container}>
-    <Text>hello</Text>
-  </View>
+const Wallet = props => (
+  <Container style={styles.container}>
+    <TopBar {...props} />
+  </Container>
 );
 
-export default Home;
+export default Wallet;

@@ -8,7 +8,7 @@ import styles from "./styles";
 import TermsContent from "./terms_content";
 import TermsHeader from "./terms_header";
 
-class GetStartedScreen extends React.Component {
+class GetStarted extends React.Component {
   static navigationOptions = {
     header: null
   };
@@ -40,4 +40,4 @@ class GetStartedScreen extends React.Component {
   }
 }
 
-export default GetStartedScreen;
+export default GetStarted;

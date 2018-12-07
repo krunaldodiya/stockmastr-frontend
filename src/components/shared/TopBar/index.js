@@ -7,7 +7,7 @@ const TopBar = props => {
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
-        <TouchableOpacity onPress={() => props.toggleDrawer()}>
+        <TouchableOpacity onPress={() => props.toggleDrawer({ isOpen: true })}>
           <Icon
             type="Feather"
             color="black"
@@ -21,12 +21,12 @@ const TopBar = props => {
         <Text style={styles.name}>StockMastr</Text>
       </View>
 
-      <View style={{ flex: props.drawer.open ? 2 : 1 }}>
+      <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={() => console.log("test")}>
           <Icon
             type="MaterialIcons"
             color="black"
-            name={props.drawer.open ? "close" : "search"}
+            name="search"
             style={{ fontSize: 28, textAlign: "center" }}
           />
         </TouchableOpacity>

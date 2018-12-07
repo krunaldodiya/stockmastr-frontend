@@ -1,8 +1,9 @@
 import React from "react";
-import { View, NetInfo, StatusBar } from "react-native";
+import { NetInfo, StatusBar, View } from "react-native";
 import { createAppContainer, createStackNavigator } from "react-navigation";
 // screens
 import GetStartedScreen from "../../containers/GetStartedScreen";
+import NewsDetailScreen from "../../containers/NewsDetailScreen";
 import NoNetworkScreen from "../../containers/NoNetworkScreen";
 import RequestOtpScreen from "../../containers/RequestOtpScreen";
 import TabsScreen from "../../containers/TabsScreen";
@@ -19,7 +20,8 @@ const getAppNavigator = (network, auth) => {
       TabsScreen: { screen: TabsScreen },
       RequestOtpScreen: { screen: RequestOtpScreen },
       VerifyOtpScreen: { screen: VerifyOtpScreen },
-      UserTypeScreen: { screen: UserTypeScreen }
+      UserTypeScreen: { screen: UserTypeScreen },
+      NewsDetailScreen: { screen: NewsDetailScreen }
     },
     {
       initialRouteName,
