@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Home from "../components/Tabs/Home";
-import { toggleDrawer } from "../store/actions";
+import { loadNews, toggleDrawer } from "../store/actions";
 
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -12,7 +12,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      toggleDrawer: toggleDrawer
+      toggleDrawer: toggleDrawer,
+      loadNews: loadNews
     },
     dispatch
   );

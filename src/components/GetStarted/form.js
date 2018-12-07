@@ -5,7 +5,7 @@ import styles from "./styles";
 const TermsForm = props => {
   const { navigation, guest, toggleTermsAgreement } = props;
   const { agree } = guest;
-
+  
   return (
     <Form style={styles.formWrapper}>
       <Item style={styles.agreeWrapper}>

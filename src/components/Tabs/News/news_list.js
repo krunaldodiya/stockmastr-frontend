@@ -5,8 +5,6 @@ import styles from "./styles";
 renderItem = (data, navigation) => {
   const { item } = data;
 
-  console.log(navigation);
-
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate("NewsDetailScreen", { item })}
