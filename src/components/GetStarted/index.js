@@ -9,10 +9,6 @@ import TermsContent from "./terms_content";
 import TermsHeader from "./terms_header";
 
 class GetStarted extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
-
   constructor(props) {
     super(props);
 

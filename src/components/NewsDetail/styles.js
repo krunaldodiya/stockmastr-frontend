@@ -13,9 +13,7 @@ export default StyleSheet.create({
     backgroundColor: "#d80402"
   },
   termsIcon: {
-    width: 32,
-    height: 32,
-    marginLeft: 16
+    color: "white"
   },
   termsHeader: {
     fontWeight: "400",
@@ -24,54 +22,6 @@ export default StyleSheet.create({
     fontSize: 18
   },
   termsBody: {
-    paddingHorizontal: 20
+    margin: 3
   },
-  formWrapper: {
-    flexDirection: "column",
-    paddingVertical: 30
-  },
-  agreeWrapper: {
-    flexDirection: "row",
-    marginTop: 10,
-    marginLeft: 10,
-    borderBottomWidth: 0
-  },
-  agreeText: {
-    marginLeft: 20,
-    fontSize: 16,
-    fontFamily: theme.fonts.TitilliumWebSemiBold
-  },
-  submitButtonWrapper: {
-    marginTop: 30,
-    alignSelf: "center",
-    borderBottomWidth: 0
-  },
-  submitButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    backgroundColor: "#000"
-  },
-  submitButtonDisabled: {
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    backgroundColor: "#ddd"
-  },
-  submitButtonText: {
-    textAlign: "center",
-    fontFamily: theme.fonts.TitilliumWebSemiBold,
-    color: "white"
-  },
-  submitButtonTextDisabled: {
-    textAlign: "center",
-    fontFamily: theme.fonts.TitilliumWebSemiBold,
-    color: "#ccc"
-  },
-  checkBox: agree => {
-    return {
-      marginTop: 1,
-      alignItems: "center",
-      borderColor: agree ? "black" : "white",
-      backgroundColor: agree ? "black" : "white"
-    };
-  }
 });

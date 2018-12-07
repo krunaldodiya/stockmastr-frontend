@@ -7,7 +7,7 @@ renderItem = (data, navigation) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("NewsDetailScreen", { item })}
+      onPress={() => navigation.navigate("NewsDetailScreen", { news: item })}
     >
       <View style={styles.newsWrapper}>
         <View style={styles.newsImageWrapper}>
