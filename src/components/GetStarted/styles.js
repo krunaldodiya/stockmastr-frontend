@@ -25,8 +25,6 @@ export default StyleSheet.create({
   },
   agreeWrapper: {
     flexDirection: "row",
-    marginTop: 10,
-    marginLeft: 10,
     borderBottomWidth: 0
   },
   agreeText: {

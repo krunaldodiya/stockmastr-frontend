@@ -13,19 +13,19 @@ class RequestOtp extends React.Component {
     const { guest } = this.props;
 
     return (
-      <KeyboardAvoidingView
-        behavior="position"
-        enabled
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flex: 1 }}
-      >
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+          behavior="position"
+          enabled
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flex: 1 }}
+        >
           <Loader loading={guest.loading} />
           <TopImage />
           <Info />
           <RequestOtpForm {...this.props} />
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
 }

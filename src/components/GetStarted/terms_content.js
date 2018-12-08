@@ -5,7 +5,7 @@ const TermsContent = props => {
   return (
     <WebView
       source={{ html: props.terms }}
-      style={{ backgroundColor: "transparent", marginHorizontal: 10 }}
+      style={{ flex: 1, backgroundColor: "transparent", marginHorizontal: 10 }}
     />
   );
 };

@@ -8,6 +8,7 @@ export default StyleSheet.create({
   },
   topImageWrapper: {
     flex: 1,
+    justifyContent: "center",
     alignItems: "center",
     padding: 30,
     backgroundColor: "white"

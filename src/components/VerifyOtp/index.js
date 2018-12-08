@@ -15,20 +15,20 @@ class VerifyOtp extends React.Component {
     const { loading, mobile } = guest;
 
     return (
-      <KeyboardAvoidingView
-        behavior="position"
-        enabled
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flex: 1 }}
-      >
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+          behavior="position"
+          enabled
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flex: 1 }}
+        >
           <Loader loading={loading} />
           <TopImage />
           <Info mobile={mobile} />
           <Timer navigation={navigation} />
           <VerifyOtpForm {...this.props} />
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
 }
