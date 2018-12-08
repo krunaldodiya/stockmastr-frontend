@@ -43,8 +43,8 @@
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2EC704BB1EB54636B8AAAEB0 /* TitilliumWeb-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C4A975777EB4190A908A03D /* TitilliumWeb-Light.ttf */; };
 		36CF171DBBD0481E94B0AD6B /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 865993ED7B584EC59338A1D1 /* libSplashScreen.a */; };
-		3ABDF8FC21BBBFB000EE10F3 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABDF8F521BBBFA200EE10F3 /* Lottie.framework */; };
-		3ABDF8FD21BBBFB000EE10F3 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABDF8F521BBBFA200EE10F3 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3AFF74EC21BBDBF4000807A8 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABDF8F521BBBFA200EE10F3 /* Lottie.framework */; };
+		3AFF74ED21BBDBF4000807A8 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3ABDF8F521BBBFA200EE10F3 /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3C620CEA9E3843BCB350B913 /* TitilliumWeb-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9676D5CBF8B46DA89319F71 /* TitilliumWeb-Bold.ttf */; };
 		5F5D13B3ED9F404B83448A24 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D35F309CF25479FB7D233BD /* Octicons.ttf */; };
 		6ED1EEE520CF4DEC9D263E91 /* TitilliumWeb-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D723587E89C44635A67EEAEC /* TitilliumWeb-SemiBoldItalic.ttf */; };
@@ -61,7 +61,6 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B76EBE91BA2347C18F5AD7E2 /* TitilliumWeb-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1909DCCF093848C6848B6733 /* TitilliumWeb-Black.ttf */; };
 		BED73E9D89094051B0CD4B07 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75F32B82C16C479B8F3E9409 /* Roboto.ttf */; };
-		C00093A6B6F64C868740EC79 /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE2F8E050BC4E919868C82F /* Lottie.framework */; };
 		C5165616DBDC4FB2BAE978FE /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C402484CB0D430E8A5A6A2F /* FontAwesome.ttf */; };
 		C61816B8A7D94B419FE9A35E /* TitilliumWeb-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA8A77BECADD49A197694F45 /* TitilliumWeb-ExtraLightItalic.ttf */; };
 		CB574CB6FECD4E448004F8DF /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23E7FB528A25413387B3B3F7 /* MaterialCommunityIcons.ttf */; };
@@ -269,7 +268,7 @@
 			remoteGlobalIDString = 84FE12EF1E4C1485009B157C;
 			remoteInfo = LottieLibraryIOS;
 		};
-		3ABDF8FE21BBBFB000EE10F3 /* PBXContainerItemProxy */ = {
+		3AFF74EE21BBDBF4000807A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E6D0FB9AFEEA4302BBED955F /* Lottie.xcodeproj */;
 			proxyType = 1;
@@ -405,13 +404,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3ABDF90021BBBFB100EE10F3 /* Embed Frameworks */ = {
+		3AFF74F021BBDBF4000807A8 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				3ABDF8FD21BBBFB000EE10F3 /* Lottie.framework in Embed Frameworks */,
+				3AFF74ED21BBDBF4000807A8 /* Lottie.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,6 +498,7 @@
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				3AFF74EC21BBDBF4000807A8 /* Lottie.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
@@ -509,7 +509,6 @@
 				9A929B7CE57346B9AE5478CA /* libLottieReactNative.a in Frameworks */,
 				0FD131E7022145A8AEE2716A /* libRNGestureHandler.a in Frameworks */,
 				36CF171DBBD0481E94B0AD6B /* libSplashScreen.a in Frameworks */,
-				C00093A6B6F64C868740EC79 /* Lottie.framework in Frameworks */,
 				70AF432386904DA89DF23234 /* libLottie.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -523,7 +522,6 @@
 				2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */,
 				2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */,
 				2D02E4C51E0B4AEC006451C7 /* libRCTNetwork-tvOS.a in Frameworks */,
-				3ABDF8FC21BBBFB000EE10F3 /* Lottie.framework in Frameworks */,
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
@@ -859,10 +857,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				3AFF74F021BBDBF4000807A8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3AFF74EF21BBDBF4000807A8 /* PBXTargetDependency */,
 			);
 			name = StockMastr;
 			productName = "Hello World";
@@ -877,12 +877,10 @@
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
 				2D02E4791E0B4A5D006451C7 /* Resources */,
 				2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */,
-				3ABDF90021BBBFB100EE10F3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3ABDF8FF21BBBFB000EE10F3 /* PBXTargetDependency */,
 			);
 			name = "StockMastr-tvOS";
 			productName = "StockMastr-tvOS";
@@ -1467,10 +1465,10 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* StockMastr-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		3ABDF8FF21BBBFB000EE10F3 /* PBXTargetDependency */ = {
+		3AFF74EF21BBDBF4000807A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Lottie_iOS;
-			targetProxy = 3ABDF8FE21BBBFB000EE10F3 /* PBXContainerItemProxy */;
+			targetProxy = 3AFF74EE21BBDBF4000807A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
