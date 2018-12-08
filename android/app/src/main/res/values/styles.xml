@@ -1,8 +1,8 @@
 <resources>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="icon">@mipmap/ic_launcher</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <!-- Customize your theme here. -->
     </style>
+
 </resources>

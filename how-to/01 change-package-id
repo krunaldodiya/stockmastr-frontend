@@ -1,16 +1,16 @@
 For Android:
 
 Manually change it in android/app/src/main/java/com/PROJECT_NAME/MainActivity.java:
-package com.socialstock;
+package com.stockmastr;
 
 In android/app/src/main/java/com/PROJECT_NAME/MainApplication.java:
-package com.socialstock;
+package com.stockmastr;
 
 In android/app/src/main/AndroidManifest.xml:
-package="com.socialstock"
+package="com.stockmastr"
 
 In android/app/build.gradle:
-applicationId "com.socialstock"
+applicationId "com.stockmastr"
 
 Gradle' cleaning in the end (in /android folder):
 ./gradlew clean
@@ -20,10 +20,10 @@ For iOS:
 
 Change the Bundle Id in Xcode.
 
-<com.socialstock> > General > Bundle Identifier
-DisplayName socialstock
-BundleIdentifier com.socialstock
+<com.stockmastr> > General > Bundle Identifier
+DisplayName stockmastr
+BundleIdentifier com.stockmastr
 
-<com.socialstock-tvOS> > General > Bundle Identifier
-DisplayName socialstock-tvOS
-BundleIdentifier com.socialstock
+<com.stockmastr-tvOS> > General > Bundle Identifier
+DisplayName stockmastr-tvOS
+BundleIdentifier com.stockmastr
