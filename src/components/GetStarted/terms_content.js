@@ -1,13 +1,13 @@
-import { Content } from "native-base";
 import React from "react";
-import HTMLView from "react-native-htmlview";
-import styles from "./styles";
+import { WebView } from "react-native";
 
-const TermsContent = props => (
-  <Content style={styles.termsBody}>
-    <HTMLView value={props.terms} />
-  </Content>
-);
+const TermsContent = props => {
+  return (
+    <WebView
+      source={{ html: props.terms }}
+      style={{ backgroundColor: "transparent", marginHorizontal: 10 }}
+    />
+  );
+};
 
 export default TermsContent;
-

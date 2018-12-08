@@ -3,28 +3,21 @@ import theme from "../../libs/theme";
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#E5E5E5"
+    flex: 1
   },
   termsWrapper: {
-    flexDirection: "row",
-    alignSelf: "flex-start",
     justifyContent: "center",
-    backgroundColor: "#d80402"
-  },
-  termsIcon: {
-    width: 32,
-    height: 32,
-    marginLeft: 16
+    margin: 20
   },
   termsHeader: {
     fontWeight: "400",
     fontFamily: theme.fonts.TitilliumWebSemiBold,
-    color: "white",
-    fontSize: 18
+    color: "black",
+    fontSize: 18,
+    textAlign: "center"
   },
   termsBody: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   formWrapper: {
     flexDirection: "column",
@@ -49,7 +42,7 @@ export default StyleSheet.create({
   submitButton: {
     paddingHorizontal: 10,
     paddingVertical: 20,
-    backgroundColor: "#000"
+    backgroundColor: "#fff"
   },
   submitButtonDisabled: {
     paddingHorizontal: 10,
@@ -59,7 +52,7 @@ export default StyleSheet.create({
   submitButtonText: {
     textAlign: "center",
     fontFamily: theme.fonts.TitilliumWebSemiBold,
-    color: "white"
+    color: "red"
   },
   submitButtonTextDisabled: {
     textAlign: "center",
@@ -70,8 +63,8 @@ export default StyleSheet.create({
     return {
       marginTop: 1,
       alignItems: "center",
-      borderColor: agree ? "black" : "white",
-      backgroundColor: agree ? "black" : "white"
+      borderColor: agree ? "#ff6666" : "white",
+      backgroundColor: agree ? "#ff6666" : "white"
     };
   }
 });

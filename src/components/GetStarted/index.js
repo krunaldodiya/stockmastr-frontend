@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Container } from "native-base";
 import React from "react";
+import { ImageBackground } from "react-native";
 import { api } from "../../libs/api";
 // components
 import TermsForm from "./form";
@@ -28,9 +29,20 @@ class GetStarted extends React.Component {
 
     return (
       <Container style={styles.container}>
-        <TermsHeader />
-        <TermsContent {...this.props} terms={terms} />
-        <TermsForm {...this.props} />
+        <ImageBackground
+          source={require("../../../assets/images/background.png")}
+          style={{
+            flex: 1,
+            height: "172%",
+            backgroundColor: "rgba(255,236,239, 0.5)"
+          }}
+          resizeMode="contain"
+          resizeMethod="auto"
+        >
+          <TermsHeader />
+          <TermsContent {...this.props} terms={terms} />
+          <TermsForm {...this.props} />
+        </ImageBackground>
       </Container>
     );
   }
