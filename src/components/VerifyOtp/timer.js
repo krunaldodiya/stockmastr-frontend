@@ -34,7 +34,7 @@ export default class Timer extends React.Component {
         style={styles.changeMobileButton}
         onPress={() => navigation.replace("RequestOtpScreen")}
       >
-        <Text style={styles.changeMobileText}>Resend Otp</Text>
+        <Text style={styles.changeMobileText}>RESEND OTP</Text>
       </Button>
     </View>
   );

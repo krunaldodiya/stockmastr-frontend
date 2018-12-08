@@ -14,7 +14,7 @@ const SideDrawer = props => {
 
   return (
     <SideMenu
-      menu={<Menu />}
+      menu={<Menu {...props} />}
       openMenuOffset={Dimensions.get("window").width * 0.75}
       isOpen={drawer.isOpen}
       onChange={() => this.change(drawer, toggleDrawer)}

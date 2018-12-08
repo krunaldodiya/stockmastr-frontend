@@ -7,6 +7,7 @@ export default StyleSheet.create({
     backgroundColor: "pink"
   },
   topImageWrapper: {
+    flex: 1,
     alignItems: "center",
     padding: 30,
     backgroundColor: "white"
@@ -16,8 +17,10 @@ export default StyleSheet.create({
     height: 180
   },
   infoWrapper: {
+    flex: 1,
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
     padding: 30
   },
   infoHeading: {
@@ -35,8 +38,10 @@ export default StyleSheet.create({
     fontFamily: theme.fonts.TitilliumWebRegular
   },
   formWrapper: {
+    flex: 1,
     flexDirection: "column",
-    padding: 30
+    padding: 30,
+    justifyContent: "space-around"
   },
   inputWrapper: {
     borderBottomWidth: 0

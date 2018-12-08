@@ -1,7 +1,6 @@
 import axios from "axios";
-import { Container } from "native-base";
 import React from "react";
-import { ImageBackground } from "react-native";
+import { ImageBackground, SafeAreaView } from "react-native";
 import { api } from "../../libs/api";
 // components
 import TermsForm from "./form";
@@ -28,7 +27,7 @@ class GetStarted extends React.Component {
     const { terms } = this.state;
 
     return (
-      <Container style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ImageBackground
           source={require("../../../assets/images/background.png")}
           style={{
@@ -43,7 +42,7 @@ class GetStarted extends React.Component {
           <TermsContent {...this.props} terms={terms} />
           <TermsForm {...this.props} />
         </ImageBackground>
-      </Container>
+      </SafeAreaView>
     );
   }
 }
