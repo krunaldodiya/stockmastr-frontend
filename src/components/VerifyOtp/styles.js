@@ -4,16 +4,16 @@ import theme from "../../libs/theme";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#68b2e3"
+    backgroundColor: "pink"
   },
   topImageWrapper: {
     alignItems: "center",
-    padding: 50,
-    backgroundColor: "#006feb"
+    padding: 30,
+    backgroundColor: "white"
   },
   topImage: {
-    width: 120,
-    height: 120
+    width: 180,
+    height: 180
   },
   infoWrapper: {
     flexDirection: "column",
@@ -23,13 +23,13 @@ export default StyleSheet.create({
   infoHeading: {
     fontSize: 18,
     textAlign: "center",
-    color: "#ffffff",
-    fontFamily: theme.fonts.TitilliumWebSemiBold
+    color: "#000",
+    fontFamily: theme.fonts.TitilliumWebRegular
   },
   infoParagraph: {
     fontSize: 16,
     textAlign: "center",
-    color: "#000",
+    color: "indigo",
     marginTop: 20,
     fontFamily: theme.fonts.TitilliumWebRegular
   },
@@ -59,24 +59,29 @@ export default StyleSheet.create({
   submitButton: {
     paddingVertical: 20,
     paddingHorizontal: 20,
-    backgroundColor: "#000"
+    backgroundColor: "#fff"
   },
   submitButtonDisabled: {
+    paddingHorizontal: 10,
     paddingVertical: 20,
-    paddingHorizontal: 20,
-    backgroundColor: "#000"
+    backgroundColor: "#ddd"
   },
   submitButtonText: {
     textAlign: "center",
     fontFamily: theme.fonts.TitilliumWebSemiBold,
-    color: "white"
+    color: "red"
+  },
+  submitButtonTextDisabled: {
+    textAlign: "center",
+    fontFamily: theme.fonts.TitilliumWebSemiBold,
+    color: "#ccc"
   },
   changeMobileWrapper: {
     alignSelf: "center",
     marginTop: 10
   },
   changeMobileButton: {
-    borderColor: "#000",
+    borderColor: "indigo",
     borderRadius: 5
   },
   changeMobileText: {
@@ -94,6 +99,7 @@ export default StyleSheet.create({
     justifyContent: "center",
     width: 40,
     height: 40,
+    borderColor: "indigo",
     borderRadius: 40
   },
   timerText: {
