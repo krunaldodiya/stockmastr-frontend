@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions } from "react-native";
+import { SafeAreaView, Dimensions } from "react-native";
 import SideMenu from "react-native-side-menu";
 import Menu from "./menu";
 
@@ -19,7 +19,7 @@ const SideDrawer = props => {
       isOpen={drawer.isOpen}
       onChange={() => this.change(drawer, toggleDrawer)}
     >
-      {props.children}
+      <SafeAreaView style={{ flex: 1 }}>{props.children}</SafeAreaView>
     </SideMenu>
   );
 };

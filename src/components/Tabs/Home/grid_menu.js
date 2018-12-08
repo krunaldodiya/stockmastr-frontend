@@ -72,16 +72,17 @@ const GridMenu = props => {
           onPress={() => navigation.navigate(grid.screen)}
           key={grid.id}
           style={{
-            padding: 15,
-            width: "30%",
             margin: 5,
+            width: "30%",
+            height: "30%",
             alignItems: "center",
+            justifyContent: "center",
             borderWidth: 1,
+            borderColor: "#aeaeae",
             borderRadius: 2,
-            borderColor: "#ccc",
             shadowColor: "#000",
-            shadowOffset: { width: 1, height: 2 },
-            shadowOpacity: 0.5,
+            shadowOffset: { width: 1, height: 1 },
+            shadowOpacity: 0.1,
             shadowRadius: 1
           }}
         >

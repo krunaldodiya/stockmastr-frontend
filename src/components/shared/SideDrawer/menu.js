@@ -1,10 +1,11 @@
 import { Text, View } from "native-base";
 import React from "react";
+import { SafeAreaView } from "react-native";
 import theme from "../../../libs/theme";
 
 Menu = () => {
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: "#fefefe",
@@ -29,7 +30,7 @@ Menu = () => {
           Menu
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
