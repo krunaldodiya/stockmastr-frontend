@@ -7,6 +7,7 @@ import GetStartedScreen from "../../containers/GetStartedScreen";
 import NewsDetailScreen from "../../containers/NewsDetailScreen";
 import RequestOtpScreen from "../../containers/RequestOtpScreen";
 import TabsScreen from "../../containers/TabsScreen";
+import TutorialsScreen from "../../containers/TutorialsScreen";
 import UserTypeScreen from "../../containers/UserTypeScreen";
 import VerifyOtpScreen from "../../containers/VerifyOtpScreen";
 
@@ -21,7 +22,8 @@ const getAppNavigator = auth => {
       VerifyOtpScreen: { screen: VerifyOtpScreen },
       UserTypeScreen: { screen: UserTypeScreen },
       NewsDetailScreen: { screen: NewsDetailScreen },
-      AddMoneyScreen: { screen: AddMoneyScreen }
+      AddMoneyScreen: { screen: AddMoneyScreen },
+      TutorialsScreen: { screen: TutorialsScreen },
     },
     {
       initialRouteName,
