@@ -15,19 +15,19 @@ const SideDrawer = props => {
   const { drawer, toggleDrawer } = props;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <SideMenu
-        menu={<Menu {...props} />}
-        openMenuOffset={Dimensions.get("window").width * 0.75}
-        isOpen={drawer.isOpen}
-        onChange={() => this.change(drawer, toggleDrawer)}
-      >
+    <SideMenu
+      menu={<Menu {...props} />}
+      openMenuOffset={Dimensions.get("window").width * 0.75}
+      isOpen={drawer.isOpen}
+      onChange={() => this.change(drawer, toggleDrawer)}
+    >
+      <SafeAreaView style={{ flex: 1 }}>
         <Container style={{ flex: 1 }}>
           <TopBar {...props} />
           {props.children}
         </Container>
-      </SideMenu>
-    </SafeAreaView>
+      </SafeAreaView>
+    </SideMenu>
   );
 };
 
