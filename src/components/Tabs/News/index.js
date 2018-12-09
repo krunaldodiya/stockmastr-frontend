@@ -1,9 +1,6 @@
-import { Container } from "native-base";
 import React from "react";
 import SideDrawer from "../../shared/SideDrawer";
-import TopBar from "../../shared/TopBar";
 import NewsList from "./news_list";
-import styles from "./styles";
 
 class Home extends React.Component {
   constructor(props) {
@@ -46,15 +43,11 @@ class Home extends React.Component {
 
     return (
       <SideDrawer {...this.props}>
-        <Container style={styles.container}>
-          <TopBar {...this.props} />
-
-          <NewsList
-            {...this.props}
-            paginatedNews={paginatedNews}
-            loadMore={this.loadMore}
-          />
-        </Container>
+        <NewsList
+          {...this.props}
+          paginatedNews={paginatedNews}
+          loadMore={this.loadMore}
+        />
       </SideDrawer>
     );
   }

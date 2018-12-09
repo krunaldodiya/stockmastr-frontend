@@ -13,11 +13,7 @@ const actions = [
           <Text style={styles.actionText}>CREATE A CHANNEL</Text>
         </View>
         <View style={styles.actionIconWrapper}>
-          <Icon
-            type="Entypo"
-            name="plus"
-            style={styles.actionIcon}
-          />
+          <Icon type="Entypo" name="plus" style={styles.actionIcon} />
         </View>
       </View>
     )
@@ -31,11 +27,7 @@ const actions = [
           <Text style={styles.actionText}>PLACE A CALL</Text>
         </View>
         <View style={styles.actionIconWrapper}>
-          <Icon
-            type="Entypo"
-            name="plus"
-            style={styles.actionIcon}
-          />
+          <Icon type="Entypo" name="plus" style={styles.actionIcon} />
         </View>
       </View>
     )
@@ -44,13 +36,7 @@ const actions = [
 
 const BottomActionMenu = () => {
   return (
-    <View
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <View style={{}}>
       <FloatingAction
         actions={actions}
         distanceToEdge={20}

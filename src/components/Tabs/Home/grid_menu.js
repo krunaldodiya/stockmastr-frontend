@@ -79,7 +79,7 @@ const GridMenu = props => {
             justifyContent: "center",
             borderWidth: 1,
             borderColor: "#aeaeae",
-            borderRadius: 2,
+            borderRadius: 3,
             shadowColor: "#000",
             shadowOffset: { width: 1, height: 1 },
             shadowOpacity: 0.1,
@@ -99,7 +99,7 @@ const GridMenu = props => {
           <Text
             style={{
               fontFamily: theme.fonts.TitilliumWebSemiBold,
-              fontSize: 12,
+              fontSize: 14,
               color: grid.color
             }}
           >
