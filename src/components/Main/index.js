@@ -1,15 +1,14 @@
 import React from "react";
 import { NetInfo, StatusBar, View } from "react-native";
 import { createAppContainer, createStackNavigator } from "react-navigation";
-// screens
+import NoNetwork from "../../components/NoNetwork";
+import AddMoneyScreen from "../../containers/AddMoneyScreen";
 import GetStartedScreen from "../../containers/GetStartedScreen";
 import NewsDetailScreen from "../../containers/NewsDetailScreen";
 import RequestOtpScreen from "../../containers/RequestOtpScreen";
 import TabsScreen from "../../containers/TabsScreen";
 import UserTypeScreen from "../../containers/UserTypeScreen";
 import VerifyOtpScreen from "../../containers/VerifyOtpScreen";
-
-import NoNetwork from "../../components/NoNetwork";
 
 const getAppNavigator = auth => {
   const initialRouteName = getInitialScreen(auth);
@@ -21,7 +20,8 @@ const getAppNavigator = auth => {
       RequestOtpScreen: { screen: RequestOtpScreen },
       VerifyOtpScreen: { screen: VerifyOtpScreen },
       UserTypeScreen: { screen: UserTypeScreen },
-      NewsDetailScreen: { screen: NewsDetailScreen }
+      NewsDetailScreen: { screen: NewsDetailScreen },
+      AddMoneyScreen: { screen: AddMoneyScreen }
     },
     {
       initialRouteName,

@@ -2,7 +2,7 @@ import { Body, Header, Left, Text, Icon } from "native-base";
 import React from "react";
 import styles from "./styles";
 
-const NewsHeader = props => (
+const ContentHeader = props => (
   <Header style={styles.termsWrapper} androidStatusBarColor="#d80402">
     <Left>
       <Icon
@@ -14,9 +14,9 @@ const NewsHeader = props => (
     </Left>
 
     <Body>
-      <Text style={styles.termsHeader}>NEWS DETAIL</Text>
+      <Text style={styles.termsHeader}>ADD MONEY</Text>
     </Body>
   </Header>
 );
 
-export default NewsHeader;
+export default ContentHeader;

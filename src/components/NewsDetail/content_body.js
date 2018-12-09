@@ -4,10 +4,8 @@ import { Image, Linking, TouchableOpacity } from "react-native";
 import theme from "../../libs/theme";
 import styles from "./styles";
 
-const NewsContent = props => {
+const ContentBody = props => {
   const { news } = props.navigation.state.params;
-
-  console.log(news);
 
   return (
     <Content style={styles.termsBody}>
@@ -70,4 +68,4 @@ const NewsContent = props => {
   );
 };
 
-export default NewsContent;
+export default ContentBody;

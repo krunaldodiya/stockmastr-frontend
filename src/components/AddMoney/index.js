@@ -4,7 +4,7 @@ import ContentBody from "./content_body";
 import ContentHeader from "./content_header";
 import styles from "./styles";
 
-class NewsDetail extends React.Component {
+class AddMoney extends React.Component {
   render() {
     return (
       <Container style={styles.container}>
@@ -15,4 +15,4 @@ class NewsDetail extends React.Component {
   }
 }
 
-export default NewsDetail;
+export default AddMoney;
