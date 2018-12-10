@@ -23,7 +23,7 @@ const getAppNavigator = auth => {
       UserTypeScreen: { screen: UserTypeScreen },
       NewsDetailScreen: { screen: NewsDetailScreen },
       AddMoneyScreen: { screen: AddMoneyScreen },
-      TutorialsScreen: { screen: TutorialsScreen },
+      TutorialsScreen: { screen: TutorialsScreen }
     },
     {
       initialRouteName,
@@ -59,11 +59,14 @@ export default class Main extends React.Component {
     const AppNavigator = getAppNavigator(auth);
     const AppContainer = createAppContainer(AppNavigator);
 
+    const noConnection = connection && connection.type !== "none";
+    const hasConnection = connection && connection.type === "none";
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="#d80402" barStyle="light-content" />
-        {connection && connection.type === "none" && <NoNetwork />}
-        {authInitialized && <AppContainer />}
+        {noConnection && <NoNetwork />}
+        {hasConnection && authInitialized && <AppContainer />}
       </View>
     );
   }
